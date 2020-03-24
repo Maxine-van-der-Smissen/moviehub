@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:moviehub/text_components/app_bar_title.dart';
 
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
+  VoidCallback openDrawer;
+
+  MainAppBar({this.openDrawer});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +19,13 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
           children: <Widget>[
             Container(
               margin: EdgeInsets.only(left: 20),
-              child: Icon(Icons.menu, color: Colors.white,),
+              child: IconButton(
+                onPressed: openDrawer,
+                icon: Icon(
+                  Icons.menu,
+                  color: Colors.white,
+                ),
+              ),
             ),
             Center(child: AppBarTitle()),
           ],
