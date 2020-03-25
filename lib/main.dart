@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:moviehub/list_screen/list_screen.dart';
 import 'package:moviehub/screen_components/base_screen.dart';
+import 'package:moviehub/screen_components/custom_material_color.dart';
 import 'package:moviehub/screen_components/search_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MyApp());
 
@@ -27,29 +28,23 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  MaterialColor white = const MaterialColor(
-    0xFFFFFFFF,
-    const <int, Color>{
-      50: const Color(0xFFFFFFFF),
-      100: const Color(0xFFFFFFFF),
-      200: const Color(0xFFFFFFFF),
-      300: const Color(0xFFFFFFFF),
-      400: const Color(0xFFFFFFFF),
-      500: const Color(0xFFFFFFFF),
-      600: const Color(0xFFFFFFFF),
-      700: const Color(0xFFFFFFFF),
-      800: const Color(0xFFFFFFFF),
-      900: const Color(0xFFFFFFFF),
-    },
-  );
-
-  Brightness brightness = Brightness.dark;
+  SharedPreferences preferences;
+  Brightness brightness;
+  
+  void loadTheme() async {
+    preferences = await SharedPreferences.getInstance();
+    bool dark = preferences.getBool("darkmode") ?? true;
+    brightness = dark ? Brightness.dark : Brightness.light;
+  }
 
   void switchTheme() {
-    setState(() {
-      brightness =
-      brightness == Brightness.dark ? Brightness.light : Brightness.dark;
-    },
+    setState(
+      () {
+        bool toDark = brightness != Brightness.dark;
+        brightness =
+        toDark ? Brightness.dark : Brightness.light;
+        preferences.setBool("darkmode", toDark);
+      },
     );
   }
 
@@ -57,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: new ThemeData(
-        primarySwatch: white,
+        primarySwatch: CustomMaterialColor().white,
         brightness: brightness,
       ),
       home: BaseScreen(
@@ -69,5 +64,11 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadTheme();
   }
 }
