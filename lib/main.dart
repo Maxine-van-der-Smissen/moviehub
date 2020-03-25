@@ -36,6 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
     preferences = await SharedPreferences.getInstance();
     bool dark = preferences.getBool("darkmode") ?? true;
     brightness = dark ? Brightness.dark : Brightness.light;
+    print(dark);
   }
 
   void switchTheme() {

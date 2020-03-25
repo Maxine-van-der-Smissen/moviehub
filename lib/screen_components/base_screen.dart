@@ -10,11 +10,11 @@ class BaseScreen extends StatefulWidget {
   Widget child;
 
   BaseScreen({this.child, this.changeTheme});
+
   VoidCallback changeTheme;
 
   @override
   _BaseScreenState createState() => _BaseScreenState();
-
 }
 
 class _BaseScreenState extends State<BaseScreen> {
@@ -29,11 +29,12 @@ class _BaseScreenState extends State<BaseScreen> {
     Navigator.pop(context);
     //TODO, MAKE THIS DYNAMIC
     setState(() {
-      if (content == ListItemContent.MOVIES) widget.child = Column(
-        children: <Widget>[
-          SearchBar(),
-        ],
-      );
+      if (content == ListItemContent.MOVIES)
+        widget.child = Column(
+          children: <Widget>[
+            SearchBar(),
+          ],
+        );
       if (content == ListItemContent.LIST) widget.child = ListScreen();
     });
   }
@@ -81,8 +82,9 @@ class _BaseScreenState extends State<BaseScreen> {
         child: Scaffold(
           appBar: MainAppBar(openDrawer: () => openDrawer()),
           body: Container(
-              margin: EdgeInsets.only(left: 14, right: 14, top: 35),
-              child: widget.child),
+            margin: EdgeInsets.only(left: 14, right: 14, top: 35),
+            child: widget.child,
+          ),
         ),
       ),
     );

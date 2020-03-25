@@ -5,17 +5,24 @@ class MovieCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 378,
-      height: 170,
-      color: Colors.red,
+    return Flexible(
       child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          color: Theme.of(context).backgroundColor,
+        height: 170,
+        color: Colors.red,
+        child: Row(
+          children: <Widget>[
+            Flexible(
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Theme.of(context).backgroundColor,
+                ),
+                width: MediaQuery.of(context).size.width,
+                height: 146,
+              ),
+            ),
+          ],
         ),
-        width: 38,
-        height: 16,
       ),
     );
   }
