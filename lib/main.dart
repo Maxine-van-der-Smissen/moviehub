@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:moviehub/app_bar/main_app_bar.dart';
-import 'package:moviehub/drawer_components/account_tab.dart';
-import 'package:moviehub/drawer_components/list_item.dart';
-import 'package:moviehub/screen_components/search_bar.dart';
 import 'package:flutter/services.dart';
+import 'package:moviehub/list_screen/list_screen.dart';
+import 'package:moviehub/screen_components/base_screen.dart';
+import 'package:moviehub/screen_components/search_bar.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Color(0xFFDC9B16), //or set color with: Color(0xFF0000FF)
+      statusBarColor: Color(0xFFDC9B16),
     ));
     return MyHomePage(title: 'MovieHub');
   }
@@ -28,22 +26,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
-
-  Brightness brightness = Brightness.dark;
-
-  void openDrawer() {
-    _drawerKey.currentState.openDrawer();
-  }
-
-  void switchTheme() {
-    setState(
-      () {
-        brightness =
-            brightness == Brightness.dark ? Brightness.light : Brightness.dark;
-      },
-    );
-  }
 
   MaterialColor white = const MaterialColor(
     0xFFFFFFFF,
@@ -61,6 +43,16 @@ class _MyHomePageState extends State<MyHomePage> {
     },
   );
 
+  Brightness brightness = Brightness.dark;
+
+  void switchTheme() {
+    setState(() {
+      brightness =
+      brightness == Brightness.dark ? Brightness.light : Brightness.dark;
+    },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -68,53 +60,12 @@ class _MyHomePageState extends State<MyHomePage> {
         primarySwatch: white,
         brightness: brightness,
       ),
-      home: Scaffold(
-        key: _drawerKey,
-        drawer: SafeArea(
-          child: Container(
-            width: 300,
-            child: Drawer(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    AccountTab(),
-                    ListItem(
-                      content: ListItemContent.MOVIES,
-                    ),
-                    ListItem(
-                      content: ListItemContent.LIST,
-                    ),
-                    ListItem(
-                      content: ListItemContent.STATISTICS,
-                    ),
-                    ListItem(
-                      onTap: () => switchTheme(),
-                      content: ListItemContent.NIGHT_MODE,
-                    ),
-                    ListItem(
-                      content: ListItemContent.LOGOUT,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-        body: GestureDetector(
-          onTap: () {
-            WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
-          },
-          child: Scaffold(
-            appBar: MainAppBar(openDrawer: () => openDrawer()),
-            body: Container(
-              margin: EdgeInsets.only(left: 14, right: 14, top: 35),
-              child: Column(
-                children: <Widget>[
-                  SearchBar(),
-                ],
-              ),
-            ),
-          ),
+      home: BaseScreen(
+        changeTheme: () => switchTheme(),
+        child: Column(
+          children: <Widget>[
+            SearchBar(), //Contents of screen
+          ],
         ),
       ),
     );
