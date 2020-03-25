@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:moviehub/screen_components/base_screen.dart';
 import 'package:moviehub/screen_components/custom_material_color.dart';
+import 'package:moviehub/screen_components/movie_card.dart';
 import 'package:moviehub/screen_components/search_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -60,6 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: <Widget>[
             SearchBar(), //Contents of screen
+            MovieCard(),
           ],
         ),
       ),
