@@ -74,17 +74,28 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Container(
             width: 300,
             child: Drawer(
-              child: Column(
-                children: <Widget>[
-                  AccountTab(),
-                  ListItem(
-                    onTap: () => switchTheme(),
-                  ),
-                  ListItem(),
-                  ListItem(),
-                  ListItem(),
-                  ListItem(),
-                ],
+              child: SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    AccountTab(),
+                    ListItem(
+                      content: ListItemContent.MOVIES,
+                    ),
+                    ListItem(
+                      content: ListItemContent.LIST,
+                    ),
+                    ListItem(
+                      content: ListItemContent.STATISTICS,
+                    ),
+                    ListItem(
+                      onTap: () => switchTheme(),
+                      content: ListItemContent.NIGHT_MODE,
+                    ),
+                    ListItem(
+                      content: ListItemContent.LOGOUT,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

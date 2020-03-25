@@ -12,7 +12,7 @@ class ProfileImage extends StatelessWidget {
         backgroundColor: Color(0xFFF9E7C3),
         child: ClipOval(
           child: FadeInImage(
-            image: NetworkImage("nah fam"),
+            image: NetworkImage("https://i.imgur.com/PxHswVk.jpg"),
             placeholder: AssetImage("images/profile_placeholder.png"),
           ),
         ),
