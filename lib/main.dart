@@ -62,7 +62,26 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: <Widget>[
             SearchBar(), //Contents of screen
-            MovieCard(),
+            MovieCard(
+              movie: Movie(
+                movieTitle: "Mission: Impossible - Fallout",
+                movieDirector: "Christopher McQuarrie",
+                movieGenres: "Action, Adventure",
+                movieDuration: "02:28:00",
+                movieCoverURL: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/AkJQpZp9WoNdj7pLYSj1L0RcMMN.jpg",
+                movieRating: 50
+              ),
+            ),
+            MovieCard(
+              movie: Movie(
+                  movieTitle: "Mission: Impossible - Fallout",
+                  movieDirector: "Christopher McQuarrie",
+                  movieGenres: "Action, Adventure",
+                  movieDuration: "02:28:00",
+                  movieCoverURL: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/AkJQpZp9WoNdj7pLYSj1L0RcMMN.jpg",
+                  movieRating: 50
+              ),
+            ),
           ],
         ),
       ),
