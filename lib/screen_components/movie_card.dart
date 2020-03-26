@@ -16,7 +16,7 @@ class MovieCard extends StatelessWidget {
         margin: EdgeInsets.only(top: 10),
         height: 170,
         width: MediaQuery.of(context).size.width,
-        color: Colors.red, // TODO: Make transparent
+        color: Colors.transparent,
         child: Stack(
           children: <Widget>[
             Positioned(
@@ -26,7 +26,7 @@ class MovieCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5),
                   color: Theme.of(context).backgroundColor,
                 ),
-                width: MediaQuery.of(context).size.width, // TODO: MediaQuery is too wide
+                width: MediaQuery.of(context).size.width,
                 height: 146,
                 child: Container( // Text column container
                   margin: EdgeInsets.only(left: 142),
@@ -41,7 +41,7 @@ class MovieCard extends StatelessWidget {
               ),
             ),
             Positioned(
-              left: -11,
+              left: 11,
               top: 0,
               bottom: 12,
               child: MovieCardCover(

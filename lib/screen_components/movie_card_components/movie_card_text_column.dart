@@ -30,10 +30,11 @@ class MovieCardTextColumn extends StatelessWidget {
         ),
         // TODO: Row with genres and duration
         Container( // Text row container
+          width: MediaQuery.of(context).size.width - 142 - 28 - 14, //TODO Make content aware
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(movieGenres),
+              Spacer(),
               Text(movieDuration),
             ],
           ),
