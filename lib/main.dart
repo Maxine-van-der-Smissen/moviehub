@@ -64,6 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
             SearchBar(), //Contents of screen
             MovieCard(
               movie: Movie(
+                movieId: 0,
                 movieTitle: "Mission: Impossible - Fallout",
                 movieDirector: "Christopher McQuarrie",
                 movieGenres: "Action, Adventure",
@@ -74,6 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             MovieCard(
               movie: Movie(
+                  movieId: 1,
                   movieTitle: "Mission: Impossible - Fallout",
                   movieDirector: "Christopher McQuarrie",
                   movieGenres: "Action, Adventure",
