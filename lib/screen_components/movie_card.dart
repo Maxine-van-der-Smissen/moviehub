@@ -18,27 +18,24 @@ class MovieCard extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         color: Colors.transparent,
         child: Stack(
+          alignment: Alignment.bottomCenter,
           children: <Widget>[
-            Positioned(
-              bottom: 0,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Container( // White Text container
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: Theme.of(context).backgroundColor,
-                  ),
-                  width: double.infinity,
-                  height: 146,
-                  child: Container( // Text column container
-                    margin: EdgeInsets.only(left: 130, right: 12),
-                    child: MovieCardTextColumn(
-                      movieTitle: movie.movieTitle,
-                      movieDirector: movie.movieDirector,
-                      movieGenres: movie.movieGenres,
-                      movieDuration: movie.movieDuration,
-                      movieRating: movie.movieRating,
-                    ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Container( // White Text container
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Theme.of(context).backgroundColor,
+                ),
+                height: 146,
+                child: Container( // Text column container
+                  margin: EdgeInsets.only(left: 130, right: 12),
+                  child: MovieCardTextColumn(
+                    movieTitle: movie.movieTitle,
+                    movieDirector: movie.movieDirector,
+                    movieGenres: movie.movieGenres,
+                    movieDuration: movie.movieDuration,
+                    movieRating: movie.movieRating,
                   ),
                 ),
               ),
