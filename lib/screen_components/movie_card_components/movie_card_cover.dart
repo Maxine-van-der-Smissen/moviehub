@@ -13,7 +13,7 @@ class MovieCardCover extends StatelessWidget {
     // TODO: Round the corners of the cover
     return FadeInImage(
       image: NetworkImage(movieCoverURL),
-      placeholder: AssetImage("images/profile_placeholder.png"), // TODO: Better offline image
+      placeholder: AssetImage("images/film_placeholder.png"), // TODO: Better offline image
     );
   }
 }

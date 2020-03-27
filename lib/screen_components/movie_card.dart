@@ -29,7 +29,7 @@ class MovieCard extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 height: 146,
                 child: Container( // Text column container
-                  margin: EdgeInsets.only(left: 142, right: 42),
+                  margin: EdgeInsets.only(left: 130, right: 42),
                   child: MovieCardTextColumn(
                     movieTitle: movie.movieTitle,
                     movieDirector: movie.movieDirector,
@@ -41,6 +41,7 @@ class MovieCard extends StatelessWidget {
               ),
             ),
             Positioned(
+              left: 12,
               top: 0,
               bottom: 12,
               child: MovieCardCover(
