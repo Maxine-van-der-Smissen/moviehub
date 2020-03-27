@@ -20,23 +20,28 @@ class MovieCard extends StatelessWidget {
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: <Widget>[
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Container( // White Text container
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Theme.of(context).backgroundColor,
-                ),
-                height: 146,
-                child: Container( // Text column container
-                  margin: EdgeInsets.only(left: 130, right: 12),
-                  child: MovieCardTextColumn(
-                    movieTitle: movie.movieTitle,
-                    movieDirector: movie.movieDirector,
-                    movieGenres: movie.movieGenres,
-                    movieDuration: movie.movieDuration,
-                    movieRating: movie.movieRating,
-                  ),
+            Container( // White Text container
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    spreadRadius: 0.3,
+                    offset: Offset(1,1),
+                    blurRadius: 1
+                  )
+                ],
+                borderRadius: BorderRadius.circular(8),
+                color: Theme.of(context).backgroundColor,
+              ),
+              height: 146,
+              child: Container( // Text column container
+                margin: EdgeInsets.only(left: 130, right: 12),
+                child: MovieCardTextColumn(
+                  movieTitle: movie.movieTitle,
+                  movieDirector: movie.movieDirector,
+                  movieGenres: movie.movieGenres,
+                  movieDuration: movie.movieDuration,
+                  movieRating: movie.movieRating,
                 ),
               ),
             ),
