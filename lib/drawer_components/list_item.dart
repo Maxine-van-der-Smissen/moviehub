@@ -66,11 +66,11 @@ class _ListItemState extends State<ListItem> {
   }
 
   void handleIcon() {
-    if (widget.content == ListItemContent.MOVIES) icon = Icon(Icons.movie);
-    if (widget.content == ListItemContent.LIST) icon = Icon(Icons.list);
-    if (widget.content == ListItemContent.STATISTICS) icon = Icon(Icons.arrow_upward);
-    if (widget.content == ListItemContent.NIGHT_MODE) icon = Icon(Icons.monetization_on);
-    if (widget.content == ListItemContent.LOGOUT) icon = Icon(Icons.account_circle);
+    if (widget.content == ListItemContent.MOVIES) icon = Icon(Icons.local_movies, size: 20,);
+    if (widget.content == ListItemContent.LIST) icon = Icon(Icons.list, size: 20,);
+    if (widget.content == ListItemContent.STATISTICS) icon = Icon(Icons.insert_chart, size: 20,);
+    if (widget.content == ListItemContent.NIGHT_MODE) icon = Icon(Icons.brightness_2, size: 20,);
+    if (widget.content == ListItemContent.LOGOUT) icon = Icon(Icons.chevron_left, size: 20,);
   }
 
   Widget buildSlider() {
