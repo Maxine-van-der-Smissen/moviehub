@@ -13,12 +13,13 @@ class AppBarTitle extends StatelessWidget {
             style: TextStyle(
               color: Colors.white,
               fontSize: 18,
-              fontWeight: FontWeight.w200,
+              fontWeight: FontWeight.w300,
             ),
           ),
           Text("Hub", style: TextStyle(
             color: Colors.white,
-            fontSize: 18
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
           ),)
         ],
       ),
