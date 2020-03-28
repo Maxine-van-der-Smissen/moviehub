@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:moviehub/screen_components/movie_card_components/movie_card_cover.dart';
-import 'package:moviehub/screen_components/movie_card_components/movie_card_text_column.dart';
+import 'package:moviehub/models/movie.dart';
+
+import 'movie_card_cover.dart';
+import 'movie_card_text_column.dart';
 
 class MovieCard extends StatelessWidget {
 
@@ -68,15 +70,3 @@ class MovieCard extends StatelessWidget {
   }
 }
 
-class Movie {
-
-  final int movieId;
-  final String movieTitle;
-  final String movieDirector;
-  final String movieGenres;
-  final String movieDuration;
-  final String movieCoverURL;
-  final int movieRating;
-
-  Movie({this.movieId, this.movieTitle, this.movieDirector, this.movieGenres, this.movieDuration, this.movieCoverURL, this.movieRating});
-}

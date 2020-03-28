@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:moviehub/text_components/app_bar_title.dart';
+import 'package:moviehub/gui/components/text_components/app_bar_title.dart';
 
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   VoidCallback openDrawer;
