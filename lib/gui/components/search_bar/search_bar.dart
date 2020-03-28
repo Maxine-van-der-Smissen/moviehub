@@ -19,8 +19,15 @@ class _SearchBarState extends State<SearchBar> {
   Widget build(BuildContext context) {
     return Flexible(
       child: Container(
-        decoration: BoxDecoration (
+        decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                spreadRadius: 0,
+                blurRadius: 5
+            )
+          ],
           color: Theme.of(context).backgroundColor,
         ),
         child: TextField(
@@ -28,13 +35,18 @@ class _SearchBarState extends State<SearchBar> {
           controller: textController,
           decoration: InputDecoration(
             fillColor: Colors.white,
-            suffixIcon: Icon(Icons.search),
+            suffixIcon: Icon(
+                Icons.search,
+                size: 20,
+            ),
             enabledBorder: new OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).backgroundColor, width: 5.0),
+              borderSide: BorderSide(
+                  color: Theme.of(context).backgroundColor, width: 5.0),
               borderRadius: BorderRadius.all(Radius.circular(5)),
             ),
             border: new OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).backgroundColor, width: 5.0),
+              borderSide: BorderSide(
+                  color: Theme.of(context).backgroundColor, width: 5.0),
               borderRadius: BorderRadius.all(Radius.circular(5)),
             ),
             labelText: "Search for movies",
