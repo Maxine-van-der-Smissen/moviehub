@@ -18,7 +18,7 @@ class MovieCard extends StatelessWidget {
           Scaffold.of(context).showSnackBar(snackBar);
           },
         child: Container( // Main Container
-          margin: EdgeInsets.only(top: 10),
+          margin: EdgeInsets.only(top: 22),
           height: 170,
           width: MediaQuery.of(context).size.width,
           color: Colors.transparent,
@@ -29,18 +29,17 @@ class MovieCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      spreadRadius: 0.3,
-                      offset: Offset(1,1),
-                      blurRadius: 1
+                      color: Colors.black.withOpacity(0.05),
+                      spreadRadius: 0,
+                      blurRadius: 10
                     )
                   ],
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(5),
                   color: Theme.of(context).backgroundColor,
                 ),
-                height: 146,
+                height: 150,
                 child: Container( // Text column container
-                  margin: EdgeInsets.only(left: 130, right: 12),
+                  margin: EdgeInsets.only(left: 135, right: 14),
                   child: MovieCardTextColumn(
                     movieTitle: movie.movieTitle,
                     movieDirector: movie.movieDirector,

@@ -12,7 +12,7 @@ class MovieCardCover extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: Round the corners of the cover
     return ClipRRect(
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(5),
       child: FadeInImage(
         image: NetworkImage(movieCoverURL),
         placeholder: AssetImage("images/film_placeholder.png"), // TODO: Better offline image
