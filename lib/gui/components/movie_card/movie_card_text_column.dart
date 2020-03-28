@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:moviehub/gui/components/movie_card/movie_card_rating.dart';
 
 class MovieCardTextColumn extends StatelessWidget {
   final String movieTitle;
@@ -36,22 +36,7 @@ class MovieCardTextColumn extends StatelessWidget {
         ), // Movie Director
         Container(
           margin: EdgeInsets.only(top: 5),
-          child: RatingBar(
-            initialRating: 3,
-            minRating: 1,
-            direction: Axis.horizontal,
-            allowHalfRating: true,
-            itemSize: 18.0,
-            itemCount: 5,
-            itemPadding: EdgeInsets.symmetric(horizontal: 2.5),
-            itemBuilder: (context, _) => Icon(
-              Icons.star,
-              color: Color(0xFFF4B127),
-            ),
-            onRatingUpdate: (rating) {
-              print(rating);
-            },
-          ),
+          child: MovieCardRating(),
         ),
         Container(
           // Container for the rating
