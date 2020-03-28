@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moviehub/models/movie.dart';
+import 'package:moviehub/utils/network_utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'movie_card_cover.dart';
 import 'movie_card_text_column.dart';
@@ -13,11 +15,11 @@ class MovieCard extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: Text Style and refactor code into multiple modules / files
     return GestureDetector(
-      onTap: () {
-        final snackBar = SnackBar(
-            content: Text("Clicked the Container with movieId: " +
-                movie.movieId.toString()));
-        Scaffold.of(context).showSnackBar(snackBar);
+      onTap: () async {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.setString("sort", "vote_average.desc");
+        preferences.setStringList("filters", ["year=2020", "vote_average.gte=5"]);
+        NetworkUtils.urlBuilder().then((url) => print(url));
       },
       child: Container(
         // Main Container

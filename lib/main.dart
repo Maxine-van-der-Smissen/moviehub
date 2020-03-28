@@ -30,10 +30,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   SharedPreferences preferences;
   Brightness brightness;
-  
+
   void loadTheme() async {
     preferences = await SharedPreferences.getInstance();
     bool dark = preferences.getBool("darkmode") ?? true;
@@ -45,8 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(
       () {
         bool toDark = brightness != Brightness.dark;
-        brightness =
-        toDark ? Brightness.dark : Brightness.light;
+        brightness = toDark ? Brightness.dark : Brightness.light;
         preferences.setBool("darkmode", toDark);
       },
     );
@@ -66,14 +64,14 @@ class _MyHomePageState extends State<MyHomePage> {
             SearchBar(), //Contents of screen
             MovieCard(
               movie: Movie(
-                movieId: 0,
-                movieTitle: "Mission: Impossible - Fallout",
-                movieDirector: "Christopher McQuarrie",
-                movieGenres: "Action, Adventure",
-                movieDuration: "02:28:00",
-                movieCoverURL: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/AkJQpZp9WoNdj7pLYSj1L0RcMMN.jpg",
-                movieRating: 50
-              ),
+                  movieId: 0,
+                  movieTitle: "Mission: Impossible - Fallout",
+                  movieDirector: "Christopher McQuarrie",
+                  movieGenres: "Action, Adventure",
+                  movieDuration: "02:28:00",
+                  movieCoverURL:
+                      "https://image.tmdb.org/t/p/w600_and_h900_bestv2/AkJQpZp9WoNdj7pLYSj1L0RcMMN.jpg",
+                  movieRating: 50),
             ),
             MovieCard(
               movie: Movie(
@@ -82,9 +80,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   movieDirector: "Christopher McQuarrie",
                   movieGenres: "Action, Adventure",
                   movieDuration: "02:28:00",
-                  movieCoverURL: "https://image.tmdb.org/t/p/w600_and_h900_bestv2/AkJQpZp9WoNdj7pLYSj1L0RcMMN.jpg",
-                  movieRating: 50
-              ),
+                  movieCoverURL:
+                      "https://image.tmdb.org/t/p/w600_and_h900_bestv2/AkJQpZp9WoNdj7pLYSj1L0RcMMN.jpg",
+                  movieRating: 50),
             ),
           ],
         ),
