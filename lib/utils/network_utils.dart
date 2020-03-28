@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:moviehub/models/movie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http; // TODO: Doesn't seem to work
+import 'package:http/http.dart' as http;
 
 class NetworkUtils {
 
