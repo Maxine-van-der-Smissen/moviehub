@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moviehub/gui/components/movie_card/movie_card_rating.dart';
+import 'movie_card_rating.dart';
 
 class MovieCardTextColumn extends StatelessWidget {
   final String movieTitle;

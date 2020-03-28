@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'gui/components/movie_card/movie_card.dart';
 import 'gui/components/screen_components/base_screen.dart';
 import 'gui/components/screen_components/custom_material_color.dart';
-import 'gui/components/movie_card/movie_card.dart';
 import 'gui/components/screen_components/search_bar.dart';
 import 'models/movie.dart';
 

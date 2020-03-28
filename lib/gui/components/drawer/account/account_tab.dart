@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:moviehub/gui/components/drawer_components/profile_image.dart';
+import 'package:moviehub/gui/components/drawer/account/profile_image.dart';
 
 class AccountTab extends StatelessWidget {
   @override
