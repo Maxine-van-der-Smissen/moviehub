@@ -6,7 +6,7 @@ class Movie {
   final String movieGenres;
   final String movieDuration;
   final String movieCoverURL;
-  final int movieRating;
+  final double movieRating;
 
   Movie({this.movieId, this.movieTitle, this.movieDirector, this.movieGenres, this.movieDuration, this.movieCoverURL, this.movieRating});
 }
