@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:moviehub/gui/components/app_bar/main_app_bar.dart';
-import 'package:moviehub/gui/components/drawer_components/account_tab.dart';
-import 'package:moviehub/gui/components/drawer_components/list_item.dart';
+import 'package:moviehub/gui/components/drawer/account/account_tab.dart';
+import 'package:moviehub/gui/components/drawer/list_item.dart';
 import 'package:moviehub/gui/components/screen_components/search_bar.dart';
 import 'package:moviehub/gui/screens/list_screen/list_screen.dart';
 
