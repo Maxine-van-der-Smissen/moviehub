@@ -38,14 +38,17 @@ class MovieCard extends StatelessWidget {
                   color: Theme.of(context).backgroundColor,
                 ),
                 height: 150,
-                child: Container( // Text column container
-                  margin: EdgeInsets.only(left: 135, right: 14),
-                  child: MovieCardTextColumn(
-                    movieTitle: movie.movieTitle,
-                    movieDirector: movie.movieDirector,
-                    movieGenres: movie.movieGenres,
-                    movieDuration: movie.movieDuration,
-                    movieRating: movie.movieRating,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Container( // Text column container
+                    margin: EdgeInsets.only(left: 125, right: 14),
+                    child: MovieCardTextColumn(
+                      movieTitle: movie.movieTitle,
+                      movieDirector: movie.movieDirector,
+                      movieGenres: movie.movieGenres,
+                      movieDuration: movie.movieDuration,
+                      movieRating: movie.movieRating,
+                    ),
                   ),
                 ),
               ),

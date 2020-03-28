@@ -24,6 +24,5 @@ class AppBarTitle extends StatelessWidget {
         ],
       ),
     );
-    return null;
   }
 }
