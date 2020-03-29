@@ -3,18 +3,16 @@ import 'movie_card_rating.dart';
 
 class MovieCardTextColumn extends StatelessWidget {
   final String movieTitle;
-  final String movieDirector;
   final String movieGenres;
-  final String movieDuration;
+  final String movieReleaseDate;
   final int movieRating;
 
-  const MovieCardTextColumn({
-      this.movieTitle,
-      this.movieDirector,
+  const MovieCardTextColumn(
+      {this.movieTitle,
       this.movieGenres,
-      this.movieDuration,
-      this.movieRating
-  }) : super();
+      this.movieReleaseDate,
+      this.movieRating})
+      : super();
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +29,7 @@ class MovieCardTextColumn extends StatelessWidget {
           ),
         ), // Movie Title
         Text(
-          movieDirector,
+          "", // TODO: Remove or put something else here
           style: TextStyle(color: Color(0xFFAFAFAF)),
         ), // Movie Director
         Container(
@@ -47,16 +45,12 @@ class MovieCardTextColumn extends StatelessWidget {
           // Text row container
           child: Row(
             children: <Widget>[
-              Text(
-                movieGenres,
-                style: TextStyle(color: Color(0xFFAFAFAF))),
+              Text(movieGenres, style: TextStyle(color: Color(0xFFAFAFAF))),
               Spacer(),
               Text(
-                movieDuration,
+                movieReleaseDate,
                 style: TextStyle(
-                  color: Color(0xFFAFAFAF),
-                  fontWeight: FontWeight.w700
-                ),
+                    color: Color(0xFFAFAFAF), fontWeight: FontWeight.w700),
               ),
             ],
           ),

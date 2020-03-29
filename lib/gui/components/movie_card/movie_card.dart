@@ -7,7 +7,7 @@ import 'movie_card_cover.dart';
 import 'movie_card_text_column.dart';
 
 class MovieCard extends StatelessWidget {
-  final Movie movie;
+  final MovieCardObject movie;
 
   const MovieCard({this.movie}) : super();
 
@@ -18,8 +18,14 @@ class MovieCard extends StatelessWidget {
       onTap: () async {
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.setString("sort", "vote_average.desc");
-        preferences.setStringList("filters", ["year=2020", "vote_average.gte=5"]);
-        NetworkUtils.urlBuilder().then((url) => print(url));
+        preferences
+            .setStringList("filters", ["year=2020", "vote_average.gte=5"]);
+
+        List<MovieCardObject> movies = await SharedPreferences.getInstance()
+            .then((preferences) =>
+                NetworkUtils.urlBuilder("discover/movie", preferences))
+            .then((url) => NetworkUtils.fetchMovies(url));
+        print(movies);
       },
       child: Container(
         // Main Container
@@ -50,9 +56,8 @@ class MovieCard extends StatelessWidget {
                   margin: EdgeInsets.only(left: 125, right: 14),
                   child: MovieCardTextColumn(
                     movieTitle: movie.movieTitle,
-                    movieDirector: movie.movieDirector,
                     movieGenres: movie.movieGenres,
-                    movieDuration: movie.movieDuration,
+                    movieReleaseDate: movie.movieReleaseDate,
                     movieRating: movie.movieRating,
                   ),
                 ),

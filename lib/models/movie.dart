@@ -1,12 +1,16 @@
-class Movie {
-
+class MovieCardObject {
   final int movieId;
   final String movieTitle;
-  final String movieDirector;
   final String movieGenres;
-  final String movieDuration;
+  final String movieReleaseDate;
   final String movieCoverURL;
   final int movieRating;
 
-  Movie({this.movieId, this.movieTitle, this.movieDirector, this.movieGenres, this.movieDuration, this.movieCoverURL, this.movieRating});
+  MovieCardObject(
+      {this.movieId,
+      this.movieTitle,
+      this.movieGenres,
+      this.movieReleaseDate,
+      this.movieCoverURL,
+      this.movieRating});
 }
