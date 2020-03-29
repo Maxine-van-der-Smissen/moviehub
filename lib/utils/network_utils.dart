@@ -53,7 +53,7 @@ class NetworkUtils {
             movieId: movie["id"],
             movieTitle: movie["title"],
             movieCoverURL: baseImageUrl + movie["poster_path"],
-            movieRating: movie["vote_average"].round(),
+            movieRating: (movie["vote_average"] * 1.0).round() * .5,
             movieReleaseDate: movie["release_date"],
             movieGenres: genreList.join(", ")));
       }

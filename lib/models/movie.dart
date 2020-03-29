@@ -4,7 +4,7 @@ class MovieCardObject {
   final String movieGenres;
   final String movieReleaseDate;
   final String movieCoverURL;
-  final int movieRating;
+  final double movieRating;
 
   MovieCardObject(
       {this.movieId,

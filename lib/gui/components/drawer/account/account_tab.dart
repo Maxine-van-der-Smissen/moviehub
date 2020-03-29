@@ -6,21 +6,22 @@ class AccountTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 300,
-      height: 132,
+      height: 150,
       color: Color(0xFFF9E7C3),
       child: Container(
-        margin: EdgeInsets.only(top: 17, left: 30),
+        margin: EdgeInsets.only(top: 18, left: 30),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             ProfileImage(),
             Container(
-              margin: EdgeInsets.only(bottom: 10),
+              margin: EdgeInsets.only(top: 14, bottom: 5),
               child: Text(
                 "Kyllian Warmerdam",
                 style: TextStyle(
                   color: Color(0xFF3E3E3E),
-                  fontSize: 14,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500
                 ),
               ),
             ),
@@ -28,7 +29,7 @@ class AccountTab extends StatelessWidget {
               "kyllian007@gmail.com",
               style: TextStyle(
                 color: Color(0xFF333333),
-                fontSize: 10,
+                fontSize: 12,
               ),
             ),
           ],

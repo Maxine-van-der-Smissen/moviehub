@@ -5,7 +5,7 @@ class MovieCardTextColumn extends StatelessWidget {
   final String movieTitle;
   final String movieGenres;
   final String movieReleaseDate;
-  final int movieRating;
+  final double movieRating;
 
   const MovieCardTextColumn(
       {this.movieTitle,
@@ -34,7 +34,7 @@ class MovieCardTextColumn extends StatelessWidget {
         ), // Movie Director
         Container(
           margin: EdgeInsets.only(top: 5),
-          child: MovieCardRating(),
+          child: MovieCardRating(movieRating),
         ),
         Container(
           // Container for the rating

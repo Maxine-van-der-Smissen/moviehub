@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class MovieCardRating extends StatelessWidget {
+  double movieRating;
+
+  MovieCardRating(rating) : this.movieRating = rating;
 
   @override
   Widget build(BuildContext context) {
     return RatingBar(
-      initialRating: 0,
+      initialRating: movieRating,
       minRating: 1,
       direction: Axis.horizontal,
       allowHalfRating: true,

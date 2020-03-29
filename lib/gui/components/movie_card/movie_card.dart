@@ -17,7 +17,7 @@ class MovieCard extends StatelessWidget {
     return GestureDetector(
       onTap: () async {
         SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.setString("sort", "vote_average.desc");
+        preferences.setString("sort", "original_title.desc");
         preferences
             .setStringList("filters", ["year=2020", "vote_average.gte=5"]);
 

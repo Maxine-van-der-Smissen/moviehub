@@ -19,7 +19,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
           alignment: Alignment.centerLeft,
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(left: 20),
+              margin: EdgeInsets.only(left: 12),
               child: IconButton(
                 onPressed: openDrawer,
                 icon: Icon(
