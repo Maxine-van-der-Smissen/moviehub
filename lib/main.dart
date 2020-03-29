@@ -63,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             SearchBar(), //Contents of screen
             MovieCard(
-              movie: MovieCardObject(
+              movie: MovieCardModel(
                   movieId: 0,
                   movieTitle: "Mission: Impossible - Fallout",
                   movieGenres: "Action, Adventure",
@@ -73,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   movieRating: 4.5),
             ),
             MovieCard(
-              movie: MovieCardObject(
+              movie: MovieCardModel(
                   movieId: 1,
                   movieTitle: "Mission: Impossible - Fallout",
                   movieGenres: "Action, Adventure",
