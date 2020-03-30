@@ -7,7 +7,7 @@ import 'movie_card_cover.dart';
 import 'movie_card_text_column.dart';
 
 class MovieCard extends StatelessWidget {
-  final MovieCardObject movie;
+  final MovieCardModel movie;
 
   const MovieCard({this.movie}) : super();
 
@@ -21,7 +21,7 @@ class MovieCard extends StatelessWidget {
         preferences
             .setStringList("filters", ["year=2020", "vote_average.gte=5"]);
 
-        List<MovieCardObject> movies = await SharedPreferences.getInstance()
+        List<MovieCardModel> movies = await SharedPreferences.getInstance()
             .then((preferences) =>
                 NetworkUtils.urlBuilder("discover/movie", preferences))
             .then((url) => NetworkUtils.fetchMovies(url));

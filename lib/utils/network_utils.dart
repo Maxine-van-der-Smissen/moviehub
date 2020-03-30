@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:moviehub/models/genres.dart';
 import 'package:moviehub/models/movie.dart';
+import 'package:moviehub/utils/data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -32,8 +32,8 @@ class NetworkUtils {
   }
 
   // Returns the movies parsed into objects of the Movie class
-  static Future<List<MovieCardObject>> fetchMovies(String url) async {
-    List<MovieCardObject> movies = new List();
+  static Future<List<MovieCardModel>> fetchMovies(String url) async {
+    List<MovieCardModel> movies = new List();
 
     final response = await http.get(url);
 
@@ -46,10 +46,10 @@ class NetworkUtils {
         List<String> genreList = List();
 
         for (int genreId in movie["genre_ids"]) {
-          genreList.add(Genres.genres.putIfAbsent(genreId, () => ""));
+          genreList.add(Data.genres.putIfAbsent(genreId, () => ""));
         }
 
-        movies.add(MovieCardObject(
+        movies.add(MovieCardModel(
             movieId: movie["id"],
             movieTitle: movie["title"],
             movieCoverURL: baseImageUrl + movie["poster_path"],
