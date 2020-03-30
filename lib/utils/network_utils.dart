@@ -117,7 +117,7 @@ class NetworkUtils {
           duration,
           "$baseTMDBImageUrl${movieJson["poster_path"]}",
           "$baseTMDBImageUrl${movieJson["backdrop_path"]}",
-          movieJson["vote_average"],
+          (movieJson["vote_average"] * 1.0).round() * .5,
           movieJson["vote_count"]);
     }
   }
