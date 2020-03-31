@@ -10,6 +10,7 @@ enum ListItemContent{
   LOGOUT
 }
 
+// ignore: must_be_immutable
 class ListItem extends StatefulWidget {
   @override
   _ListItemState createState() => _ListItemState();
@@ -17,9 +18,7 @@ class ListItem extends StatefulWidget {
   VoidCallback onTap;
   ListItemContent content;
 
-
   ListItem({this.onTap, this.content});
-
 }
 
 class _ListItemState extends State<ListItem> {
@@ -53,6 +52,7 @@ class _ListItemState extends State<ListItem> {
   }
 
   @override
+  // ignore: must_call_super
   void didChangeDependencies() {
     handleTitle();
     handleIcon();

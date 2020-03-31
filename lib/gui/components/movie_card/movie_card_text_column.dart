@@ -28,10 +28,10 @@ class MovieCardTextColumn extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
         ), // Movie Title
-        Text(
-          "", // TODO: Remove or put something else here
-          style: TextStyle(color: Color(0xFFAFAFAF)),
-        ), // Movie Director
+//        Text(
+//          "", // TODO: Remove or put something else here
+//          style: TextStyle(color: Color(0xFFAFAFAF)),
+//        ), // Movie Director
         Container(
           margin: EdgeInsets.only(top: 5),
           child: MovieRating(movieRating),
