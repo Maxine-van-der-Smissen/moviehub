@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:moviehub/models/account.dart';
 import 'package:moviehub/models/movie.dart';
 import 'package:moviehub/utils/converter_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,7 +10,6 @@ import 'package:http/http.dart' as http;
 
 class NetworkUtils {
   static final String baseUrl = "https://api.themoviedb.org/3/";
-  static final String baseGravatarImageUrl = "https://www.gravatar.com/avatar/";
 
   // Builds a url according to the shared preferences
   static Future<String> urlBuilder(
@@ -170,5 +170,60 @@ class NetworkUtils {
     }
 
     return movies;
+  }
+
+  static Future<String> fetchRequestURL() async {
+    await DotEnv().load(".env");
+    String apiKey = DotEnv().env["apiKey"];
+
+    final response =
+        await http.get("${baseUrl}authentication/token/new?api_key=$apiKey");
+
+    Map<String, dynamic> responseJson = jsonDecode(response.body);
+
+    if (response.statusCode == 200 && responseJson != null) {
+      await SharedPreferences.getInstance().then((preferences) => preferences
+          .setString("request_token", responseJson["request_token"]));
+      return "https://www.themoviedb.org/authenticate/${responseJson["request_token"]}";
+    } else {
+      throw Exception('Failed to get request token');
+    }
+  }
+
+  static Future<Account> loginComplete() async {
+    await DotEnv().load(".env");
+    String apiKey = DotEnv().env["apiKey"];
+
+    String requestToken = await SharedPreferences.getInstance()
+        .then((preferences) => preferences.getString("request_token"));
+
+    final sessionResponse = await http.post(
+        "${baseUrl}authentication/session/new?api_key=$apiKey",
+        body: jsonEncode({"request_token": requestToken}));
+
+    if (sessionResponse.statusCode == 200) {
+      String sessionId = jsonDecode(sessionResponse.body)["session_id"];
+
+      return fetchAccount(sessionId);
+    } else {
+      throw Exception('Failed to get session token');
+    }
+  }
+
+  static Future<Account> fetchAccount(String sessionId) async {
+    await DotEnv().load(".env");
+    String apiKey = DotEnv().env["apiKey"];
+
+    final response = await http
+        .get("${baseUrl}account?api_key=$apiKey&session_id=$sessionId");
+
+    Map<String, dynamic> accountJson = jsonDecode(response.body);
+
+    if (response.statusCode == 200 && accountJson != null) {
+      accountJson.putIfAbsent("session_id", () => sessionId);
+      return Converter.convertAccount(accountJson);
+    } else {
+      throw Exception('Failed to get account details');
+    }
   }
 }
