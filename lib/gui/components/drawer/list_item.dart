@@ -2,13 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 enum ListItemContent{
-  MOVIES,
+  DISCOVER,
+  SEARCH,
   LIST,
   STATISTICS,
   NIGHT_MODE,
   LOGOUT
 }
 
+// ignore: must_be_immutable
 class ListItem extends StatefulWidget {
   @override
   _ListItemState createState() => _ListItemState();
@@ -16,9 +18,7 @@ class ListItem extends StatefulWidget {
   VoidCallback onTap;
   ListItemContent content;
 
-
   ListItem({this.onTap, this.content});
-
 }
 
 class _ListItemState extends State<ListItem> {
@@ -52,13 +52,15 @@ class _ListItemState extends State<ListItem> {
   }
 
   @override
+  // ignore: must_call_super
   void didChangeDependencies() {
     handleTitle();
     handleIcon();
   }
 
   void handleTitle() {
-    if (widget.content == ListItemContent.MOVIES) title = "Movies";
+    if (widget.content == ListItemContent.DISCOVER) title = "Discover";
+    if (widget.content == ListItemContent.SEARCH) title = "Search";
     if (widget.content == ListItemContent.LIST) title = "List";
     if (widget.content == ListItemContent.STATISTICS) title = "Statistics";
     if (widget.content == ListItemContent.NIGHT_MODE) title = "Night Mode";
@@ -66,7 +68,8 @@ class _ListItemState extends State<ListItem> {
   }
 
   void handleIcon() {
-    if (widget.content == ListItemContent.MOVIES) icon = Icon(Icons.local_movies, size: 20,);
+    if (widget.content == ListItemContent.DISCOVER) icon = Icon(Icons.explore, size: 20,);
+    if (widget.content == ListItemContent.SEARCH) icon = Icon(Icons.search, size: 20,);
     if (widget.content == ListItemContent.LIST) icon = Icon(Icons.list, size: 20,);
     if (widget.content == ListItemContent.STATISTICS) icon = Icon(Icons.insert_chart, size: 20,);
     if (widget.content == ListItemContent.NIGHT_MODE) icon = Icon(Icons.brightness_2, size: 20,);

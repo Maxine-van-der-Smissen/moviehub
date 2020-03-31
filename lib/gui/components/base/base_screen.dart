@@ -4,7 +4,7 @@ import 'package:moviehub/gui/components/app_bar/main_app_bar.dart';
 import 'package:moviehub/gui/components/drawer/account/account_tab.dart';
 import 'package:moviehub/gui/components/drawer/list_item.dart';
 import 'package:moviehub/gui/components/search_bar/search_bar.dart';
-import 'package:moviehub/gui/screens/list_screen/list_screen.dart';
+import 'package:moviehub/gui/screens/created_lists/list_screen.dart';
 
 class BaseScreen extends StatefulWidget {
   Widget child;
@@ -29,7 +29,7 @@ class _BaseScreenState extends State<BaseScreen> {
     Navigator.pop(context);
     //TODO, MAKE THIS DYNAMIC
     setState(() {
-      if (content == ListItemContent.MOVIES)
+      if (content == ListItemContent.DISCOVER)
         widget.child = Column(
           children: <Widget>[
             SearchBar(),
@@ -52,8 +52,12 @@ class _BaseScreenState extends State<BaseScreen> {
                 children: <Widget>[
                   AccountTab(),
                   ListItem(
-                    content: ListItemContent.MOVIES,
-                    onTap: () => changeScreen(ListItemContent.MOVIES, context),
+                    content: ListItemContent.DISCOVER,
+                    onTap: () => changeScreen(ListItemContent.DISCOVER, context),
+                  ),
+                  ListItem(
+                    content: ListItemContent.SEARCH,
+                    onTap: () => changeScreen(ListItemContent.SEARCH, context),
                   ),
                   ListItem(
                     onTap: () => changeScreen(ListItemContent.LIST, context),

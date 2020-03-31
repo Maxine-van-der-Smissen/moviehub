@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:moviehub/gui/screens/discover/discover_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'gui/colors/custom_material_color.dart';
 import 'gui/components/base/base_screen.dart';
-import 'gui/components/movie_card/movie_card.dart';
-import 'gui/components/search_bar/search_bar.dart';
-import 'models/movie.dart';
 
 void main() => runApp(MyApp());
 
@@ -59,31 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       home: BaseScreen(
         changeTheme: () => switchTheme(),
-        child: Column(
-          children: <Widget>[
-            SearchBar(), //Contents of screen
-            MovieCard(
-              movie: MovieCardObject(
-                  movieId: 0,
-                  movieTitle: "Mission: Impossible - Fallout",
-                  movieGenres: "Action, Adventure",
-                  movieReleaseDate: "02:28:00",
-                  movieCoverURL:
-                      "https://image.tmdb.org/t/p/w600_and_h900_bestv2/AkJQpZp9WoNdj7pLYSj1L0RcMMN.jpg",
-                  movieRating: 4.5),
-            ),
-            MovieCard(
-              movie: MovieCardObject(
-                  movieId: 1,
-                  movieTitle: "Mission: Impossible - Fallout",
-                  movieGenres: "Action, Adventure",
-                  movieReleaseDate: "02:28:00",
-                  movieCoverURL:
-                      "https://image.tmdb.org/t/p/w600_and_h900_bestv2/AkJQpZp9WoNdj7pLYSj1L0RcMMN.jpg",
-                  movieRating: 2.5),
-            ),
-          ],
-        ),
+        child: DiscoverScreen()
       ),
     );
   }
