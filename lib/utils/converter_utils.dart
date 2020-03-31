@@ -1,6 +1,7 @@
 import 'package:moviehub/models/account.dart';
 import 'package:moviehub/models/cast_member.dart';
 import 'package:moviehub/models/genres.dart';
+import 'package:moviehub/models/list.dart';
 import 'package:moviehub/models/movie.dart';
 
 import 'data.dart';
@@ -65,5 +66,10 @@ class Converter {
   static Account convertAccount(Map<String, dynamic> json) {
     return Account(json["id"], json["session_id"], json["username"],
         "$baseGravatarImageUrl${json["avatar"]["gravatar"]["hash"]}");
+  }
+
+  static ListCardModel convertListCard(Map<String, dynamic> json) {
+    return ListCardModel(
+        json["id"], json["item_count"], json["name"], json["description"]);
   }
 }

@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:moviehub/models/account.dart';
+import 'package:moviehub/models/list.dart';
 import 'package:moviehub/models/movie.dart';
 import 'package:moviehub/utils/converter_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -225,5 +226,27 @@ class NetworkUtils {
     } else {
       throw Exception('Failed to get account details');
     }
+  }
+
+  static Future<List<ListCardModel>> fetchLists() async {
+    List<ListCardModel> lists = List();
+
+    await DotEnv().load(".env");
+    String apiKey = DotEnv().env["apiKey"];
+
+    Account account = await Account.fromJson();
+
+    final response = await http.get(
+        "${baseUrl}account/${account.accountId}/lists?api_key=$apiKey&session_id=${account.sessionId}");
+
+    Map<String, dynamic> json = jsonDecode(response.body);
+
+    if (response.statusCode == 200 && json != null) {
+      for (Map<String, dynamic> listCardJson in json["results"]) {
+        lists.add(Converter.convertListCard(listCardJson));
+      }
+    }
+
+    return lists;
   }
 }
