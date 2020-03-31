@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:html';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,7 +11,7 @@ class Account {
 
   Account(this.accountId, this.sessionId, this.username, this.profileURL);
 
-  void saveSessionID() async {
+  void saveAccount() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString("account", this.toString());
   }
@@ -19,7 +20,7 @@ class Account {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String accountString = preferences.getString("account");
     if (accountString == null || accountString.isEmpty) return null;
-    var jsonString = json.decode(accountString);
+    var jsonString = jsonDecode(accountString);
     return Account(jsonString['accountId'] as int, jsonString['sessionId'] as int, jsonString['username'] as String, jsonString['profileURL'] as String);
   }
 
