@@ -16,16 +16,19 @@ class MovieCard extends StatelessWidget {
     // TODO: Text Style and refactor code into multiple modules / files
     return GestureDetector(
       onTap: () async {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        preferences.setString("sort", "original_title.desc");
-        preferences
-            .setStringList("filters", ["year=2020", "vote_average.gte=5"]);
+//        SharedPreferences preferences = await SharedPreferences.getInstance();
+//        preferences.setString("sort", "original_title.desc");
+//        preferences
+//            .setStringList("filters", ["year=2020", "vote_average.gte=5"]);
+//
+//        List<MovieCardModel> movies = await SharedPreferences.getInstance()
+//            .then((preferences) =>
+//                NetworkUtils.urlBuilder("discover/movie", preferences))
+//            .then((url) => NetworkUtils.fetchMovies(url));
+//        print(movies);
 
-        List<MovieCardModel> movies = await SharedPreferences.getInstance()
-            .then((preferences) =>
-                NetworkUtils.urlBuilder("discover/movie", preferences))
-            .then((url) => NetworkUtils.fetchMovies(url));
-        print(movies);
+      MovieDetailsModel movieDetails = await NetworkUtils.fetchMovieDetails(338762);
+      print(movieDetails);
       },
       child: Container(
         // Main Container

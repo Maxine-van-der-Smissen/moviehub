@@ -1,4 +1,5 @@
 import 'package:moviehub/models/cast.dart';
+import 'package:moviehub/models/genres.dart';
 import 'package:moviehub/models/review.dart';
 
 class MovieCardModel {
@@ -23,7 +24,7 @@ class MovieDetailsModel {
   final String movieTitle;
   final String movieDirector;
   final String movieSynopsis;
-  final List<String> movieGenres;
+  final List<Genre> movieGenres;
   final List<Cast> movieCast;
   final List<Review> movieReviews;
   final String movieReleaseDate;
@@ -31,6 +32,7 @@ class MovieDetailsModel {
   final String movieCoverURL;
   final String movieBackdropURL;
   final double movieRating;
+  final int movieRatingCount;
 
   MovieDetailsModel(
       this.movieId,
@@ -44,5 +46,6 @@ class MovieDetailsModel {
       this.movieDuration,
       this.movieCoverURL,
       this.movieBackdropURL,
-      this.movieRating);
+      this.movieRating,
+      this.movieRatingCount);
 }
