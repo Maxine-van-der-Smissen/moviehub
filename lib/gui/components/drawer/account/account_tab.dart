@@ -9,7 +9,7 @@ class AccountTab extends StatelessWidget {
       height: 150,
       color: Color(0xFFF9E7C3),
       child: Container(
-        margin: EdgeInsets.only(top: 18, left: 30),
+        margin: EdgeInsets.only(top: 22, left: 30),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
