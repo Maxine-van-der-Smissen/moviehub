@@ -40,12 +40,16 @@ class MovieCardTextColumn extends StatelessWidget {
           // Container for the rating
           height: 30,
         ),
-        // TODO: Row with genres and duration
         Container(
           // Text row container
           child: Row(
             children: <Widget>[
-              Text(movieGenres, style: TextStyle(color: Color(0xFFAFAFAF))),
+              SingleChildScrollView(
+                child: Container(
+                  width: 100,
+                    child: Text(movieGenres,
+                        style: TextStyle(color: Color(0xFFAFAFAF)))),
+              ),
               Spacer(),
               Text(
                 movieReleaseDate,

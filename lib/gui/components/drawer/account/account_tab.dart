@@ -13,7 +13,7 @@ class AccountTab extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            ProfileImage(),
+            ProfileImage(url: "https://i.imgur.com/MYmm7E1.jpg"),
             Container(
               margin: EdgeInsets.only(top: 14, bottom: 5),
               child: Text(
