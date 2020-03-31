@@ -86,7 +86,7 @@ class NetworkUtils {
             body: jsonEncode({"value": rating}))
         .then((response) => response.statusCode == 200);
   }
-
+  
   static Future<bool> deleteRating(int movieId, String sessionId) async {
     await DotEnv().load(".env");
     String apiKey = DotEnv().env["apiKey"];
@@ -95,5 +95,79 @@ class NetworkUtils {
         .delete(
             "${baseUrl}movie/$movieId/rating?api_key=$apiKey&session_id=$sessionId")
         .then((response) => response.statusCode == 200);
+  }
+
+  static Future<bool> createList(
+      String name, String description, String sessionId) async {
+    await DotEnv().load(".env");
+    String apiKey = DotEnv().env["apiKey"];
+
+    return http
+        .post("${baseUrl}list?api_key=$apiKey&session_id=$sessionId",
+        body: json.encode(
+            {"name": name, "description": description, "language": "en"}))
+        .then((response) => response.statusCode == 201);
+  }
+
+  static Future<bool> deleteList(int listId, String sessionId) async {
+    await DotEnv().load(".env");
+    String apiKey = DotEnv().env["apiKey"];
+
+    return http
+        .delete("${baseUrl}list/$listId?api_key=$apiKey&session_id=$sessionId")
+        .then((response) =>
+    response.statusCode == 500); // TODO: why internal server error?
+  }
+
+  static Future<bool> clearList(int listId, String sessionId) async {
+    await DotEnv().load(".env");
+    String apiKey = DotEnv().env["apiKey"];
+    return http
+      .post(
+        "${baseUrl}list/$listId?api_key=$apiKey&session_id=$sessionId&confirm=true")
+        .then((response) => response.statusCode == 201);
+  }
+
+  static Future<bool> addMovieToList(
+      int listId, int movieId, String sessionId) async {
+    await DotEnv().load(".env");
+    String apiKey = DotEnv().env["apiKey"];
+    
+    return http
+      .post(
+        "${baseUrl}list/$listId/add_item?api_key=$apiKey&session_id=$sessionId",
+        body: json.encode({"media_id": movieId}))
+        .then((response) => response.statusCode == 201);
+  }
+
+  static Future<bool> removeMovieFromList(
+      int listId, int movieId, String sessionId) async {
+    await DotEnv().load(".env");
+    String apiKey = DotEnv().env["apiKey"];
+
+    return http
+        .post(
+        "${baseUrl}list/$listId/remove_item?api_key=$apiKey&session_id=$sessionId",
+        body: json.encode({"media_id": movieId}))
+        .then((response) => response.statusCode == 201);
+  }
+
+  static Future<List<MovieCardModel>> fetchList(int listId) async {
+    List<MovieCardModel> movies = List();
+
+    await DotEnv().load(".env");
+    String apiKey = DotEnv().env["apiKey"];
+
+    final response = await http.get("${baseUrl}list/$listId?api_key=$apiKey");
+
+    Map<String, dynamic> listJson = jsonDecode(response.body);
+
+    if(response.statusCode == 200 && listJson != null) {
+      for(Map<String, dynamic> movieJson in listJson["items"]) {
+        movies.add(Converter.convertMovieCard(movieJson));
+      }
+    }
+
+    return movies;
   }
 }

@@ -29,7 +29,7 @@ class _BaseScreenState extends State<BaseScreen> {
     Navigator.pop(context);
     //TODO, MAKE THIS DYNAMIC
     setState(() {
-      if (content == ListItemContent.MOVIES)
+      if (content == ListItemContent.DISCOVER)
         widget.child = Column(
           children: <Widget>[
             SearchBar(),
@@ -52,8 +52,12 @@ class _BaseScreenState extends State<BaseScreen> {
                 children: <Widget>[
                   AccountTab(),
                   ListItem(
-                    content: ListItemContent.MOVIES,
-                    onTap: () => changeScreen(ListItemContent.MOVIES, context),
+                    content: ListItemContent.DISCOVER,
+                    onTap: () => changeScreen(ListItemContent.DISCOVER, context),
+                  ),
+                  ListItem(
+                    content: ListItemContent.SEARCH,
+                    onTap: () => changeScreen(ListItemContent.SEARCH, context),
                   ),
                   ListItem(
                     onTap: () => changeScreen(ListItemContent.LIST, context),
