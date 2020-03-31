@@ -16,7 +16,7 @@ class Account {
     preferences.setString("account", this.toString());
   }
 
-   Future<Account> fromJson() async {
+   static Future<Account> fromJson() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String accountString = preferences.getString("account");
     if (accountString == null || accountString.isEmpty) return null;
@@ -26,6 +26,6 @@ class Account {
 
   @override
   String toString() {
-    return '{ ${this.accountId}, ${this.sessionId}, ${this.username}, ${this.profileURL} }';
+    return jsonEncode(this);
   }
 }
