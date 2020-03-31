@@ -49,3 +49,18 @@ class MovieDetailsModel {
       this.movieRating,
       this.movieRatingCount);
 }
+
+class MovieDetailsHeaderModel {
+  final String movieTitle;
+  final String movieDirector;
+  final String movieReleaseDate;
+  final String movieDuration;
+  final double movieRating;
+
+  MovieDetailsHeaderModel(
+      this.movieTitle,
+      this.movieDirector,
+      this.movieReleaseDate,
+      this.movieDuration,
+      this.movieRating);
+}
