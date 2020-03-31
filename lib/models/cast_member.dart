@@ -3,4 +3,6 @@ class CastMember {
   final String profileImage;
 
   CastMember(this.name, this.profileImage);
+
+
 }
