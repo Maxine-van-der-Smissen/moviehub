@@ -1,4 +1,4 @@
-import 'package:moviehub/models/cast.dart';
+import 'package:moviehub/models/cast_member.dart';
 import 'package:moviehub/models/genres.dart';
 import 'package:moviehub/models/review.dart';
 
@@ -25,7 +25,7 @@ class MovieDetailsModel {
   final String movieDirector;
   final String movieSynopsis;
   final List<Genre> movieGenres;
-  final List<Cast> movieCast;
+  final List<CastMember> movieCast;
   final List<Review> movieReviews;
   final String movieReleaseDate;
   final String movieDuration;
