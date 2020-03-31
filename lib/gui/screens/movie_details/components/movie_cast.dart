@@ -59,7 +59,8 @@ class MovieCastMember extends StatelessWidget {
         ),
         Text(
           castMemberName,
-          style: TextStyle(color: Color(0xFF000000).withOpacity(0.3)),
+          style: TextStyle(color: Color(0xFF000000).withOpacity(0.3),
+          fontSize: 12),
         )
       ],
     );
