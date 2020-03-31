@@ -74,4 +74,26 @@ class NetworkUtils {
       return Converter.convertMovieDetails(movieJson, creditsJson);
     }
   }
+
+  static Future<bool> postRating(
+      int movieId, int rating, String sessionId) async {
+    await DotEnv().load(".env");
+    String apiKey = DotEnv().env["apiKey"];
+
+    return http
+        .post(
+            "${baseUrl}movie/$movieId/rating?api_key=$apiKey&session_id=$sessionId",
+            body: jsonEncode({"value": rating}))
+        .then((response) => response.statusCode == 200);
+  }
+
+  static Future<bool> deleteRating(int movieId, String sessionId) async {
+    await DotEnv().load(".env");
+    String apiKey = DotEnv().env["apiKey"];
+
+    return http
+        .delete(
+            "${baseUrl}movie/$movieId/rating?api_key=$apiKey&session_id=$sessionId")
+        .then((response) => response.statusCode == 200);
+  }
 }
