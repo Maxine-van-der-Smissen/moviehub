@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:moviehub/gui/screens/movie_details/movie_details.dart';
 import 'package:moviehub/models/movie.dart';
 import 'package:moviehub/utils/network_utils.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'movie_card_cover.dart';
 import 'movie_card_text_column.dart';
@@ -17,19 +16,12 @@ class MovieCard extends StatelessWidget {
     // TODO: Text Style and refactor code into multiple modules / files
     return GestureDetector(
       onTap: () async {
-//        SharedPreferences preferences = await SharedPreferences.getInstance();
-//        preferences.setString("sort", "original_title.desc");
-//        preferences
-//            .setStringList("filters", ["year=2020", "vote_average.gte=5"]);
-//
-//        List<MovieCardModel> movies = await SharedPreferences.getInstance()
-//            .then((preferences) =>
-//                NetworkUtils.urlBuilder("discover/movie", preferences))
-//            .then((url) => NetworkUtils.fetchMovies(url));
-//        print(movies);
-
-      MovieDetailsModel movieDetails = await NetworkUtils.fetchMovieDetails(338762);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => MovieDetails(movieDetails)));
+        MovieDetailsModel movieDetails =
+            await NetworkUtils.fetchMovieDetails(movie.movieId);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => MovieDetails(movieDetails)));
       },
       child: Container(
         // Main Container
