@@ -11,9 +11,9 @@ class Account {
 
   Account(this.accountId, this.sessionId, this.username, this.profileURL);
 
-  void saveAccount() async {
+  static void saveAccount(Account account) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setString("account", this.toString());
+    preferences.setString("account", account.toString());
   }
 
    static Future<Account> fromJson() async {
