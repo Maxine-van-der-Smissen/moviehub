@@ -40,7 +40,6 @@ class MovieCardTextColumn extends StatelessWidget {
           // Container for the rating
           height: 30,
         ),
-        // TODO: Row with genres and duration
         Container(
           // Text row container
           child: Row(
