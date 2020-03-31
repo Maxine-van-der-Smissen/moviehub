@@ -28,36 +28,23 @@ class MovieCardTextColumn extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
         ), // Movie Title
-//        Text(
-//          "", // TODO: Remove or put something else here
-//          style: TextStyle(color: Color(0xFFAFAFAF)),
-//        ), // Movie Director
-        Container(
-          margin: EdgeInsets.only(top: 5),
-          child: MovieRating(movieRating),
+        SizedBox(height: 0,),
+        Text(
+          movieReleaseDate,
+          style: TextStyle(
+              color: Color(0xFFAFAFAF),),
         ),
+        SizedBox(height: 5,),
+        MovieRating(movieRating),
         Container(
           // Container for the rating
           height: 30,
         ),
         Container(
           // Text row container
-          child: Row(
-            children: <Widget>[
-              SingleChildScrollView(
-                child: Container(
-                  width: 100,
-                    child: Text(movieGenres,
-                        style: TextStyle(color: Color(0xFFAFAFAF)))),
-              ),
-              Spacer(),
-              Text(
-                movieReleaseDate,
-                style: TextStyle(
-                    color: Color(0xFFAFAFAF), fontWeight: FontWeight.w700),
-              ),
-            ],
-          ),
+          child: Container(
+              child: Text(movieGenres,
+                  style: TextStyle(color: Color(0xFFAFAFAF)))),
         ),
       ],
     );

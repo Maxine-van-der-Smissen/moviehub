@@ -46,34 +46,37 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(left: 15, right: 15),
-            child: Row(
-              children: <Widget>[
-                Text(
-                  "Discover",
-                  style: TextStyle(
-                      color: Color(0xFF3e3e3e),
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700),
-                ),
-                Spacer(),
-                Row(
-                  children: <Widget>[
-                    OptionButton(Icon(
-                      Icons.sort_by_alpha,
-                      size: 18,
-                    )),
-                    SizedBox(
-                      width: 12,
-                    ),
-                    OptionButton(Icon(
-                      Icons.filter_list,
-                      size: 18,
-                    )),
-                  ],
-                ),
-              ],
+          Padding(
+            padding: const EdgeInsets.only(bottom: 15.0),
+            child: Container(
+              margin: EdgeInsets.only(left: 15, right: 15),
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    "Discover",
+                    style: TextStyle(
+                        color: Color(0xFF3e3e3e),
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700),
+                  ),
+                  Spacer(),
+                  Row(
+                    children: <Widget>[
+                      OptionButton(Icon(
+                        Icons.sort_by_alpha,
+                        size: 18,
+                      )),
+                      SizedBox(
+                        width: 12,
+                      ),
+                      OptionButton(Icon(
+                        Icons.filter_list,
+                        size: 18,
+                      )),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
           movieWidget,
