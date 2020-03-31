@@ -24,7 +24,6 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
                 onPressed: openDrawer,
                 icon: Icon(
                   Icons.menu,
-                  size: 22,
                   color: Colors.white,
                 ),
               ),

@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-class MovieRating extends StatelessWidget {
+class MovieCardRating extends StatelessWidget {
   double movieRating;
 
-  MovieRating(rating) : this.movieRating = rating;
+  MovieCardRating(rating) : this.movieRating = rating;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,6 @@ class MovieRating extends StatelessWidget {
       allowHalfRating: true,
       itemSize: 18.0,
       itemCount: 5,
-      ignoreGestures: true,
       itemPadding: EdgeInsets.symmetric(horizontal: 2.5),
       itemBuilder: (context, _) => Icon(
         Icons.star,
