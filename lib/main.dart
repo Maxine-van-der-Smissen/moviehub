@@ -59,30 +59,32 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       home: BaseScreen(
         changeTheme: () => switchTheme(),
-        child: Column(
-          children: <Widget>[
-            SearchBar(), //Contents of screen
-            MovieCard(
-              movie: MovieCardModel(
-                  movieId: 0,
-                  movieTitle: "Mission: Impossible - Fallout",
-                  movieGenres: "Action, Adventure",
-                  movieReleaseDate: "02:28:00",
-                  movieCoverURL:
-                      "https://image.tmdb.org/t/p/w600_and_h900_bestv2/AkJQpZp9WoNdj7pLYSj1L0RcMMN.jpg",
-                  movieRating: 4.5),
-            ),
-            MovieCard(
-              movie: MovieCardModel(
-                  movieId: 1,
-                  movieTitle: "Mission: Impossible - Fallout",
-                  movieGenres: "Action, Adventure",
-                  movieReleaseDate: "02:28:00",
-                  movieCoverURL:
-                      "https://image.tmdb.org/t/p/w600_and_h900_bestv2/AkJQpZp9WoNdj7pLYSj1L0RcMMN.jpg",
-                  movieRating: 2.5),
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              SearchBar(), //Contents of screen
+              MovieCard(
+                movie: MovieCardModel(
+                    movieId: 0,
+                    movieTitle: "Mission: Impossible - Fallout",
+                    movieGenres: "Action, Adventure",
+                    movieReleaseDate: "02:28:00",
+                    movieCoverURL:
+                        "https://image.tmdb.org/t/p/w600_and_h900_bestv2/AkJQpZp9WoNdj7pLYSj1L0RcMMN.jpg",
+                    movieRating: 4.5),
+              ),
+              MovieCard(
+                movie: MovieCardModel(
+                    movieId: 1,
+                    movieTitle: "Mission: Impossible - Fallout",
+                    movieGenres: "Action, Adventure",
+                    movieReleaseDate: "02:28:00",
+                    movieCoverURL:
+                        "https://image.tmdb.org/t/p/w600_and_h900_bestv2/AkJQpZp9WoNdj7pLYSj1L0RcMMN.jpg",
+                    movieRating: 2.5),
+              ),
+            ],
+          ),
         ),
       ),
     );

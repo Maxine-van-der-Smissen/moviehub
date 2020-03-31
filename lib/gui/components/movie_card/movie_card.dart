@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moviehub/gui/screens/movie_details/movie_details.dart';
 import 'package:moviehub/models/movie.dart';
 import 'package:moviehub/utils/network_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,7 +29,7 @@ class MovieCard extends StatelessWidget {
 //        print(movies);
 
       MovieDetailsModel movieDetails = await NetworkUtils.fetchMovieDetails(338762);
-      print(movieDetails);
+      Navigator.push(context, MaterialPageRoute(builder: (context) => MovieDetails(movieDetails)));
       },
       child: Container(
         // Main Container

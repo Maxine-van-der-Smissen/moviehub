@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'movie_card_rating.dart';
+import '../rating/movie_rating.dart';
 
 class MovieCardTextColumn extends StatelessWidget {
   final String movieTitle;
@@ -34,7 +34,7 @@ class MovieCardTextColumn extends StatelessWidget {
         ), // Movie Director
         Container(
           margin: EdgeInsets.only(top: 5),
-          child: MovieCardRating(movieRating),
+          child: MovieRating(movieRating),
         ),
         Container(
           // Container for the rating
