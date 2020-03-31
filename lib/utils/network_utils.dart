@@ -51,7 +51,7 @@ class NetworkUtils {
 
       return movies;
     } else {
-      throw Exception('Failed to load post');
+      throw Exception('Failed to load movies');
     }
   }
 
@@ -73,6 +73,7 @@ class NetworkUtils {
         creditsJson != null) {
       return Converter.convertMovieDetails(movieJson, creditsJson);
     }
+    else throw Exception('Failed to load movie');
   }
 
   static Future<bool> postRating(
