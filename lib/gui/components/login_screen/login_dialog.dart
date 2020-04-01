@@ -46,7 +46,6 @@ class _LoginDialogState extends State<LoginDialog> {
 
   void login() async {
     Account account = await NetworkUtils.loginComplete();
-    print(account);
     Account.saveAccount(account);
   }
 
