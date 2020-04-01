@@ -16,11 +16,11 @@ class MovieCast extends StatelessWidget {
       children: <Widget>[
         TextTitle("Cast"),
         SizedBox(
-          height: 10,
+          height: 12,
         ),
         Container(
           width: double.infinity,
-          height: 100,
+          height: 80,
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: castMembers.length,
