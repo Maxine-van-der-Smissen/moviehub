@@ -16,8 +16,8 @@ class MovieCover extends StatelessWidget {
             color: Colors.black.withOpacity(0.25),
             spreadRadius: 0,
             offset: Offset(
-              0.0, // horizontal, move right 10
-              2.0, // vertical, move down 10
+              0.0,
+              2.0,
             ),
             blurRadius: 4,
           )

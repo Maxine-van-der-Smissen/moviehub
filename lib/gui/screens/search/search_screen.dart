@@ -37,7 +37,10 @@ class _SearchScreenState extends State<SearchScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          SearchBar(callback: loadMovies,),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10.0),
+            child: SearchBar(callback: loadMovies,),
+          ),
           movieWidget
         ],
       ),
