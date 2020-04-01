@@ -6,6 +6,7 @@ import 'package:moviehub/models/account.dart';
 import 'package:moviehub/models/list.dart';
 import 'package:moviehub/models/movie.dart';
 import 'package:moviehub/utils/converter_utils.dart';
+import 'package:moviehub/utils/data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -13,37 +14,48 @@ class NetworkUtils {
   static final String baseUrl = "https://api.themoviedb.org/3/";
 
   // Builds a url according to the shared preferences
-  static Future<String> urlBuilder(
-      String path, SharedPreferences preferences) async {
-    List<String> headers = List();
-
+  static Future<String> urlBuilder(URLBuilderType type,
+      {String query, int listId}) async {
     await DotEnv().load(".env");
 
-    headers.add("?api_key=" +
-        DotEnv().env["apiKey"]); // Add API key to the headers list
+    switch (type) {
+      case URLBuilderType.DISCOVER:
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        List<String> filters = preferences.getStringList("filters");
+        List<String> headers = List();
+        headers.add(DotEnv().env["apiKey"]);
 
-    if (preferences != null) {
-      List<String> filters = preferences.getStringList("filters");
-      String sort = preferences.getString("sort");
+        String sort = preferences.getString("sort");
 
-      if (filters != null) headers.addAll(filters);
-      if (sort != null) headers.add("sort_by=" + sort);
+        if (filters != null) headers.addAll(filters);
+        if (sort != null) headers.add("sort_by=" + sort);
+
+        return "${baseUrl}discover/movie?api_key=${headers.join("&")}";
+      case URLBuilderType.SEARCH:
+        if (query != null) {
+          return "${baseUrl}search/movie?api_key=${DotEnv().env["apiKey"]}&query=$query";
+        }
+        throw Exception('Querystring is required');
+      case URLBuilderType.LIST:
+        if (listId != null) {
+          return "${baseUrl}list/$listId?api_key=${DotEnv().env["apiKey"]}";
+        }
+        throw Exception('ListId is required');
     }
-
-    String header = headers.join("&");
-
-    return baseUrl + path + header;
   }
 
   // Returns the movies parsed into objects of the Movie class
-  static Future<List<MovieCardModel>> fetchMovies(String url) async {
+  static Future<List<MovieCardModel>> fetchMovies(
+      String url, URLBuilderType type) async {
     List<MovieCardModel> movies = new List();
 
     final response = await http.get(url);
 
     dynamic body = response.body;
 
-    List<dynamic> movieJson = json.decode(body)['results'];
+    List<dynamic> movieJson = type == URLBuilderType.LIST
+        ? json.decode(body)['items']
+        : json.decode(body)['results'];
 
     if (response.statusCode == 200 && movieJson != null) {
       for (Map<String, dynamic> movie in movieJson) {
