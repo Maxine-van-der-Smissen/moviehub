@@ -3,6 +3,7 @@ import 'package:moviehub/gui/components/rating/movie_rating.dart';
 import 'package:moviehub/gui/components/text/text_title.dart';
 import 'package:moviehub/models/movie.dart';
 
+// ignore: must_be_immutable
 class MovieDetailsHeader extends StatelessWidget {
   MovieDetailsHeaderModel movieDetails;
 

@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:moviehub/gui/screens/movie_details/movie_details.dart';
-import 'package:moviehub/models/movie.dart';
+import 'package:moviehub/gui/components/movie_card/movie_card_cover.dart';
+import 'package:moviehub/gui/components/movie_card/movie_card_text_column.dart';
+import 'package:moviehub/models/list.dart';
 import 'package:moviehub/utils/network_utils.dart';
 
-import 'movie_card_cover.dart';
-import 'movie_card_text_column.dart';
+import 'list_card_text_column.dart';
 
-class MovieCard extends StatelessWidget {
-  final MovieCardModel movie;
+class ListCard extends StatelessWidget {
+  final ListCardModel list;
 
-  const MovieCard({this.movie}) : super();
+  const ListCard({this.list}) : super();
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        MovieDetailsModel movieDetails =
-            await NetworkUtils.fetchMovieDetails(movie.movieId);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => MovieDetails(movieDetails)));
+//        MovieDetailsModel movieDetails =
+//        await NetworkUtils.fetchMovieDetails(movie.movieId);
+//        Navigator.push(
+//            context,
+//            MaterialPageRoute(
+//                builder: (context) => MovieDetails(movieDetails)));
       },
       child: Container(
         // Main Container
@@ -47,13 +47,11 @@ class MovieCard extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Container(
-                  // Text column container
                   margin: EdgeInsets.only(left: 125, right: 14),
-                  child: MovieCardTextColumn(
-                    movieTitle: movie.movieTitle,
-                    movieGenres: movie.movieGenres,
-                    movieReleaseDate: movie.movieReleaseDate,
-                    movieRating: movie.movieRating,
+                  child: ListCardTextColumn(
+                    movieCount: list.movieCount,
+                    listTitle: list.name,
+                    listDescription: list.description,
                   ),
                 ),
               ),
@@ -62,9 +60,7 @@ class MovieCard extends StatelessWidget {
               left: 12,
               top: 0,
               bottom: 12,
-              child: MovieCardCover(
-                movieCoverURL: movie.movieCoverURL,
-              ),
+              child: MovieCardCover(),
             ),
           ],
         ),
