@@ -9,13 +9,13 @@ import 'list_card_text_column.dart';
 
 class ListCard extends StatelessWidget {
   final ListCardModel list;
+  Function(int, String) listIdCallback;
 
-  const ListCard({this.list}) : super();
+  ListCard({this.list, this.listIdCallback}) : super();
 
-  void deleteList(int id) async {
+  void deleteList(ListCardModel listCard) async {
     String sessionId = await Account.fromJson().then((account) => account.sessionId);
-    bool success = await NetworkUtils.deleteList(id, sessionId);
-    print(success);
+    if (await NetworkUtils.deleteList(listCard.id, sessionId)) listIdCallback(listCard.id, listCard.name);
   }
 
   @override
@@ -76,7 +76,9 @@ class ListCard extends StatelessWidget {
                               size: 20,
                               color: Color(0xFF3e3e3e).withOpacity(0.5),
                             ),
-                            onPressed: () { deleteList(list.id);},
+                            onPressed: () {
+                              deleteList(list);
+                              },
                           ),
                         ),
                       )

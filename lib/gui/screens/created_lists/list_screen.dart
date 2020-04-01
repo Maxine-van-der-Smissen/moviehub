@@ -35,7 +35,10 @@ class _ListScreenState extends State<ListScreen> {
         child: ListView.builder(
           itemCount: lists.length,
           itemBuilder: (context, i) {
-            return ListCard(list: lists[i]);
+            return ListCard(
+              list: lists[i],
+              listIdCallback: deleteList,
+            );
           },
         ),
       );
@@ -45,6 +48,16 @@ class _ListScreenState extends State<ListScreen> {
   void loadLists() async {
     lists = await NetworkUtils.fetchLists();
     displayLists();
+  }
+
+  void deleteList(int id, String name) {
+    lists.removeWhere((listCard) => listCard.id == id);
+    displayLists();
+    Scaffold.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Deleted list: "$name"'),
+      ),
+    );
   }
 
   @override
