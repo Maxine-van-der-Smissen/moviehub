@@ -29,6 +29,11 @@ class Account {
 
   @override
   String toString() {
-    return jsonEncode(this);
+    return jsonEncode({
+      'accountId': accountId,
+      'sessionId': sessionId,
+      'username': username,
+      'profileURL': profileURL
+    });
   }
 }

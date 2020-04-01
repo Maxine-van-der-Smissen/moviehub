@@ -1,43 +1,56 @@
-import 'dart:ui';
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:moviehub/models/account.dart';
+import 'package:moviehub/utils/network_utils.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
-class FilterDialog extends StatefulWidget {
+// ignore: must_be_immutable
+class LoginDialog extends StatefulWidget {
+  VoidCallback updateLogin;
 
-  VoidCallback onSortChange;
-
-  FilterDialog({this.onSortChange});
+  LoginDialog({this.updateLogin});
 
   @override
-  _FilterDialogState createState() => _FilterDialogState();
+  _LoginDialogState createState() => _LoginDialogState();
 }
 
-class _FilterDialogState extends State<FilterDialog> {
-  double rating = 0;
+class _LoginDialogState extends State<LoginDialog> {
+  final Completer<WebViewController> completer = Completer<WebViewController>();
+  WebViewController controller;
+
+  Widget baseWidget = Container();
+
+  String url = "https://www.google.nl";
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    loadFilter();
+    updateURL();
   }
 
-  void loadFilter() async{
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    if (preferences.getStringList("filters") == null) preferences.setStringList("filters", ["vote_average.gte=5"]);
-    List<String> appliedFilters = preferences.getStringList("filters");
-    print(appliedFilters);
+  void updateURL() async {
+    String url = await NetworkUtils.fetchRequestURL();
+    print(url);
     setState(() {
-      appliedFilters.forEach((filter) {
-        if (filter.startsWith("vote_average")) rating = double.parse(filter.split("=")[1]);
-      });
+      baseWidget = Container(
+        width: double.infinity,
+        height: 500,
+        child: WebView (
+          initialUrl: url,
+          javascriptMode: JavascriptMode.unrestricted,
+          onWebViewCreated: (WebViewController webViewController) {
+            completer.complete(webViewController);
+          },
+        ),
+      );
     });
   }
 
-  void saveFilter() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setStringList("filters", ["vote_average.gte=" + rating.toString()]);
-    widget.onSortChange();
+  void login() async {
+    Account account = await NetworkUtils.loginComplete();
+    Account.saveAccount(account);
   }
 
   @override
@@ -72,7 +85,7 @@ class _FilterDialogState extends State<FilterDialog> {
             Align(
               alignment: Alignment.topLeft,
               child: Text(
-                "Filter",
+                "Login",
                 style: TextStyle(
                     fontSize: 22.0,
                     fontWeight: FontWeight.w600,
@@ -80,26 +93,14 @@ class _FilterDialogState extends State<FilterDialog> {
               ),
             ),
             SizedBox(height: 16.0),
-            Text("Minimum rating " + rating.toString()),
-            Slider(
-              value: rating,
-              min: 0,
-              max: 5,
-              activeColor: Colors.red,
-              inactiveColor: Colors.red,
-              onChanged: (newValue) {
-                setState(() {
-                  rating = newValue;
-                });
-              },
-              divisions: 10,
-            ),
+            baseWidget,
             Align(
               alignment: Alignment.bottomRight,
               child: FlatButton(
                 onPressed: () {
-                  saveFilter();
                   Navigator.of(context).pop();
+                  login();
+                  widget.updateLogin();
                 },
                 child: Text("Done"),
               ),

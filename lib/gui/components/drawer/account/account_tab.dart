@@ -1,7 +1,33 @@
 import 'package:flutter/cupertino.dart';
 import 'package:moviehub/gui/components/drawer/account/profile_image.dart';
+import 'package:moviehub/models/account.dart';
 
-class AccountTab extends StatelessWidget {
+class AccountTab extends StatefulWidget {
+
+  @override
+  _AccountTabState createState() => _AccountTabState();
+}
+
+class _AccountTabState extends State<AccountTab> {
+
+  String name = "...";
+  String id = "...";
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    loadData();
+  }
+
+  void loadData() async {
+    Account account = await Account.fromJson();
+    if (account == null) return;
+    setState(() {
+      name = account.username;
+      id = account.accountId.toString();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,7 +43,7 @@ class AccountTab extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(top: 14, bottom: 5),
               child: Text(
-                "Kyllian Warmerdam",
+                name,
                 style: TextStyle(
                   color: Color(0xFF3E3E3E),
                   fontSize: 16,
@@ -26,7 +52,7 @@ class AccountTab extends StatelessWidget {
               ),
             ),
             Text(
-              "kyllian007@gmail.com",
+              id,
               style: TextStyle(
                 color: Color(0xFF333333),
                 fontSize: 12,

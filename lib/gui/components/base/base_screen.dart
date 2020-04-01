@@ -1,17 +1,23 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:moviehub/gui/components/app_bar/main_app_bar.dart';
 import 'package:moviehub/gui/components/drawer/account/account_tab.dart';
+import 'package:moviehub/gui/components/drawer/account/auth_button.dart';
 import 'package:moviehub/gui/components/drawer/list_item.dart';
+import 'package:moviehub/gui/components/login_screen/login_dialog.dart';
 import 'package:moviehub/gui/screens/created_lists/list_screen.dart';
 import 'package:moviehub/gui/screens/discover/discover_screen.dart';
 import 'package:moviehub/gui/screens/search/search_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: must_be_immutable
 class BaseScreen extends StatefulWidget {
   Widget child;
+  Widget accountTab;
+  Widget loginButton;
 
-  BaseScreen({this.child, this.changeTheme});
+  BaseScreen({this.child, this.changeTheme, this.accountTab, this.loginButton});
 
   VoidCallback changeTheme;
 
@@ -36,6 +42,24 @@ class _BaseScreenState extends State<BaseScreen> {
     });
   }
 
+  void login() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) =>
+          LoginDialog(updateLogin: () => this.updateScreen()),
+    );
+  }
+
+  void logout() async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString("account", null);
+    updateScreen();
+  }
+
+  void updateScreen() {
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,10 +71,11 @@ class _BaseScreenState extends State<BaseScreen> {
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                  AccountTab(),
+                  widget.accountTab,
                   ListItem(
                     content: ListItemContent.DISCOVER,
-                    onTap: () => changeScreen(ListItemContent.DISCOVER, context),
+                    onTap: () =>
+                        changeScreen(ListItemContent.DISCOVER, context),
                   ),
                   ListItem(
                     content: ListItemContent.SEARCH,
@@ -67,9 +92,12 @@ class _BaseScreenState extends State<BaseScreen> {
                     onTap: () => widget.changeTheme(),
                     content: ListItemContent.NIGHT_MODE,
                   ),
-                  ListItem(
-                    content: ListItemContent.LOGOUT,
-                  ),
+                  AuthButton(
+                      login: () => login(),
+                      logout: () => logout(),
+                      onChange: () {
+                        updateScreen();
+                      })
                 ],
               ),
             ),
