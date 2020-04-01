@@ -63,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
         accountTab: AccountTab(),
         loginButton: ListItem(
           content: ListItemContent.LOGOUT,
-          onTap: () => login(),
+          onTap: () => null,
         ),
       ),
     );

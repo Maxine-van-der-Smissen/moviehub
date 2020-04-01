@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:moviehub/models/account.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 enum ListItemContent{
   DISCOVER,
@@ -8,7 +9,8 @@ enum ListItemContent{
   LIST,
   STATISTICS,
   NIGHT_MODE,
-  LOGOUT
+  LOGOUT,
+  LOGIN
 }
 
 // ignore: must_be_immutable
@@ -16,10 +18,11 @@ class ListItem extends StatefulWidget {
   @override
   _ListItemState createState() => _ListItemState();
 
+  String title;
   VoidCallback onTap;
   ListItemContent content;
 
-  ListItem({this.onTap, this.content});
+  ListItem({this.title, this.onTap, this.content});
 }
 
 class _ListItemState extends State<ListItem> {
@@ -28,6 +31,12 @@ class _ListItemState extends State<ListItem> {
   Icon icon;
   bool hasSlider;
 
+
+  @override
+  void didUpdateWidget(ListItem oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    this.title = widget.title;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,13 +74,8 @@ class _ListItemState extends State<ListItem> {
     if (widget.content == ListItemContent.LIST) title = "List";
     if (widget.content == ListItemContent.STATISTICS) title = "Statistics";
     if (widget.content == ListItemContent.NIGHT_MODE) title = "Night Mode";
-    if (widget.content == ListItemContent.LOGOUT) {
-        if(await Account.fromJson() != null) {
-          title = "Logout";
-        } else {
-          title = "Login";
-        }
-    }
+    if (widget.content == ListItemContent.LOGOUT) title = "Logout";
+    if (widget.content == ListItemContent.LOGIN) title = "Login";
   }
 
   void handleIcon() {
@@ -81,6 +85,7 @@ class _ListItemState extends State<ListItem> {
     if (widget.content == ListItemContent.STATISTICS) icon = Icon(Icons.insert_chart, size: 20,);
     if (widget.content == ListItemContent.NIGHT_MODE) icon = Icon(Icons.brightness_2, size: 20,);
     if (widget.content == ListItemContent.LOGOUT) icon = Icon(Icons.chevron_left, size: 20,);
+    if (widget.content == ListItemContent.LOGIN) icon = Icon(Icons.account_circle, size: 20,);
   }
 
   Widget buildSlider() {

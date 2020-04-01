@@ -100,6 +100,7 @@ class _LoginDialogState extends State<LoginDialog> {
                 onPressed: () {
                   Navigator.of(context).pop();
                   login();
+                  widget.updateLogin();
                 },
                 child: Text("Done"),
               ),
