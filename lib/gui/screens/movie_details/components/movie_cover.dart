@@ -16,8 +16,8 @@ class MovieCover extends StatelessWidget {
             color: Colors.black.withOpacity(0.25),
             spreadRadius: 0,
             offset: Offset(
-              0.0, // horizontal, move right 10
-              2.0, // vertical, move down 10
+              0.0,
+              2.0,
             ),
             blurRadius: 4,
           )
@@ -27,7 +27,7 @@ class MovieCover extends StatelessWidget {
       width: 125,
       child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
-          child: Image.network(coverURL),
+          child: (coverURL == null) ? Image.asset("images/default/default_cover.png") : Image.network(coverURL),
       ),
     );
   }

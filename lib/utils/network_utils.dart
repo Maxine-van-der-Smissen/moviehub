@@ -3,8 +3,10 @@ import 'dart:convert';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:moviehub/models/account.dart';
+import 'package:moviehub/models/list.dart';
 import 'package:moviehub/models/movie.dart';
 import 'package:moviehub/utils/converter_utils.dart';
+import 'package:moviehub/utils/data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -12,37 +14,48 @@ class NetworkUtils {
   static final String baseUrl = "https://api.themoviedb.org/3/";
 
   // Builds a url according to the shared preferences
-  static Future<String> urlBuilder(
-      String path, SharedPreferences preferences) async {
-    List<String> headers = List();
-
+  static Future<String> urlBuilder(URLBuilderType type,
+      {String query, int listId}) async {
     await DotEnv().load(".env");
 
-    headers.add("?api_key=" +
-        DotEnv().env["apiKey"]); // Add API key to the headers list
+    switch (type) {
+      case URLBuilderType.DISCOVER:
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        List<String> filters = preferences.getStringList("filters");
+        List<String> headers = List();
+        headers.add(DotEnv().env["apiKey"]);
 
-    if (preferences != null) {
-      List<String> filters = preferences.getStringList("filters");
-      String sort = preferences.getString("sort");
+        String sort = preferences.getString("sort");
 
-      if (filters != null) headers.addAll(filters);
-      if (sort != null) headers.add("sort_by=" + sort);
+        if (filters != null) headers.addAll(filters);
+        if (sort != null) headers.add("sort_by=" + sort);
+
+        return "${baseUrl}discover/movie?api_key=${headers.join("&")}";
+      case URLBuilderType.SEARCH:
+        if (query != null) {
+          return "${baseUrl}search/movie?api_key=${DotEnv().env["apiKey"]}&query=$query";
+        }
+        throw Exception('Querystring is required');
+      case URLBuilderType.LIST:
+        if (listId != null) {
+          return "${baseUrl}list/$listId?api_key=${DotEnv().env["apiKey"]}";
+        }
+        throw Exception('ListId is required');
     }
-
-    String header = headers.join("&");
-
-    return baseUrl + path + header;
   }
 
   // Returns the movies parsed into objects of the Movie class
-  static Future<List<MovieCardModel>> fetchMovies(String url) async {
+  static Future<List<MovieCardModel>> fetchMovies(
+      String url, URLBuilderType type) async {
     List<MovieCardModel> movies = new List();
 
     final response = await http.get(url);
 
     dynamic body = response.body;
 
-    List<dynamic> movieJson = json.decode(body)['results'];
+    List<dynamic> movieJson = type == URLBuilderType.LIST
+        ? json.decode(body)['items']
+        : json.decode(body)['results'];
 
     if (response.statusCode == 200 && movieJson != null) {
       for (Map<String, dynamic> movie in movieJson) {
@@ -84,6 +97,7 @@ class NetworkUtils {
     return http
         .post(
             "${baseUrl}movie/$movieId/rating?api_key=$apiKey&session_id=$sessionId",
+            headers: {"Content-type": "application/json"},
             body: jsonEncode({"value": rating}))
         .then((response) => response.statusCode == 200);
   }
@@ -105,6 +119,7 @@ class NetworkUtils {
 
     return http
         .post("${baseUrl}list?api_key=$apiKey&session_id=$sessionId",
+            headers: {"Content-type": "application/json"},
             body: json.encode(
                 {"name": name, "description": description, "language": "en"}))
         .then((response) => response.statusCode == 201);
@@ -137,6 +152,7 @@ class NetworkUtils {
     return http
         .post(
             "${baseUrl}list/$listId/add_item?api_key=$apiKey&session_id=$sessionId",
+            headers: {"Content-type": "application/json"},
             body: json.encode({"media_id": movieId}))
         .then((response) => response.statusCode == 201);
   }
@@ -149,6 +165,7 @@ class NetworkUtils {
     return http
         .post(
             "${baseUrl}list/$listId/remove_item?api_key=$apiKey&session_id=$sessionId",
+            headers: {"Content-type": "application/json"},
             body: json.encode({"media_id": movieId}))
         .then((response) => response.statusCode == 201);
   }
@@ -197,12 +214,15 @@ class NetworkUtils {
     String requestToken = await SharedPreferences.getInstance()
         .then((preferences) => preferences.getString("request_token"));
 
+
     final sessionResponse = await http.post(
         "${baseUrl}authentication/session/new?api_key=$apiKey",
+        headers: {"Content-type": "application/json"},
         body: jsonEncode({"request_token": requestToken}));
 
     if (sessionResponse.statusCode == 200) {
-      String sessionId = jsonDecode(sessionResponse.body)["session_id"];
+      dynamic json = jsonDecode(sessionResponse.body);
+      String sessionId = json["session_id"];
 
       return fetchAccount(sessionId);
     } else {
@@ -225,5 +245,27 @@ class NetworkUtils {
     } else {
       throw Exception('Failed to get account details');
     }
+  }
+
+  static Future<List<ListCardModel>> fetchLists() async {
+    List<ListCardModel> lists = List();
+
+    await DotEnv().load(".env");
+    String apiKey = DotEnv().env["apiKey"];
+
+    Account account = await Account.fromJson();
+
+    final response = await http.get(
+        "${baseUrl}account/${account.accountId}/lists?api_key=$apiKey&session_id=${account.sessionId}");
+
+    Map<String, dynamic> json = jsonDecode(response.body);
+
+    if (response.statusCode == 200 && json != null) {
+      for (Map<String, dynamic> listCardJson in json["results"]) {
+        lists.add(Converter.convertListCard(listCardJson));
+      }
+    }
+
+    return lists;
   }
 }
