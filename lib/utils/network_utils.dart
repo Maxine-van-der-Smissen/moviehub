@@ -97,6 +97,7 @@ class NetworkUtils {
     return http
         .post(
             "${baseUrl}movie/$movieId/rating?api_key=$apiKey&session_id=$sessionId",
+            headers: {"Content-type": "application/json"},
             body: jsonEncode({"value": rating}))
         .then((response) => response.statusCode == 200);
   }
@@ -118,6 +119,7 @@ class NetworkUtils {
 
     return http
         .post("${baseUrl}list?api_key=$apiKey&session_id=$sessionId",
+            headers: {"Content-type": "application/json"},
             body: json.encode(
                 {"name": name, "description": description, "language": "en"}))
         .then((response) => response.statusCode == 201);
@@ -150,6 +152,7 @@ class NetworkUtils {
     return http
         .post(
             "${baseUrl}list/$listId/add_item?api_key=$apiKey&session_id=$sessionId",
+            headers: {"Content-type": "application/json"},
             body: json.encode({"media_id": movieId}))
         .then((response) => response.statusCode == 201);
   }
@@ -162,6 +165,7 @@ class NetworkUtils {
     return http
         .post(
             "${baseUrl}list/$listId/remove_item?api_key=$apiKey&session_id=$sessionId",
+            headers: {"Content-type": "application/json"},
             body: json.encode({"media_id": movieId}))
         .then((response) => response.statusCode == 201);
   }
@@ -210,12 +214,15 @@ class NetworkUtils {
     String requestToken = await SharedPreferences.getInstance()
         .then((preferences) => preferences.getString("request_token"));
 
+
     final sessionResponse = await http.post(
         "${baseUrl}authentication/session/new?api_key=$apiKey",
+        headers: {"Content-type": "application/json"},
         body: jsonEncode({"request_token": requestToken}));
 
     if (sessionResponse.statusCode == 200) {
-      String sessionId = jsonDecode(sessionResponse.body)["session_id"];
+      dynamic json = jsonDecode(sessionResponse.body);
+      String sessionId = json["session_id"];
 
       return fetchAccount(sessionId);
     } else {
