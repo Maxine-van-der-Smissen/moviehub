@@ -22,6 +22,7 @@ class MovieCardTextColumn extends StatelessWidget {
       children: <Widget>[
         Text(
           movieTitle,
+          maxLines: 2,
           style: TextStyle(
             fontSize: 16,
             color: Color(0xFF3e3e3e),
