@@ -27,12 +27,12 @@ class _BaseScreenState extends State<BaseScreen> {
   }
 
   void changeScreen(ListItemContent content, BuildContext context) {
-    if (content == ListItemContent.NIGHT_MODE) return;
     Navigator.pop(context);
     setState(() {
       if (content == ListItemContent.DISCOVER) widget.child = DiscoverScreen();
       if (content == ListItemContent.SEARCH) widget.child = SearchScreen();
       if (content == ListItemContent.LIST) widget.child = ListScreen();
+      if (content == ListItemContent.NIGHT_MODE) return;
     });
   }
 
