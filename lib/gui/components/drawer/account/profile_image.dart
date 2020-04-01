@@ -14,7 +14,7 @@ class ProfileImage extends StatelessWidget {
     return CircleAvatar(
       radius: 24,
       backgroundColor: Color(0xFFF9E7C3),
-      backgroundImage: NetworkImage((url == null) ? defaultUrl : this.url),
+      backgroundImage: NetworkImage((url != null) ? this.url : defaultUrl),
     );
   }
 }

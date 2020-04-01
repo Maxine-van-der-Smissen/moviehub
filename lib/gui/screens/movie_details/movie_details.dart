@@ -77,7 +77,7 @@ class MovieDetails extends StatelessWidget {
                     SizedBox(
                       height: 30,
                     ),
-                    (movieDetails.movieCast.length == 0) ? Text("") : MovieCast(movieDetails.movieCast),
+                    (movieDetails.movieCast.length != 0) ? MovieCast(movieDetails.movieCast) : Text(""),
                   ],
                 ),
               )
