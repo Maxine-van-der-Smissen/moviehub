@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:moviehub/models/account.dart';
+import 'package:moviehub/models/list.dart';
 import 'package:moviehub/utils/network_utils.dart';
 
 // ignore: must_be_immutable
@@ -23,7 +24,7 @@ class _ListCreationDialogState extends State<ListCreationDialog> {
 
   void createList(String name, String description) async {
     String sessionId = await Account.fromJson().then((account) => account.sessionId);
-    bool status = await NetworkUtils.createList(name, description, sessionId);
+    ListCardModel newCreatedList = await NetworkUtils.createList(name, description, sessionId);
   }
 
   @override

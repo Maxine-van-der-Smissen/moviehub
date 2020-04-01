@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:moviehub/gui/components/movie_card/movie_card_cover.dart';
+import 'package:moviehub/gui/screens/list_details/list_details.dart';
 import 'package:moviehub/models/list.dart';
+import 'package:moviehub/models/movie.dart';
+import 'package:moviehub/utils/network_utils.dart';
 import 'list_card_text_column.dart';
 
 class ListCard extends StatelessWidget {
@@ -12,12 +15,13 @@ class ListCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-//        MovieDetailsModel movieDetails =
-//        await NetworkUtils.fetchMovieDetails(movie.movieId);
-//        Navigator.push(
-//            context,
-//            MaterialPageRoute(
-//                builder: (context) => MovieDetails(movieDetails)));
+        List<MovieCardModel> listDetails = await NetworkUtils.fetchList(list.id);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ListDetails(listDetails),
+          ),
+        );
       },
       child: Container(
         // Main Container
