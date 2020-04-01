@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:moviehub/gui/components/app_bar/main_app_bar.dart';
 import 'package:moviehub/gui/components/drawer/account/account_tab.dart';
 import 'package:moviehub/gui/components/drawer/list_item.dart';
-import 'package:moviehub/gui/components/search_bar/search_bar.dart';
 import 'package:moviehub/gui/screens/created_lists/list_screen.dart';
 import 'package:moviehub/gui/screens/discover/discover_screen.dart';
+import 'package:moviehub/gui/screens/search/search_screen.dart';
 
+// ignore: must_be_immutable
 class BaseScreen extends StatefulWidget {
   Widget child;
 
@@ -26,11 +27,12 @@ class _BaseScreenState extends State<BaseScreen> {
   }
 
   void changeScreen(ListItemContent content, BuildContext context) {
-    if (content == ListItemContent.NIGHT_MODE) return;
     Navigator.pop(context);
     setState(() {
       if (content == ListItemContent.DISCOVER) widget.child = DiscoverScreen();
+      if (content == ListItemContent.SEARCH) widget.child = SearchScreen();
       if (content == ListItemContent.LIST) widget.child = ListScreen();
+      if (content == ListItemContent.NIGHT_MODE) return;
     });
   }
 
