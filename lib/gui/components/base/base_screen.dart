@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:moviehub/gui/components/app_bar/main_app_bar.dart';
 import 'package:moviehub/gui/components/drawer/account/account_tab.dart';
 import 'package:moviehub/gui/components/drawer/list_item.dart';
+import 'package:moviehub/gui/components/login_screen/login_dialog.dart';
 import 'package:moviehub/gui/components/search_bar/search_bar.dart';
 import 'package:moviehub/gui/screens/created_lists/list_screen.dart';
 import 'package:moviehub/gui/screens/discover/discover_screen.dart';
@@ -32,6 +33,13 @@ class _BaseScreenState extends State<BaseScreen> {
       if (content == ListItemContent.DISCOVER) widget.child = DiscoverScreen();
       if (content == ListItemContent.LIST) widget.child = ListScreen();
     });
+  }
+
+  void login() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => LoginDialog(),
+    );
   }
 
   @override
@@ -67,6 +75,7 @@ class _BaseScreenState extends State<BaseScreen> {
                   ),
                   ListItem(
                     content: ListItemContent.LOGOUT,
+                    onTap: () => login(),
                   ),
                 ],
               ),
