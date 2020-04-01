@@ -6,7 +6,11 @@ import 'package:moviehub/models/account.dart';
 import 'package:moviehub/utils/network_utils.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+// ignore: must_be_immutable
 class LoginDialog extends StatefulWidget {
+  VoidCallback updateLogin;
+
+  LoginDialog({this.updateLogin});
 
   @override
   _LoginDialogState createState() => _LoginDialogState();

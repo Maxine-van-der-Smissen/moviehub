@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:moviehub/models/account.dart';
 
 enum ListItemContent{
   DISCOVER,
@@ -58,13 +59,19 @@ class _ListItemState extends State<ListItem> {
     handleIcon();
   }
 
-  void handleTitle() {
+  void handleTitle() async {
     if (widget.content == ListItemContent.DISCOVER) title = "Discover";
     if (widget.content == ListItemContent.SEARCH) title = "Search";
     if (widget.content == ListItemContent.LIST) title = "List";
     if (widget.content == ListItemContent.STATISTICS) title = "Statistics";
     if (widget.content == ListItemContent.NIGHT_MODE) title = "Night Mode";
-    if (widget.content == ListItemContent.LOGOUT) title = "Logout";
+    if (widget.content == ListItemContent.LOGOUT) {
+        if(await Account.fromJson() != null) {
+          title = "Logout";
+        } else {
+          title = "Login";
+        }
+    }
   }
 
   void handleIcon() {

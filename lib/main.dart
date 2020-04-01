@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:moviehub/gui/components/drawer/account/account_tab.dart';
 import 'package:moviehub/gui/screens/discover/discover_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'gui/colors/custom_material_color.dart';
 import 'gui/components/base/base_screen.dart';
+import 'gui/components/drawer/list_item.dart';
 
 void main() => runApp(MyApp());
 
@@ -57,7 +59,12 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       home: BaseScreen(
         changeTheme: () => switchTheme(),
-        child: DiscoverScreen()
+        child: DiscoverScreen(),
+        accountTab: AccountTab(),
+        loginButton: ListItem(
+          content: ListItemContent.LOGOUT,
+          onTap: () => login(),
+        ),
       ),
     );
   }

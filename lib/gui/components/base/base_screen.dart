@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:moviehub/gui/components/app_bar/main_app_bar.dart';
-import 'package:moviehub/gui/components/drawer/account/account_tab.dart';
 import 'package:moviehub/gui/components/drawer/list_item.dart';
 import 'package:moviehub/gui/components/login_screen/login_dialog.dart';
 import 'package:moviehub/gui/screens/created_lists/list_screen.dart';
@@ -11,8 +10,10 @@ import 'package:moviehub/gui/screens/search/search_screen.dart';
 // ignore: must_be_immutable
 class BaseScreen extends StatefulWidget {
   Widget child;
+  Widget accountTab;
+  Widget loginButton;
 
-  BaseScreen({this.child, this.changeTheme});
+  BaseScreen({this.child, this.changeTheme, this.accountTab, this.loginButton});
 
   VoidCallback changeTheme;
 
@@ -40,7 +41,9 @@ class _BaseScreenState extends State<BaseScreen> {
   void login() {
     showDialog(
       context: context,
-      builder: (BuildContext context) => LoginDialog(),
+      builder: (BuildContext context) => LoginDialog(updateLogin: () => {
+        context
+      }),
     );
   }
 
@@ -55,7 +58,7 @@ class _BaseScreenState extends State<BaseScreen> {
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                  AccountTab(),
+                  widget.accountTab,
                   ListItem(
                     content: ListItemContent.DISCOVER,
                     onTap: () => changeScreen(ListItemContent.DISCOVER, context),
@@ -75,10 +78,7 @@ class _BaseScreenState extends State<BaseScreen> {
                     onTap: () => widget.changeTheme(),
                     content: ListItemContent.NIGHT_MODE,
                   ),
-                  ListItem(
-                    content: ListItemContent.LOGOUT,
-                    onTap: () => login(),
-                  ),
+                  widget.loginButton,
                 ],
               ),
             ),
