@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:moviehub/gui/components/buttons/option_button.dart';
 import 'package:moviehub/gui/components/movie_card/movie_card.dart';
+import 'package:moviehub/gui/screens/discover/components/filter_dialog.dart';
+import 'package:moviehub/gui/screens/discover/components/sort_dialog.dart';
 import 'package:moviehub/models/movie.dart';
 import 'package:moviehub/utils/data.dart';
 import 'package:moviehub/utils/network_utils.dart';
@@ -24,7 +26,6 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
 
   void loadMovies() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setString("sort", "original_title.desc");
     preferences.setStringList("filters", ["year=2020", "vote_average.gte=5"]);
     String url = await NetworkUtils.urlBuilder(URLBuilderType.DISCOVER);
     movies = await NetworkUtils.fetchMovies(url, URLBuilderType.DISCOVER);
@@ -63,17 +64,43 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                   Spacer(),
                   Row(
                     children: <Widget>[
-                      OptionButton(Icon(
-                        Icons.sort_by_alpha,
-                        size: 18,
-                      )),
+                      Container(
+                        width: 35,
+                        child: FlatButton(
+                          padding: EdgeInsets.all(0.0),
+                          child: OptionButton(Icon(
+                            Icons.sort_by_alpha,
+                            size: 18,
+                          )),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) => SortDialog(onSortChange:() => loadMovies(),),
+                            );
+                          },
+                        ),
+                      ),
                       SizedBox(
                         width: 12,
                       ),
-                      OptionButton(Icon(
-                        Icons.filter_list,
-                        size: 18,
-                      )),
+                      Container(
+                        width: 35,
+                        child: FlatButton(
+                          padding: EdgeInsets.all(0.0),
+                          child: OptionButton(
+                            Icon(
+                              Icons.filter_list,
+                              size: 18,
+                            ),
+                          ),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) => FilterDialog(),
+                            );
+                          },
+                        ),
+                      ),
                     ],
                   ),
                 ],
