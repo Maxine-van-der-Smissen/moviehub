@@ -22,19 +22,29 @@ class _ListScreenState extends State<ListScreen> {
     loadLists();
   }
 
-  void loadLists() async {
-    lists = await NetworkUtils.fetchLists();
+  void addList(ListCardModel newListCard) {
+    lists.insert(0, newListCard);
+    displayLists();
+  }
+
+  void displayLists() {
     setState(() {
       listWidget = Container(
         width: 1000,
         height: MediaQuery.of(context).size.height,
         child: ListView.builder(
-            itemCount: lists.length,
-            itemBuilder: (context, i) {
-              return ListCard(list: lists[i]);
-            }),
+          itemCount: lists.length,
+          itemBuilder: (context, i) {
+            return ListCard(list: lists[i]);
+          },
+        ),
       );
     });
+  }
+
+  void loadLists() async {
+    lists = await NetworkUtils.fetchLists();
+    displayLists();
   }
 
   @override
@@ -53,7 +63,9 @@ class _ListScreenState extends State<ListScreen> {
             onPressed: () {
               showDialog(
                 context: context,
-                builder: (BuildContext context) => ListCreationDialog(),
+                builder: (BuildContext context) => ListCreationDialog(
+                  callback: addList,
+                ),
               );
             },
           ),

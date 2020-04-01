@@ -7,6 +7,9 @@ import 'package:moviehub/utils/network_utils.dart';
 
 // ignore: must_be_immutable
 class ListCreationDialog extends StatefulWidget {
+  Function(ListCardModel) callback;
+  ListCreationDialog({this.callback});
+
   @override
   _ListCreationDialogState createState() => _ListCreationDialogState();
 }
@@ -25,6 +28,7 @@ class _ListCreationDialogState extends State<ListCreationDialog> {
   void createList(String name, String description) async {
     String sessionId = await Account.fromJson().then((account) => account.sessionId);
     ListCardModel newCreatedList = await NetworkUtils.createList(name, description, sessionId);
+    if (newCreatedList != null) widget.callback(newCreatedList);
   }
 
   @override
