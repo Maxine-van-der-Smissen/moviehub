@@ -10,7 +10,7 @@ class MovieBackdrop extends StatelessWidget {
     return Container(
       height: 231.5,
       width: MediaQuery.of(context).size.width,
-      child: Image.network(coverURL),
+      child: (coverURL == null) ? Image.asset("images/default/default_backdrop.png") : Image.network(coverURL),
     );
   }
 }

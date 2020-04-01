@@ -27,7 +27,7 @@ class MovieCover extends StatelessWidget {
       width: 125,
       child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
-          child: Image.network(coverURL),
+          child: (coverURL == null) ? Image.asset("images/default/default_cover.png") : Image.network(coverURL),
       ),
     );
   }
