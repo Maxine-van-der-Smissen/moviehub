@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moviehub/gui/components/movie_card/movie_card_cover.dart';
-import 'package:moviehub/gui/components/movie_card/movie_card_text_column.dart';
 import 'package:moviehub/models/list.dart';
-import 'package:moviehub/utils/network_utils.dart';
-
 import 'list_card_text_column.dart';
 
 class ListCard extends StatelessWidget {
