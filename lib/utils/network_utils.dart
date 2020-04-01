@@ -112,17 +112,23 @@ class NetworkUtils {
         .then((response) => response.statusCode == 200);
   }
 
-  static Future<bool> createList(
+  static Future<ListCardModel> createList(
       String name, String description, String sessionId) async {
     await DotEnv().load(".env");
     String apiKey = DotEnv().env["apiKey"];
 
-    return http
-        .post("${baseUrl}list?api_key=$apiKey&session_id=$sessionId",
-            headers: {"Content-type": "application/json"},
-            body: json.encode(
-                {"name": name, "description": description, "language": "en"}))
-        .then((response) => response.statusCode == 201);
+    final response = await http.post(
+        "${baseUrl}list?api_key=$apiKey&session_id=$sessionId",
+        headers: {"Content-type": "application/json"},
+        body: jsonEncode(
+            {"name": name, "description": description, "language": "en"}));
+
+    Map<String, dynamic> json = jsonDecode(response.body);
+
+    if (response.statusCode == 201 && json != null) {
+      return ListCardModel(json["list_id"], 0, name, description);
+    } else
+      throw Exception("Failed to create the list");
   }
 
   static Future<bool> deleteList(int listId, String sessionId) async {
@@ -213,7 +219,6 @@ class NetworkUtils {
 
     String requestToken = await SharedPreferences.getInstance()
         .then((preferences) => preferences.getString("request_token"));
-
 
     final sessionResponse = await http.post(
         "${baseUrl}authentication/session/new?api_key=$apiKey",
