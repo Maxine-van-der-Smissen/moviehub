@@ -48,6 +48,9 @@ class _SearchBarState extends State<SearchBar> {
             borderRadius: BorderRadius.all(Radius.circular(5)),
           ),
           labelText: "Search for movies",
+          labelStyle: TextStyle(
+            color: Color(0xFFCCCCCC)
+          )
         ),
       ),
     );
