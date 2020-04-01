@@ -41,6 +41,7 @@ class MovieCast extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class MovieCastMember extends StatelessWidget {
   String castMemberName;
   String url;
