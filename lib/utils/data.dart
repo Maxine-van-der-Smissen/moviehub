@@ -23,3 +23,5 @@ class Data {
     Genre(37, "Western")
   ], key: (genre) => genre.id, value: (genre) => genre.name);
 }
+
+enum URLBuilderType { DISCOVER, SEARCH, LIST }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:moviehub/gui/components/buttons/option_button.dart';
 import 'package:moviehub/gui/components/movie_card/movie_card.dart';
 import 'package:moviehub/models/movie.dart';
+import 'package:moviehub/utils/data.dart';
 import 'package:moviehub/utils/network_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,7 +13,6 @@ class DiscoverScreen extends StatefulWidget {
 }
 
 class _DiscoverScreenState extends State<DiscoverScreen> {
-
   Widget movieWidget = Container();
   List<MovieCardModel> movies;
 
@@ -25,17 +25,18 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
   void loadMovies() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString("sort", "original_title.desc");
-    preferences
-        .setStringList("filters", ["year=2020", "vote_average.gte=5"]);
-    String url = await NetworkUtils.urlBuilder("discover/movie", preferences);
-    movies = await NetworkUtils.fetchMovies(url);
+    preferences.setStringList("filters", ["year=2020", "vote_average.gte=5"]);
+    String url = await NetworkUtils.urlBuilder(URLBuilderType.DISCOVER);
+    movies = await NetworkUtils.fetchMovies(url, URLBuilderType.DISCOVER);
     setState(() {
       movieWidget = Container(
         width: 1000,
         height: MediaQuery.of(context).size.height,
-        child: ListView.builder(itemCount: movies.length ,itemBuilder: (context, i) {
-          return MovieCard(movie: movies[i]);
-        }),
+        child: ListView.builder(
+            itemCount: movies.length,
+            itemBuilder: (context, i) {
+              return MovieCard(movie: movies[i]);
+            }),
       );
     });
   }
