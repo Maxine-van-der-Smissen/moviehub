@@ -4,6 +4,7 @@ import 'package:moviehub/gui/components/buttons/back_button.dart';
 import 'package:moviehub/gui/screens/movie_details/components/movie_cast.dart';
 import 'package:moviehub/gui/screens/movie_details/components/movie_cover.dart';
 import 'package:moviehub/gui/screens/movie_details/components/movie_details_header.dart';
+import 'package:moviehub/gui/screens/movie_details/components/movie_ratings.dart';
 import 'package:moviehub/gui/screens/movie_details/components/movie_synopsis.dart';
 import 'package:moviehub/models/movie.dart';
 
@@ -66,18 +67,22 @@ class MovieDetails extends StatelessWidget {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(left: 15, right: 15),
+                margin: EdgeInsets.only(left: 15, right: 15, bottom: 55),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     SizedBox(
-                      height: 30,
+                      height: 25,
                     ),
                     MovieSynopsis(movieDetails.movieSynopsis),
                     SizedBox(
-                      height: 30,
+                      height: 25,
                     ),
                     (movieDetails.movieCast.length != 0) ? MovieCast(movieDetails.movieCast) : Text(""),
+                    SizedBox(
+                      height: 25,
+                    ),
+                    MovieRatings(votes: movieDetails.movieRatingCount, rating: movieDetails.movieRating,),
                   ],
                 ),
               )

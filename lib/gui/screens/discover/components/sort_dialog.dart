@@ -29,7 +29,7 @@ class _SortDialogState extends State<SortDialog> {
 
   void loadSort() async{
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    if (preferences.getString("sort") == null) preferences.setString("sort", "original_title.desc");
+    if (preferences.getString("sort") == null) preferences.setString("sort", "popularity.desc");
     String currentSort = preferences.getString("sort");
     List<String> split = currentSort.split(".");
     setState(() {
