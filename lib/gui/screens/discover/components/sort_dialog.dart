@@ -11,7 +11,6 @@ class SortDialog extends StatefulWidget {
 
   SortDialog({this.onSortChange});
 
-
 }
 
 class _SortDialogState extends State<SortDialog> {

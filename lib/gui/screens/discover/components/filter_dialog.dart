@@ -44,6 +44,7 @@ class FilterDialog extends StatelessWidget {
               ),
             ),
             SizedBox(height: 16.0),
+            Text("We didn't find any filters yet :("),
             Align(
               alignment: Alignment.bottomRight,
               child: FlatButton(
