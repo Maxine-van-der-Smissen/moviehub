@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:moviehub/models/account.dart';
 import 'package:moviehub/utils/network_utils.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -41,6 +42,12 @@ class _LoginDialogState extends State<LoginDialog> {
         ),
       );
     });
+  }
+
+  void login() async {
+    Account account = await NetworkUtils.loginComplete();
+    print(account);
+    Account.saveAccount(account);
   }
 
   @override
@@ -89,6 +96,7 @@ class _LoginDialogState extends State<LoginDialog> {
               child: FlatButton(
                 onPressed: () {
                   Navigator.of(context).pop();
+                  login();
                 },
                 child: Text("Done"),
               ),

@@ -13,11 +13,7 @@ class MovieCardCover extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(5),
       child: FadeInImage(
-<<<<<<< Updated upstream
         image: (movieCoverURL != null) ? NetworkImage(movieCoverURL) : AssetImage("images/default/default_cover.png"),
-=======
-        image: NetworkImage(movieCoverURL),
->>>>>>> Stashed changes
         placeholder: AssetImage("images/film_placeholder.png"),
       ),
     );
