@@ -29,14 +29,14 @@ class _FilterDialogState extends State<FilterDialog> {
     print(appliedFilters);
     setState(() {
       appliedFilters.forEach((filter) {
-        if (filter.startsWith("vote_average")) rating = double.parse(filter.split("=")[1]);
+        if (filter.startsWith("vote_average")) rating = double.parse(filter.split("=")[1]).round() * 0.5;
       });
     });
   }
 
   void saveFilter() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setStringList("filters", ["vote_average.gte=" + rating.toString()]);
+    preferences.setStringList("filters", ["vote_average.gte=${rating * 2}"]);
     widget.onSortChange();
   }
 

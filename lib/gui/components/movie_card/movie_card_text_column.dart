@@ -45,6 +45,7 @@ class MovieCardTextColumn extends StatelessWidget {
           // Text row container
           child: Container(
               child: Text(movieGenres,
+                  maxLines: 1,
                   style: TextStyle(color: Color(0xFFAFAFAF)))),
         ),
       ],

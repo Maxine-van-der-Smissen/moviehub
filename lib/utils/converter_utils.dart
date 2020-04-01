@@ -17,7 +17,7 @@ class Converter {
     List<dynamic> crewJson = creditsJson["crew"];
 
     String director =
-        crewJson.firstWhere((crew) => crew["job"] == "Director")["name"];
+        crewJson.firstWhere((crew) => crew["job"] == "Director", orElse: () => {"name" : ""})["name"];
 
     int durationMin = movieJson["runtime"];
     String duration = "${(durationMin / 60).floor()}h ${durationMin % 60}m";

@@ -8,7 +8,6 @@ class MovieBackdrop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 231.5,
       width: MediaQuery.of(context).size.width,
       child: (coverURL != null) ? Image.network(coverURL) : Image.asset("images/default/default_backdrop.png"),
     );
