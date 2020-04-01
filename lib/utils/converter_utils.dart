@@ -7,7 +7,7 @@ import 'package:moviehub/models/movie.dart';
 import 'data.dart';
 
 class Converter {
-  static final String baseTMDBImageUrl = "https://image.tmdb.org/t/p/original";
+  static final String baseTMDBImageUrl = "https://image.tmdb.org/t/p/";
   static final String baseGravatarImageUrl = "https://www.gravatar.com/avatar/";
 
   static MovieDetailsModel convertMovieDetails(
@@ -28,7 +28,10 @@ class Converter {
 
     for (Map<String, dynamic> castJson in creditsJson["cast"]) {
       cast.add(CastMember(
-          castJson["name"], "$baseTMDBImageUrl${castJson["profile_path"]}"));
+          castJson["name"],
+          castJson["profile_path"] != null
+              ? "${baseTMDBImageUrl}w185${castJson["profile_path"]}"
+              : null));
     }
 
     return MovieDetailsModel(
@@ -41,8 +44,12 @@ class Converter {
         List(),
         movieJson["release_date"],
         duration,
-        "$baseTMDBImageUrl${movieJson["poster_path"]}",
-        "$baseTMDBImageUrl${movieJson["backdrop_path"]}",
+        movieJson["poster_path"] != null
+            ? "${baseTMDBImageUrl}w342${movieJson["poster_path"]}"
+            : null,
+        movieJson["backdrop_path"] != null
+            ? "${baseTMDBImageUrl}w1280${movieJson["backdrop_path"]}"
+            : null,
         (movieJson["vote_average"] * 1.0).round() * .5,
         movieJson["vote_count"]);
   }
@@ -57,7 +64,9 @@ class Converter {
     return MovieCardModel(
         movieId: movie["id"],
         movieTitle: movie["title"],
-        movieCoverURL: baseTMDBImageUrl + movie["poster_path"],
+        movieCoverURL: movie["poster_path"] != null
+            ? "${baseTMDBImageUrl}w342${movie["poster_path"]}"
+            : null,
         movieRating: (movie["vote_average"] * 1.0).round() * .5,
         movieReleaseDate: movie["release_date"],
         movieGenres: genreList.join(", "));
