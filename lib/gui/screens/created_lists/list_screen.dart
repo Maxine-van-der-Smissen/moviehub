@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:moviehub/gui/components/list_card/list_card.dart';
+import 'package:moviehub/gui/screens/created_lists/components/list_creation_dialog.dart';
 import 'package:moviehub/models/list.dart';
 
 // ignore: must_be_immutable
@@ -26,7 +27,12 @@ class ListScreen extends StatelessWidget {
               color: Color(0xFFFFFFFF),
             ),
             backgroundColor: Color(0xFFFF6F31),
-            onPressed: () {},
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) => ListCreationDialog(),
+              );
+            },
           ),
         ),
       ),
