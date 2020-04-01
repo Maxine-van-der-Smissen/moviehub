@@ -1,8 +1,53 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class SortDialog extends StatelessWidget {
+class SortDialog extends StatefulWidget {
+  @override
+  _SortDialogState createState() => _SortDialogState();
+
+  VoidCallback onSortChange;
+
+  SortDialog({this.onSortChange});
+
+
+}
+
+class _SortDialogState extends State<SortDialog> {
+
+  String sortName;
+  String sortPosition;
+
+  List<String> sorts = ['popularity', 'release_date', 'revenue', 'primary_release_date', 'vote_average', 'vote_count'].toList();
+  List<String> ways = ['ascending', 'descending'].toList();
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    loadSort();
+  }
+
+  void loadSort() async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    if (preferences.getString("sort") == null) preferences.setString("sort", "original_title.desc");
+    String currentSort = preferences.getString("sort");
+    List<String> split = currentSort.split(".");
+    setState(() {
+      sortName = split[0];
+      sortPosition = split[1] == "asc" ? "ascending" : "descending";
+    });
+  }
+
+  void saveSort() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String sortString = sortName;
+    sortString += sortPosition == "ascending" ? ".asc" : ".desc";
+    preferences.setString("sort", sortString);
+    widget.onSortChange();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -43,10 +88,48 @@ class SortDialog extends StatelessWidget {
               ),
             ),
             SizedBox(height: 16.0),
+            Row(
+              children: <Widget>[
+                DropdownButton<String>(
+                  value: sortName,
+                  icon: Icon(Icons.arrow_drop_down),
+                  onChanged: (String newValue) {
+                    setState(() {
+                      sortName = newValue;
+                    });
+                  },
+                  items: sorts
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+                Spacer(),
+                DropdownButton<String>(
+                  value: sortPosition,
+                  icon: Icon(Icons.arrow_drop_down),
+                  onChanged: (String newValue) {
+                    setState(() {
+                      sortPosition = newValue;
+                    });
+                  },
+                  items: ways
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+              ],
+            ),
             Align(
               alignment: Alignment.bottomRight,
               child: FlatButton(
                 onPressed: () {
+                  saveSort();
                   Navigator.of(context).pop();
                 },
                 child: Text("Done"),

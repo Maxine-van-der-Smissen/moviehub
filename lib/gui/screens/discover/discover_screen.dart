@@ -25,7 +25,6 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
 
   void loadMovies() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setString("sort", "original_title.desc");
     preferences.setStringList("filters", ["year=2020", "vote_average.gte=5"]);
     String url = await NetworkUtils.urlBuilder("discover/movie", preferences);
     movies = await NetworkUtils.fetchMovies(url);
@@ -75,7 +74,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                           onPressed: () {
                             showDialog(
                               context: context,
-                              builder: (BuildContext context) => SortDialog(),
+                              builder: (BuildContext context) => SortDialog(onSortChange:() => loadMovies(),),
                             );
                           },
                         ),
