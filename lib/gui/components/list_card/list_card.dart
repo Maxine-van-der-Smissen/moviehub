@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moviehub/gui/components/movie_card/movie_card_cover.dart';
 import 'package:moviehub/gui/screens/list_details/list_details.dart';
+import 'package:moviehub/models/account.dart';
 import 'package:moviehub/models/list.dart';
 import 'package:moviehub/models/movie.dart';
 import 'package:moviehub/utils/network_utils.dart';
@@ -11,11 +12,18 @@ class ListCard extends StatelessWidget {
 
   const ListCard({this.list}) : super();
 
+  void deleteList(int id) async {
+    String sessionId = await Account.fromJson().then((account) => account.sessionId);
+    bool success = await NetworkUtils.deleteList(id, sessionId);
+    print(success);
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        List<MovieCardModel> listDetails = await NetworkUtils.fetchList(list.id);
+        List<MovieCardModel> listDetails =
+            await NetworkUtils.fetchList(list.id);
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -37,9 +45,10 @@ class ListCard extends StatelessWidget {
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
-                      spreadRadius: 0,
-                      blurRadius: 10)
+                    color: Colors.black.withOpacity(0.05),
+                    spreadRadius: 0,
+                    blurRadius: 10,
+                  )
                 ],
                 borderRadius: BorderRadius.circular(5),
                 color: Theme.of(context).backgroundColor,
@@ -49,10 +58,29 @@ class ListCard extends StatelessWidget {
                 padding: const EdgeInsets.all(10.0),
                 child: Container(
                   margin: EdgeInsets.only(left: 125, right: 14),
-                  child: ListCardTextColumn(
-                    movieCount: list.movieCount,
-                    listTitle: list.name,
-                    listDescription: list.description,
+                  child: Stack(
+                    children: <Widget>[
+                      ListCardTextColumn(
+                        movieCount: list.movieCount,
+                        listTitle: list.name,
+                        listDescription: list.description,
+                      ),
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: Container(
+                          width: 35,
+                          child: FlatButton(
+                            padding: EdgeInsets.all(0.0),
+                            child: Icon(
+                              Icons.delete,
+                              size: 20,
+                              color: Color(0xFF3e3e3e).withOpacity(0.5),
+                            ),
+                            onPressed: () { deleteList(list.id);},
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ),
