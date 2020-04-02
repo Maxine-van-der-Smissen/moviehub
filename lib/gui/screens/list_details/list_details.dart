@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:moviehub/gui/components/app_bar/main_app_bar.dart';
 import 'package:moviehub/gui/components/movie_card/movie_card.dart';
 import 'package:moviehub/models/movie.dart';
 
@@ -39,25 +40,30 @@ class _ListDetailsState extends State<ListDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: MainAppBar(),
       body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(bottom: 15.0),
-              child: Container(
-                margin: EdgeInsets.only(left: 15, right: 15),
-                child: Text(
-                  "List name",
-                  style: TextStyle(
-                      color: Color(0xFF3e3e3e),
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700),
+        child: Container(
+          margin: EdgeInsets.only(left: 15,right: 15),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(bottom: 15.0),
+                child: Container(
+                  margin: EdgeInsets.only(left: 15, right: 15),
+                  child: Text(
+                    "List name",
+                    style: TextStyle(
+                        color: Color(0xFF3e3e3e),
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700),
+                  ),
                 ),
               ),
-            ),
-            movieWidget,
-          ],
+              movieWidget,
+              SizedBox(height: 150,)
+            ],
+          ),
         ),
       ),
     );
