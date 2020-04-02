@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:moviehub/gui/components/list_card/list_card.dart';
+import 'package:moviehub/gui/components/text/page_title.dart';
 import 'package:moviehub/gui/screens/created_lists/components/list_creation_dialog.dart';
 import 'package:moviehub/models/list.dart';
 import 'package:moviehub/utils/network_utils.dart';
@@ -64,7 +65,23 @@ class _ListScreenState extends State<ListScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: listWidget,
+        body: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(bottom: 15.0),
+                child: Container(
+                  margin: EdgeInsets.only(top: 15,left: 15, right: 15),
+                  child: Align(
+                      alignment: Alignment.topLeft,
+                      child: PageTitle("Created lists"),
+                  ),
+                ),
+              ),
+              listWidget,
+            ],
+          ),
+        ),
         floatingActionButton: Container(
           margin: EdgeInsets.only(bottom: 25, left: 25),
           child: FloatingActionButton(
