@@ -3,8 +3,10 @@ import 'dart:convert';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:moviehub/models/account.dart';
+import 'package:moviehub/models/genres.dart';
 import 'package:moviehub/models/list.dart';
 import 'package:moviehub/models/movie.dart';
+import 'package:moviehub/models/statistics.dart';
 import 'package:moviehub/utils/converter_utils.dart';
 import 'package:moviehub/utils/data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -176,7 +178,7 @@ class NetworkUtils {
         .then((response) => response.statusCode == 201);
   }
 
-  static Future<List<MovieCardModel>> fetchList(int listId) async {
+  static Future<ListDetailsModel> fetchList(int listId) async {
     List<MovieCardModel> movies = List();
 
     await DotEnv().load(".env");
@@ -190,9 +192,11 @@ class NetworkUtils {
       for (Map<String, dynamic> movieJson in listJson["items"]) {
         movies.add(Converter.convertMovieCard(movieJson));
       }
-    }
 
-    return movies;
+      return ListDetailsModel(num.parse(listJson["id"]), listJson["name"],
+          listJson["description"], movies);
+    } else
+      throw Exception("Couldn't get the details of this list");
   }
 
   static Future<String> fetchRequestURL() async {
@@ -274,5 +278,63 @@ class NetworkUtils {
     }
 
     return lists;
+  }
+
+  static Future<StatisticsModel> fetchStatistics() async {
+    Map<int, int> genreCount = Map();
+    Map<ListDetailsModel, double> listRating = Map();
+    Map<int, double> movieRatingsMap = Map();
+
+    List<Future<ListDetailsModel>> futuresList = List();
+
+    await fetchLists().then((lists) => {
+          lists.forEach(
+              (listModel) => {futuresList.add(fetchList(listModel.id))})
+        });
+
+    await Future.wait(futuresList, eagerError: true).then(
+        (listDetailsModelList) => listDetailsModelList.forEach(
+            (listDetailsModel) =>
+                listDetailsModel.items.forEach((movieCard) => {
+                      movieCard.movieGenres.forEach((genre) => genreCount
+                          .update(genre.id, (currentValue) => ++currentValue,
+                              ifAbsent: () => 1)),
+                      listRating.update(
+                          listDetailsModel,
+                          (currentRating) =>
+                              currentRating + movieCard.movieRating,
+                          ifAbsent: () => movieCard.movieRating),
+                      movieRatingsMap.update(
+                          movieCard.movieId, (currentValue) => currentValue,
+                          ifAbsent: () => movieCard.movieRating)
+                    })));
+
+    List<MapEntry<int, int>> genreMapEntries =
+        genreCount.entries.toList(growable: false);
+    genreMapEntries.sort((one, other) => one.value.compareTo(other.value));
+    List<Genre> topGenres = genreMapEntries
+        .map((mapEntry) => Genre(mapEntry.key, Data.genres[mapEntry.key]))
+        .toList();
+
+    List<MapEntry<ListDetailsModel, double>> listRatingMapEntries =
+        listRating.entries.toList(growable: false);
+    listRatingMapEntries.sort((one, other) => one.value.compareTo(other.value));
+
+    List<double> movieRatingsList =
+        movieRatingsMap.values.toList(growable: false);
+
+    double averageMovieRating = movieRatingsList.isNotEmpty
+        ? num.parse((movieRatingsList.reduce((one, other) => one + other) /
+                movieRatingsList.length)
+            .toStringAsFixed(1))
+        : 0;
+
+    return StatisticsModel(
+        topGenres,
+        listRatingMapEntries.isNotEmpty
+            ? listRatingMapEntries.first.key.name
+            : "",
+        listRatingMapEntries.isNotEmpty ? listRatingMapEntries.first.value : 0,
+        averageMovieRating);
   }
 }
