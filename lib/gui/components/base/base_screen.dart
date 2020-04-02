@@ -8,6 +8,7 @@ import 'package:moviehub/gui/components/drawer/list_item.dart';
 import 'package:moviehub/gui/screens/created_lists/list_screen.dart';
 import 'package:moviehub/gui/screens/discover/discover_screen.dart';
 import 'package:moviehub/gui/screens/search/search_screen.dart';
+import 'package:moviehub/gui/screens/statistics/statistics_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: must_be_immutable
@@ -37,6 +38,7 @@ class _BaseScreenState extends State<BaseScreen> {
       if (content == ListItemContent.DISCOVER) widget.child = DiscoverScreen();
       if (content == ListItemContent.SEARCH) widget.child = SearchScreen();
       if (content == ListItemContent.LIST) widget.child = ListScreen();
+      if (content == ListItemContent.STATISTICS) widget.child = StatisticsScreen();
       if (content == ListItemContent.NIGHT_MODE) return;
     });
   }
@@ -89,7 +91,7 @@ class _BaseScreenState extends State<BaseScreen> {
                   ),
                   ListItem(
                     content: ListItemContent.STATISTICS,
-                    onTap: () => null,
+                    onTap: () => changeScreen(ListItemContent.STATISTICS, context),
                     title: "",
                   ),
                   ListItem(
