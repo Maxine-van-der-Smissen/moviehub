@@ -5,7 +5,7 @@ import 'package:moviehub/models/review.dart';
 class MovieCardModel {
   final int movieId;
   final String movieTitle;
-  final String movieGenres;
+  final List<Genre> movieGenres;
   final String movieReleaseDate;
   final String movieCoverURL;
   final double movieRating;

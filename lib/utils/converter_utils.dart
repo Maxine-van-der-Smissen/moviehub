@@ -55,10 +55,10 @@ class Converter {
   }
 
   static MovieCardModel convertMovieCard(Map<String, dynamic> movie) {
-    List<String> genreList = List();
+    List<Genre> genreList = List();
 
     for (int genreId in movie["genre_ids"]) {
-      genreList.add(Data.genres[genreId]);
+      genreList.add(Genre(genreId, Data.genres[genreId]));
     }
 
     return MovieCardModel(
@@ -69,7 +69,7 @@ class Converter {
             : null,
         movieRating: (movie["vote_average"] * 1.0).round() * .5,
         movieReleaseDate: movie["release_date"],
-        movieGenres: genreList.join(", "));
+        movieGenres: genreList);
   }
 
   static Account convertAccount(Map<String, dynamic> json) {

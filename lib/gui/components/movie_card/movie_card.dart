@@ -72,7 +72,7 @@ class MovieCard extends StatelessWidget {
                   margin: EdgeInsets.only(left: 125, right: 14),
                   child: MovieCardTextColumn(
                     movieTitle: movie.movieTitle,
-                    movieGenres: movie.movieGenres,
+                    movieGenres: movie.movieGenres.join(", "),
                     movieReleaseDate: movie.movieReleaseDate,
                     movieRating: movie.movieRating,
                   ),

@@ -260,6 +260,8 @@ class NetworkUtils {
 
     Account account = await Account.fromJson();
 
+    if (account == null) throw Exception("You must first log in");
+
     final response = await http.get(
         "${baseUrl}account/${account.accountId}/lists?api_key=$apiKey&session_id=${account.sessionId}");
 
