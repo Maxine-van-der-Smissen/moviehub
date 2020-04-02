@@ -1,18 +1,19 @@
 import 'package:flutter/cupertino.dart';
 
 // ignore: must_be_immutable
-class TextTitle extends StatelessWidget {
-  String text;
-  TextTitle(string) : this.text = string;
+class PageTitle extends StatelessWidget {
+  String title;
+
+  PageTitle(this.title);
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      text,
+      title,
       style: TextStyle(
-        fontSize: 18,
         color: Color(0xFF3e3e3e),
-        fontWeight: FontWeight.w500,
+        fontSize: 18,
+        fontWeight: FontWeight.w700,
       ),
     );
   }
