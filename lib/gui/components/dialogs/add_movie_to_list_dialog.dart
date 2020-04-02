@@ -1,21 +1,51 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:moviehub/models/account.dart';
+import 'package:moviehub/models/list.dart';
+import 'package:moviehub/utils/network_utils.dart';
 
 // ignore: must_be_immutable
 class AddMovieToListDialog extends StatefulWidget {
   @override
   _AddMovieToListDialogState createState() => _AddMovieToListDialogState();
 
-  VoidCallback onSortChange;
+  VoidCallback onListAdd;
   int movieId;
+  List<ListCardModel> lists;
 
-  AddMovieToListDialog({this.onSortChange, int movieId});
-
+  AddMovieToListDialog({this.onListAdd, this.movieId, this.lists});
 }
 
 class _AddMovieToListDialogState extends State<AddMovieToListDialog> {
+  Widget listWidget = Container();
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    displayLists();
+  }
+
+  void addMovieToList(int listId) async {
+    String sessionId = await Account.fromJson().then((account) => account.sessionId);
+    bool status = await NetworkUtils.addMovieToList(listId, widget.movieId, sessionId);
+    if (status) Navigator.of(context).pop();
+  }
+
+  void displayLists() {
+    setState(() {
+      listWidget = Container(
+        width: 1000,
+        height: 200,
+        child: ListView.builder(
+          itemCount: widget.lists.length,
+          itemBuilder: (context, i) {
+            return ListDialogItem(listName: widget.lists[i].name,listId: widget.lists[i].id, listIdCallback: addMovieToList,);
+          },
+        ),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +86,9 @@ class _AddMovieToListDialogState extends State<AddMovieToListDialog> {
                     color: Color(0xFF3e3e3e)),
               ),
             ),
-            SizedBox(height: 16.0),
+            SizedBox(height: 25.0),
+            listWidget,
+            SizedBox(height: 20.0),
             Align(
               alignment: Alignment.bottomRight,
               child: FlatButton(
@@ -69,6 +101,51 @@ class _AddMovieToListDialogState extends State<AddMovieToListDialog> {
           ],
         ),
       ),
+    );
+  }
+}
+
+// ignore: must_be_immutable
+class ListDialogItem extends StatelessWidget {
+  Function(int) listIdCallback;
+  String listName;
+  int listId;
+
+  ListDialogItem({this.listName, this.listId, this.listIdCallback});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: () {
+              listIdCallback(listId);
+            },
+            child: Container(
+              margin: EdgeInsets.all(0),
+              height: 55,
+              width: double.infinity,
+              child: Row(
+                children: <Widget>[
+                  Icon(
+                    Icons.local_movies,
+                    color: Color(0xFF3e3e3e).withOpacity(0.6),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Text(listName, style: TextStyle(
+                      color: Color(0xFF3e3e3e).withOpacity(0.6),
+                      fontWeight: FontWeight.w400),),
+                ],
+              ),
+            ),
+          ),
+        ),
+        SizedBox(height: 5,)
+      ],
     );
   }
 }
