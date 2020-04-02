@@ -9,6 +9,7 @@ import 'package:moviehub/gui/screens/movie_details/components/movie_synopsis.dar
 import 'package:moviehub/models/movie.dart';
 
 import 'components/movie_backdrop.dart';
+import 'components/movie_genre.dart';
 
 // ignore: must_be_immutable
 class MovieDetails extends StatelessWidget {
@@ -71,8 +72,9 @@ class MovieDetails extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    MovieGenres(movieDetails.movieGenres),
                     SizedBox(
-                      height: 25,
+                      height: 10,
                     ),
                     MovieSynopsis(movieDetails.movieSynopsis),
                     SizedBox(

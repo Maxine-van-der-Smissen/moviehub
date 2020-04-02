@@ -7,7 +7,7 @@ import 'package:moviehub/models/cast_member.dart';
 class MovieCast extends StatelessWidget {
   List<CastMember> castMembers;
 
-  MovieCast(movieCast) : this.castMembers = movieCast;
+  MovieCast(this.castMembers);
 
   @override
   Widget build(BuildContext context) {
@@ -22,20 +22,21 @@ class MovieCast extends StatelessWidget {
           width: double.infinity,
           height: 80,
           child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: castMembers.length,
-              itemBuilder: (context, i) {
-                return Row(
-                  children: <Widget>[
-                    MovieCastMember(
-                      url: castMembers[i].profileImage,
-                      castMemberName: castMembers[i].name,
-                    ),
-                    SizedBox(width: 10),
-                  ],
-                );
-              }),
-        )
+            scrollDirection: Axis.horizontal,
+            itemCount: castMembers.length,
+            itemBuilder: (context, i) {
+              return Row(
+                children: <Widget>[
+                  MovieCastMember(
+                    url: castMembers[i].profileImage,
+                    castMemberName: castMembers[i].name,
+                  ),
+                  SizedBox(width: 10),
+                ],
+              );
+            },
+          ),
+        ),
       ],
     );
   }
@@ -60,8 +61,8 @@ class MovieCastMember extends StatelessWidget {
         ),
         Text(
           castMemberName,
-          style: TextStyle(color: Color(0xFF000000).withOpacity(0.3),
-          fontSize: 12),
+          style: TextStyle(
+              color: Color(0xFF000000).withOpacity(0.3), fontSize: 12),
         )
       ],
     );
