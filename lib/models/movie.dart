@@ -31,6 +31,7 @@ class MovieDetailsModel {
   final String movieDuration;
   final String movieCoverURL;
   final String movieBackdropURL;
+  final String trailerURL;
   final double movieRating;
   final int movieRatingCount;
 
@@ -47,7 +48,8 @@ class MovieDetailsModel {
       this.movieCoverURL,
       this.movieBackdropURL,
       this.movieRating,
-      this.movieRatingCount);
+      this.movieRatingCount,
+      this.trailerURL);
 }
 
 class MovieDetailsHeaderModel {

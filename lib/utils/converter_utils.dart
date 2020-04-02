@@ -10,8 +10,8 @@ class Converter {
   static final String baseTMDBImageUrl = "https://image.tmdb.org/t/p/";
   static final String baseGravatarImageUrl = "https://www.gravatar.com/avatar/";
 
-  static MovieDetailsModel convertMovieDetails(
-      Map<String, dynamic> movieJson, Map<String, dynamic> creditsJson) {
+  static MovieDetailsModel convertMovieDetails(Map<String, dynamic> movieJson,
+      Map<String, dynamic> creditsJson, Map<String, dynamic> videoJson) {
     List<Genre> genres = List();
     List<CastMember> cast = List();
     List<dynamic> crewJson = creditsJson["crew"];
@@ -32,6 +32,20 @@ class Converter {
           castJson["profile_path"] != null
               ? "${baseTMDBImageUrl}w185${castJson["profile_path"]}"
               : null));
+    }
+
+    String videoUrl;
+
+    if (videoJson != null) {
+      Map<String, dynamic> youtubeTrailer =
+          (videoJson["results"] as List<dynamic>).singleWhere(
+              (video) =>
+                  video["type"] == "Trailer" && video["site"] == "YouTube",
+              orElse: () => {"key": null});
+
+      videoUrl = youtubeTrailer["key"] != null
+          ? "https://www.youtube.com/watch?v=${youtubeTrailer["key"]}"
+          : null;
     }
 
     return MovieDetailsModel(

@@ -78,17 +78,21 @@ class NetworkUtils {
         await http.get("${baseUrl}movie/$movieId?api_key=$apiKey");
     final creditsResponse =
         await http.get("${baseUrl}movie/$movieId/credits?api_key=$apiKey");
+    final videoResponse =
+        await http.get("${baseUrl}movie/$movieId/videos?api_key=$apiKey");
 
     Map<String, dynamic> movieJson = json.decode(detailsResponse.body);
     Map<String, dynamic> creditsJson = json.decode(creditsResponse.body);
+    Map<String, dynamic> videoJson = jsonDecode(videoResponse.body);
 
-    if (detailsResponse.statusCode == 200 &&
-        creditsResponse.statusCode == 200 &&
-        movieJson != null &&
-        creditsJson != null) {
-      return Converter.convertMovieDetails(movieJson, creditsJson);
-    } else
-      throw Exception('Failed to load movie');
+    if (detailsResponse.statusCode != 200 ||
+        creditsResponse.statusCode != 200 ||
+        videoResponse.statusCode != 200 ||
+        movieJson == null ||
+        creditsJson == null ||
+        videoJson == null) throw Exception('Failed to load movie');
+
+    return Converter.convertMovieDetails(movieJson, creditsJson, videoJson);
   }
 
   static Future<bool> postRating(
