@@ -72,7 +72,7 @@ class MovieDetails extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    MovieGenres(movieDetails.movieGenres),
+                    (movieDetails.movieGenres.isNotEmpty) ? MovieGenres(movieDetails.movieGenres) : Text(""),
                     SizedBox(
                       height: 10,
                     ),
