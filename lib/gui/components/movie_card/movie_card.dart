@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moviehub/gui/components/dialogs/add_movie_to_list_dialog.dart';
 import 'package:moviehub/gui/screens/movie_details/movie_details.dart';
 import 'package:moviehub/models/movie.dart';
 import 'package:moviehub/utils/network_utils.dart';
@@ -36,9 +37,10 @@ class MovieCard extends StatelessWidget {
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
-                      spreadRadius: 0,
-                      blurRadius: 10)
+                    color: Colors.black.withOpacity(0.05),
+                    spreadRadius: 0,
+                    blurRadius: 10,
+                  ),
                 ],
                 borderRadius: BorderRadius.circular(5),
                 color: Theme.of(context).backgroundColor,
@@ -54,6 +56,29 @@ class MovieCard extends StatelessWidget {
                     movieGenres: movie.movieGenres,
                     movieReleaseDate: movie.movieReleaseDate,
                     movieRating: movie.movieRating,
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 20, right: 5),
+              child: Align(
+                alignment: Alignment.topRight,
+                child: Container(
+                  width: 35,
+                  child: FlatButton(
+                    padding: EdgeInsets.all(0.0),
+                    child: Icon(
+                      Icons.playlist_add,
+                      size: 20,
+                      color: Color(0xFF3e3e3e).withOpacity(0.5),
+                    ),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) => AddMovieToListDialog(onSortChange:() => print("Callback"), movieId: movie.movieId),
+                      );
+                    },
                   ),
                 ),
               ),

@@ -20,13 +20,16 @@ class MovieCardTextColumn extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        Text(
-          movieTitle,
-          maxLines: 2,
-          style: TextStyle(
-            fontSize: 16,
-            color: Color(0xFF3e3e3e),
-            fontWeight: FontWeight.w500,
+        Container(
+          margin: EdgeInsets.only(right: 25),
+          child: Text(
+            movieTitle,
+            maxLines: 2,
+            style: TextStyle(
+              fontSize: 16,
+              color: Color(0xFF3e3e3e),
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ), // Movie Title
         SizedBox(height: 0,),

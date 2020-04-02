@@ -2,10 +2,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:moviehub/gui/components/app_bar/main_app_bar.dart';
-import 'package:moviehub/gui/components/drawer/account/account_tab.dart';
+import 'package:moviehub/gui/components/dialogs/login_dialog.dart';
 import 'package:moviehub/gui/components/drawer/account/auth_button.dart';
 import 'package:moviehub/gui/components/drawer/list_item.dart';
-import 'package:moviehub/gui/components/login_screen/login_dialog.dart';
 import 'package:moviehub/gui/screens/created_lists/list_screen.dart';
 import 'package:moviehub/gui/screens/discover/discover_screen.dart';
 import 'package:moviehub/gui/screens/search/search_screen.dart';
