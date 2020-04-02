@@ -4,10 +4,10 @@ import 'package:moviehub/gui/components/buttons/option_button.dart';
 import 'package:moviehub/gui/components/movie_card/movie_card.dart';
 import 'package:moviehub/gui/screens/discover/components/filter_dialog.dart';
 import 'package:moviehub/gui/screens/discover/components/sort_dialog.dart';
+import 'package:moviehub/models/list.dart';
 import 'package:moviehub/models/movie.dart';
 import 'package:moviehub/utils/data.dart';
 import 'package:moviehub/utils/network_utils.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class DiscoverScreen extends StatefulWidget {
   @override
@@ -17,18 +17,25 @@ class DiscoverScreen extends StatefulWidget {
 class _DiscoverScreenState extends State<DiscoverScreen> {
   Widget movieWidget = Container();
   List<MovieCardModel> movies;
+  List<ListCardModel> lists = List();
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    if(lists.isEmpty) loadLists();
     loadMovies();
   }
 
-  void loadMovies() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
+  void loadLists() async {
+    NetworkUtils.fetchLists().then((fetchedLists) => {
+      lists.addAll(fetchedLists)
+    });
+  }
 
+  void loadMovies() async {
     String url = await NetworkUtils.urlBuilder(URLBuilderType.DISCOVER);
     movies = await NetworkUtils.fetchMovies(url, URLBuilderType.DISCOVER);
+
     setState(() {
       movieWidget = Container(
         width: 1000,
@@ -36,7 +43,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
         child: ListView.builder(
             itemCount: movies.length,
             itemBuilder: (context, i) {
-              return MovieCard(movie: movies[i]);
+              return MovieCard(movie: movies[i], lists: lists);
             }),
       );
     });

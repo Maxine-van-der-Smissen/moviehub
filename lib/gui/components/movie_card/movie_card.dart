@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:moviehub/gui/components/dialogs/add_movie_to_list_dialog.dart';
 import 'package:moviehub/gui/screens/movie_details/movie_details.dart';
+import 'package:moviehub/models/list.dart';
 import 'package:moviehub/models/movie.dart';
 import 'package:moviehub/utils/network_utils.dart';
 
 import 'movie_card_cover.dart';
 import 'movie_card_text_column.dart';
 
+// ignore: must_be_immutable
 class MovieCard extends StatelessWidget {
   final MovieCardModel movie;
+  List<ListCardModel> lists;
 
-  const MovieCard({this.movie}) : super();
+  MovieCard({this.movie, this.lists});
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +22,11 @@ class MovieCard extends StatelessWidget {
         MovieDetailsModel movieDetails =
             await NetworkUtils.fetchMovieDetails(movie.movieId);
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => MovieDetails(movieDetails)));
+          context,
+          MaterialPageRoute(
+            builder: (context) => MovieDetails(movieDetails),
+          ),
+        );
       },
       child: Container(
         // Main Container
@@ -76,7 +81,10 @@ class MovieCard extends StatelessWidget {
                     onPressed: () {
                       showDialog(
                         context: context,
-                        builder: (BuildContext context) => AddMovieToListDialog(onSortChange:() => print("Callback"), movieId: movie.movieId),
+                        builder: (BuildContext context) => AddMovieToListDialog(
+                            onListAdd: () => print("Callback"),
+                            movieId: movie.movieId,
+                            lists: lists),
                       );
                     },
                   ),
