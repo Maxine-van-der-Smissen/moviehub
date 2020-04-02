@@ -47,7 +47,7 @@ class _ListScreenState extends State<ListScreen> {
 
   void loadLists() async {
     lists = await NetworkUtils.fetchLists();
-    displayLists();
+    displayLists(); 
   }
 
   void deleteList(int id, String name) {
