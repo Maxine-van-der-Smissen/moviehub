@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:moviehub/utils/network_utils.dart';
+import 'components/highest_rated_list.dart';
 import 'components/top_genres_in_lists.dart';
 
 class StatisticsScreen extends StatefulWidget {
@@ -29,6 +30,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             child: Column(
               children: <Widget>[
                 TopGenresInLists(statistics.topGenresInLists),
+                SizedBox(height: 22,),
+                HighestRatedLists(statistics.highestRatedListName, statistics.highestRatedListRating),
               ],
             ),
           );

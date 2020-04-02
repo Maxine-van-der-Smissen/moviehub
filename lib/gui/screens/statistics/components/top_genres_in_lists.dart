@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moviehub/gui/components/text/card_title.dart';
 import 'package:moviehub/gui/components/text/text_title.dart';
 import 'package:moviehub/models/genres.dart';
 
@@ -53,12 +54,13 @@ class _TopGenresInListsState extends State<TopGenresInLists> {
         color: Theme.of(context).backgroundColor,
       ),
       child: Padding(
-        padding: const EdgeInsets.only(left: 25.0, right: 25, top: 35, bottom: 35),
+        padding:
+            const EdgeInsets.all(35.0),
         child: Column(
           children: <Widget>[
             Align(
               alignment: Alignment.topLeft,
-              child: TextTitle("Top genres in lists"),
+              child: CardTitle("Top genres in lists"),
             ),
             SizedBox(height: 10),
             topGenresWidget,
