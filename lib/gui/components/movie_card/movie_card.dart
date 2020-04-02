@@ -38,7 +38,7 @@ class MovieCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => MovieDetails(movieDetails),
+            builder: (context) => MovieDetails(movieDetails, lists),
           ),
         );
       },

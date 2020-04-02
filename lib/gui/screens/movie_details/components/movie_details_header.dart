@@ -15,7 +15,7 @@ class MovieDetailsHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          width: 190,
+          width: 185,
           child: TextTitle(movieDetails.movieTitle),
         ),
         SizedBox(

@@ -1,12 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:moviehub/gui/components/buttons/back_button.dart';
+import 'package:moviehub/gui/components/dialogs/add_movie_to_list_dialog.dart';
+import 'package:moviehub/gui/components/dialogs/login_dialog.dart';
 import 'package:moviehub/gui/screens/movie_details/components/movie_cast.dart';
 import 'package:moviehub/gui/screens/movie_details/components/movie_cover.dart';
 import 'package:moviehub/gui/screens/movie_details/components/movie_details_header.dart';
 import 'package:moviehub/gui/screens/movie_details/components/movie_ratings.dart';
 import 'package:moviehub/gui/screens/movie_details/components/movie_synopsis.dart';
+import 'package:moviehub/models/list.dart';
 import 'package:moviehub/models/movie.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'components/movie_backdrop.dart';
 import 'components/movie_genre.dart';
@@ -15,8 +19,10 @@ import 'components/movie_genre.dart';
 class MovieDetails extends StatelessWidget {
   MovieDetailsModel movieDetails;
   MovieDetailsHeaderModel movieDetailsHeader;
+  List<ListCardModel> lists;
 
-  MovieDetails(details) {
+  MovieDetails(details,lists) {
+    this.lists = lists;
     this.movieDetails = details;
     this.movieDetailsHeader = MovieDetailsHeaderModel(
         movieDetails.movieTitle,
@@ -24,6 +30,18 @@ class MovieDetails extends StatelessWidget {
         movieDetails.movieReleaseDate,
         movieDetails.movieDuration,
         movieDetails.movieRating);
+  }
+
+  void handleAdd(BuildContext context) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    bool loggedIn = preferences.getString("account") != null;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => loggedIn ? AddMovieToListDialog(
+          onListAdd: () => print("Callback"),
+          movieId: movieDetails.movieId,
+          lists: lists) : LoginDialog(updateLogin: () => null,),
+    );
   }
 
   @override
@@ -57,6 +75,28 @@ class MovieDetails extends StatelessWidget {
                                   margin: EdgeInsets.only(
                                       top: 45, left: 20, right: 15),
                                   child: MovieDetailsHeader(movieDetailsHeader),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(right: 10),
+                                  width: 35,
+                                  height: 100,
+                                  child: Align(
+                                    alignment: Alignment.topRight,
+                                    child: Container(
+                                      width: 35,
+                                      child: FlatButton(
+                                        padding: EdgeInsets.all(0.0),
+                                        child: Icon(
+                                          Icons.playlist_add,
+                                          size: 20,
+                                          color: Color(0xFF3e3e3e).withOpacity(0.5),
+                                        ),
+                                        onPressed: () {
+                                          handleAdd(context);
+                                        },
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
