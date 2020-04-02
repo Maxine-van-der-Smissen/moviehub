@@ -81,9 +81,7 @@ class _ListCreationDialogState extends State<ListCreationDialog> {
               SizedBox(height: 16.0),
               TextFormField(
                 validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Please enter a list name';
-                  }
+                  if (value.isEmpty) return 'Please enter a list name';
                   return null;
                 },
                 controller: listNameController,
@@ -97,9 +95,7 @@ class _ListCreationDialogState extends State<ListCreationDialog> {
               SizedBox(height: 10.0),
               TextFormField(
                 validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Please enter a list description';
-                  }
+                  if (value.isEmpty) return 'Please enter a list description';
                   return null;
                 },
                 controller: listDescriptionController,
