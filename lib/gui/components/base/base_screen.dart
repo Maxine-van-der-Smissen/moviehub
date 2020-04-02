@@ -76,21 +76,27 @@ class _BaseScreenState extends State<BaseScreen> {
                     content: ListItemContent.DISCOVER,
                     onTap: () =>
                         changeScreen(ListItemContent.DISCOVER, context),
+                    title: "",
                   ),
                   ListItem(
                     content: ListItemContent.SEARCH,
                     onTap: () => changeScreen(ListItemContent.SEARCH, context),
+                    title: "",
                   ),
                   ListItem(
                     onTap: () => changeScreen(ListItemContent.LIST, context),
                     content: ListItemContent.LIST,
+                    title: "",
                   ),
                   ListItem(
                     content: ListItemContent.STATISTICS,
+                    onTap: () => null,
+                    title: "",
                   ),
                   ListItem(
                     onTap: () => widget.changeTheme(),
                     content: ListItemContent.NIGHT_MODE,
+                    title: "",
                   ),
                   AuthButton(
                       login: () => login(),

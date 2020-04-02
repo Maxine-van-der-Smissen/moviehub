@@ -35,7 +35,7 @@ class _ListItemState extends State<ListItem> {
   @override
   void didUpdateWidget(ListItem oldWidget) {
     super.didUpdateWidget(oldWidget);
-    this.title = widget.title;
+    if (this.title != null) this.title = widget.title;
   }
 
   @override
