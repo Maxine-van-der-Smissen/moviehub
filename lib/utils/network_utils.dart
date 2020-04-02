@@ -324,8 +324,9 @@ class NetworkUtils {
         movieRatingsMap.values.toList(growable: false);
 
     double averageMovieRating = movieRatingsList.isNotEmpty
-        ? num.parse((movieRatingsList.reduce((one, other) => one + other) /
-                movieRatingsList.length)
+        ? num.parse(((movieRatingsList.reduce((one, other) => one + other) /
+                    movieRatingsList.length) /
+                2)
             .toStringAsFixed(1))
         : 0;
 
@@ -334,7 +335,9 @@ class NetworkUtils {
         listRatingMapEntries.isNotEmpty
             ? listRatingMapEntries.first.key.name
             : "",
-        listRatingMapEntries.isNotEmpty ? listRatingMapEntries.first.value : 0,
+        listRatingMapEntries.isNotEmpty
+            ? num.parse((listRatingMapEntries.first.value / 2).toStringAsFixed(1))
+            : 0,
         averageMovieRating);
   }
 }
