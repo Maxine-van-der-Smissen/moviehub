@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:moviehub/gui/components/dialogs/add_movie_to_list_dialog.dart';
+import 'package:moviehub/gui/components/dialogs/login_dialog.dart';
 import 'package:moviehub/gui/screens/movie_details/movie_details.dart';
 import 'package:moviehub/models/list.dart';
 import 'package:moviehub/models/movie.dart';
 import 'package:moviehub/utils/network_utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'movie_card_cover.dart';
 import 'movie_card_text_column.dart';
@@ -14,6 +16,18 @@ class MovieCard extends StatelessWidget {
   List<ListCardModel> lists;
 
   MovieCard({this.movie, this.lists});
+
+  void handleAdd(BuildContext context) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    bool loggedIn = preferences.getString("account") != null;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => loggedIn ? AddMovieToListDialog(
+          onListAdd: () => print("Callback"),
+          movieId: movie.movieId,
+          lists: lists) : LoginDialog(updateLogin: () => null,),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,13 +93,7 @@ class MovieCard extends StatelessWidget {
                       color: Color(0xFF3e3e3e).withOpacity(0.5),
                     ),
                     onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) => AddMovieToListDialog(
-                            onListAdd: () => print("Callback"),
-                            movieId: movie.movieId,
-                            lists: lists),
-                      );
+                      handleAdd(context);
                     },
                   ),
                 ),
