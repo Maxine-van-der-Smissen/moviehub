@@ -21,6 +21,9 @@
 # is commented out by default.
 #.vscode/
 
+# Android related
+key.properties
+
 # Flutter/Dart/Pub related
 **/doc/api/
 .dart_tool/
