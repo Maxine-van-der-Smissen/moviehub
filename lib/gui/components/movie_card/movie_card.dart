@@ -13,7 +13,6 @@ class MovieCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Text Style and refactor code into multiple modules / files
     return GestureDetector(
       onTap: () async {
         MovieDetailsModel movieDetails =

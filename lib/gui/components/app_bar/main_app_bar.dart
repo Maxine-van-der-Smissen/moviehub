@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'app_bar_title.dart';
 
+// ignore: must_be_immutable
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   VoidCallback openDrawer;
 
