@@ -7,14 +7,17 @@ import 'package:moviehub/models/movie.dart';
 class MovieDetailsHeader extends StatelessWidget {
   MovieDetailsHeaderModel movieDetails;
 
-  MovieDetailsHeader(details) : this.movieDetails = details;
+  MovieDetailsHeader(this.movieDetails);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        TextTitle(movieDetails.movieTitle),
+        Container(
+          width: 190,
+          child: TextTitle(movieDetails.movieTitle),
+        ),
         SizedBox(
           height: 5,
         ),

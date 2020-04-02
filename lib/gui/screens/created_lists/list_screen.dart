@@ -51,12 +51,12 @@ class _ListScreenState extends State<ListScreen> {
     displayLists(); 
   }
 
-  void deleteList(int id, String name) {
+  void deleteList(int id, String listName) {
     lists.removeWhere((listCard) => listCard.id == id);
     displayLists();
     Scaffold.of(context).showSnackBar(
       SnackBar(
-        content: Text('Deleted list: "$name"'),
+        content: Text('Deleted list: "$listName"'),
       ),
     );
   }
