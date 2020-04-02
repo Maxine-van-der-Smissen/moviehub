@@ -16,22 +16,27 @@ class Converter {
     List<CastMember> cast = List();
     List<dynamic> crewJson = creditsJson["crew"];
 
-    String director =
-        crewJson.firstWhere((crew) => crew["job"] == "Director", orElse: () => {"name" : ""})["name"];
+    String director = crewJson.firstWhere((crew) => crew["job"] == "Director",
+        orElse: () => {"name": ""})["name"];
 
-    int durationMin = movieJson["runtime"];
+    int durationMin = movieJson["runtime"] != null ? movieJson["runtime"] : 0;
     String duration = "${(durationMin / 60).floor()}h ${durationMin % 60}m";
 
-    for (Map<String, dynamic> genreJson in movieJson["genres"]) {
-      genres.add(Genre(genreJson["id"], genreJson["name"]));
+    if (movieJson["genres"] != null) {
+      for (Map<String, dynamic> genreJson in movieJson["genres"]) {
+        genres.add(Genre(genreJson["id"] != null ? genreJson["id"] : -2,
+            genreJson["name"] != null ? genreJson["name"] : Data.genres[-2]));
+      }
     }
 
-    for (Map<String, dynamic> castJson in creditsJson["cast"]) {
-      cast.add(CastMember(
-          castJson["name"],
-          castJson["profile_path"] != null
-              ? "${baseTMDBImageUrl}w185${castJson["profile_path"]}"
-              : null));
+    if (creditsJson["cast"] != null) {
+      for (Map<String, dynamic> castJson in creditsJson["cast"]) {
+        cast.add(CastMember(
+            castJson["name"],
+            castJson["profile_path"] != null
+                ? "${baseTMDBImageUrl}w185${castJson["profile_path"]}"
+                : null));
+      }
     }
 
     return MovieDetailsModel(
@@ -50,16 +55,21 @@ class Converter {
         movieJson["backdrop_path"] != null
             ? "${baseTMDBImageUrl}w1280${movieJson["backdrop_path"]}"
             : null,
-        (movieJson["vote_average"] * 1.0).round() * .5,
+        movieJson["vote_average"] != null
+            ? (movieJson["vote_average"] * 1.0).round() * .5
+            : 0,
         movieJson["vote_count"]);
   }
 
   static MovieCardModel convertMovieCard(Map<String, dynamic> movie) {
     List<Genre> genreList = List();
 
-    for (int genreId in movie["genre_ids"]) {
-      genreList.add(Genre(genreId, Data.genres[genreId]));
-    }
+    if (movie["genre_ids"] != null) {
+      for (int genreId in movie["genre_ids"]) {
+        genreList.add(Genre(genreId, Data.genres[genreId]));
+      }
+    } else
+      genreList.add(Genre(-1, Data.genres[-1]));
 
     return MovieCardModel(
         movieId: movie["id"],
@@ -67,14 +77,23 @@ class Converter {
         movieCoverURL: movie["poster_path"] != null
             ? "${baseTMDBImageUrl}w342${movie["poster_path"]}"
             : null,
-        movieRating: (movie["vote_average"] * 1.0).round() * .5,
+        movieRating: movie["vote_average"] != null
+            ? (movie["vote_average"] * 1.0).round() * .5
+            : 0,
         movieReleaseDate: movie["release_date"],
         movieGenres: genreList);
   }
 
   static Account convertAccount(Map<String, dynamic> json) {
-    return Account(json["id"], json["session_id"], json["username"],
-        "$baseGravatarImageUrl${json["avatar"]["gravatar"]["hash"]}");
+    return Account(
+        json["id"],
+        json["session_id"],
+        json["username"],
+        json["avatar"] != null &&
+                json["avatar"]["gravatar"] != null &&
+                json["avatar"]["gravatar"]["hash"] != null
+            ? "$baseGravatarImageUrl${json["avatar"]["gravatar"]["hash"]}"
+            : null);
   }
 
   static ListCardModel convertListCard(Map<String, dynamic> json) {
