@@ -80,11 +80,16 @@ class MovieDetails extends StatelessWidget {
                     SizedBox(
                       height: 25,
                     ),
-                    (movieDetails.movieCast.length != 0) ? MovieCast(movieDetails.movieCast) : Text(""),
+                    (movieDetails.movieCast.length != 0)
+                        ? MovieCast(movieDetails.movieCast)
+                        : Text(""),
                     SizedBox(
                       height: 25,
                     ),
-                    MovieRatings(votes: movieDetails.movieRatingCount, rating: movieDetails.movieRating,),
+                    MovieRatings(
+                      votes: movieDetails.movieRatingCount,
+                      rating: movieDetails.movieRating,
+                    ),
                   ],
                 ),
               )
