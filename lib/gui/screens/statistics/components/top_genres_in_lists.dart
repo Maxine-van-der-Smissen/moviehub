@@ -1,42 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:moviehub/gui/components/text/card_title.dart';
-import 'package:moviehub/gui/components/text/text_title.dart';
 import 'package:moviehub/models/genres.dart';
 
 // ignore: must_be_immutable
-class TopGenresInLists extends StatefulWidget {
+class TopGenresInLists extends StatelessWidget {
   List<Genre> genres;
 
-  TopGenresInLists(this.genres);
-
-  @override
-  _TopGenresInListsState createState() => _TopGenresInListsState();
-}
-
-class _TopGenresInListsState extends State<TopGenresInLists> {
-  Widget topGenresWidget = Container();
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    displayGenres();
-  }
-
-  void displayGenres() {
-    setState(() {
-      topGenresWidget = Container(
-        width: 1000,
-        height: 250,
-        child: ListView.builder(
-            itemCount: widget.genres.length,
-            itemBuilder: (context, i) {
-              return Padding(
-                padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                child: Text("${i + 1}. ${widget.genres[i].name}"),
-              );
-            }),
-      );
-    });
+  int listLength;
+  TopGenresInLists(genres) {
+    this.genres = genres;
+    listLength = (genres.length > 3) ? 3 : genres.length;
   }
 
   @override
@@ -54,8 +27,7 @@ class _TopGenresInListsState extends State<TopGenresInLists> {
         color: Theme.of(context).backgroundColor,
       ),
       child: Padding(
-        padding:
-            const EdgeInsets.all(35.0),
+        padding: const EdgeInsets.all(35.0),
         child: Column(
           children: <Widget>[
             Align(
@@ -63,7 +35,26 @@ class _TopGenresInListsState extends State<TopGenresInLists> {
               child: CardTitle("Top genres in lists"),
             ),
             SizedBox(height: 10),
-            topGenresWidget,
+            Column(
+              children: <Widget>[
+                  for (int i = 0; i < listLength; i++)
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Column(
+                        children: <Widget>[
+                          SizedBox(height: 10,),
+                          Text(
+                            "${i + 1}. ${genres[i].name}",
+                            style: TextStyle(
+                              color: Color(0xFF3e3e3e).withOpacity(0.6),
+                            ),
+                          ),
+                          SizedBox(height: 10,),
+                        ],
+                      ),
+                    ),
+              ],
+            ),
           ],
         ),
       ),
