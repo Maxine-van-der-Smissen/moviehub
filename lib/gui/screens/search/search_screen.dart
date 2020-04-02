@@ -13,33 +13,61 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-
   Widget movieWidget = Container();
   List<MovieCardModel> movies;
   List<ListCardModel> lists = List();
 
+  Widget resultsForSearchTerm = Container();
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if(lists.isEmpty) loadLists();
+    if (lists.isEmpty) loadLists();
   }
 
   void loadLists() async {
-    NetworkUtils.fetchLists().then((fetchedLists) => {
-      lists.addAll(fetchedLists)
+    NetworkUtils.fetchLists()
+        .then((fetchedLists) => {lists.addAll(fetchedLists)});
+  }
+
+  void updateSearchTerm(String searchTerm) {
+    setState(() {
+      resultsForSearchTerm = RichText(
+        text: TextSpan(
+          text: 'Search results for ',
+          style: TextStyle(
+            color: Color(0xFF3e3e3e),
+            fontSize: 16,
+          ),
+          children: <TextSpan>[
+            TextSpan(
+              text: '"${searchTerm.trim()}"',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF3e3e3e),
+                fontSize: 16,
+              ),
+            ),
+          ],
+        ),
+      );
     });
   }
 
   void loadMovies(String query) async {
-    String url = await NetworkUtils.urlBuilder(URLBuilderType.SEARCH, query: query);
+    updateSearchTerm(query);
+    String url =
+        await NetworkUtils.urlBuilder(URLBuilderType.SEARCH, query: query);
     movies = await NetworkUtils.fetchMovies(url, URLBuilderType.SEARCH);
     setState(() {
       movieWidget = Container(
         width: 1000,
         height: MediaQuery.of(context).size.height,
-        child: ListView.builder(itemCount: movies.length ,itemBuilder: (context, i) {
-          return MovieCard(movie: movies[i], lists: lists);
-        }),
+        child: ListView.builder(
+            itemCount: movies.length,
+            itemBuilder: (context, i) {
+              return MovieCard(movie: movies[i], lists: lists);
+            }),
       );
     });
   }
@@ -52,7 +80,23 @@ class _SearchScreenState extends State<SearchScreen> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.only(bottom: 10.0),
-            child: SearchBar(callback: loadMovies,),
+            child: Column(
+              children: <Widget>[
+                SearchBar(
+                  callback: loadMovies,
+                ),
+                SizedBox(
+                  height: 35,
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 10, right: 10),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: resultsForSearchTerm,
+                  ),
+                ),
+              ],
+            ),
           ),
           movieWidget
         ],
