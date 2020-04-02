@@ -14,16 +14,18 @@ class ListCard extends StatelessWidget {
   ListCard({this.list, this.listIdCallback}) : super();
 
   void deleteList(ListCardModel listCard) async {
-    String sessionId = await Account.fromJson().then((account) => account.sessionId);
-    if (await NetworkUtils.deleteList(listCard.id, sessionId)) listIdCallback(listCard.id, listCard.name);
+    String sessionId =
+        await Account.fromJson().then((account) => account.sessionId);
+    if (await NetworkUtils.deleteList(listCard.id, sessionId))
+      listIdCallback(listCard.id, listCard.name);
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        List<MovieCardModel> listDetails =
-            await NetworkUtils.fetchList(list.id);
+        List<MovieCardModel> listDetails = await NetworkUtils.fetchList(list.id)
+            .then((listDetailModel) => listDetailModel.items);
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -78,7 +80,7 @@ class ListCard extends StatelessWidget {
                             ),
                             onPressed: () {
                               deleteList(list);
-                              },
+                            },
                           ),
                         ),
                       ),
