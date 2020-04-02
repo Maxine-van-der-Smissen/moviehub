@@ -57,10 +57,6 @@ class MovieDetailsHeaderModel {
   final String movieDuration;
   final double movieRating;
 
-  MovieDetailsHeaderModel(
-      this.movieTitle,
-      this.movieDirector,
-      this.movieReleaseDate,
-      this.movieDuration,
-      this.movieRating);
+  MovieDetailsHeaderModel(this.movieTitle, this.movieDirector,
+      this.movieReleaseDate, this.movieDuration, this.movieRating);
 }
