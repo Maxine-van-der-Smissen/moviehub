@@ -17,7 +17,6 @@ class AddMovieToListDialog extends StatefulWidget {
 
 class _AddMovieToListDialogState extends State<AddMovieToListDialog> {
 
-
   @override
   Widget build(BuildContext context) {
     return Dialog(
