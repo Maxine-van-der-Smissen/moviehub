@@ -66,7 +66,7 @@ class _SearchScreenState extends State<SearchScreen> {
         child: ListView.builder(
             itemCount: movies.length,
             itemBuilder: (context, i) {
-              return MovieCard(movie: movies[i], lists: lists);
+              return MovieCardAddToList(movies[i], lists);
             }),
       );
     });

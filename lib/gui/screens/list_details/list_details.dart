@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:moviehub/gui/components/app_bar/list_detail_app_bar.dart';
 import 'package:moviehub/gui/components/movie_card/movie_card.dart';
 import 'package:moviehub/gui/components/text/page_title.dart';
-import 'package:moviehub/gui/components/text/text_title.dart';
+import 'package:moviehub/models/account.dart';
 import 'package:moviehub/models/list.dart';
 import 'package:moviehub/models/movie.dart';
 import 'package:moviehub/utils/network_utils.dart';
 
 // ignore: must_be_immutable
 class ListDetails extends StatefulWidget {
-  String listName;
+  ListDetailsModel listDetails;
   List<MovieCardModel> listItems;
 
-  ListDetails(this.listItems, this.listName);
+  ListDetails(this.listItems, this.listDetails);
 
   @override
   _ListDetailsState createState() => _ListDetailsState();
@@ -27,14 +27,13 @@ class _ListDetailsState extends State<ListDetails> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if(lists.isEmpty) loadLists();
+    if (lists.isEmpty) loadLists();
     loadMovies();
   }
 
   void loadLists() async {
-    NetworkUtils.fetchLists().then((fetchedLists) => {
-      lists.addAll(fetchedLists)
-    });
+    NetworkUtils.fetchLists()
+        .then((fetchedLists) => {lists.addAll(fetchedLists)});
   }
 
   void loadMovies() async {
@@ -45,11 +44,37 @@ class _ListDetailsState extends State<ListDetails> {
         child: ListView.builder(
           itemCount: widget.listItems.length,
           itemBuilder: (context, i) {
-            return MovieCard(movie: widget.listItems[i], lists: lists,);
+            return MovieCardRemoveFromList(widget.listItems[i], lists,
+                widget.listDetails.id, removeMovieFromList);
           },
         ),
       );
     });
+  }
+
+  void removeMovieFromList(int movieId) async {
+    await Account.fromJson()
+        .then((account) => NetworkUtils.removeMovieFromList(
+            widget.listDetails.id, movieId, account.sessionId))
+        .then((result) => {
+              if (result)
+                {
+                  widget.listItems
+                      .removeWhere((movie) => movie.movieId == movieId),
+                  loadMovies(),
+                  Scaffold.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Deleted movie from list'),
+                    ),
+                  )
+                }
+              else
+                Scaffold.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("Couldn't remove movie from list"),
+                  ),
+                )
+            });
   }
 
   @override
@@ -70,7 +95,7 @@ class _ListDetailsState extends State<ListDetails> {
                   margin: EdgeInsets.only(top: 50, left: 15, right: 15),
                   child: Align(
                     alignment: Alignment.topLeft,
-                    child: PageTitle(widget.listName),
+                    child: PageTitle(widget.listDetails.name),
                   ),
                 ),
               ),
