@@ -53,11 +53,16 @@ class MovieDetailsModel {
       this.trailerURL);
 
   static void shareMovie(MovieDetailsModel movie) {
+    String trailer = (movie.trailerURL != null) ? "Trailer: ${movie.trailerURL}\n\n" : "";
+    String genres = (movie.movieGenres != null) ? "Genres: ${movie.movieGenres.map((movieGenre) => movieGenre.name).toString().replaceAll("(", "").replaceAll(")", "")}" : "";
+    String director = (movie.movieDirector != null) ? "Director: ${movie.movieDirector}\n\n" : "";
+
     String message = ""
         "*${movie.movieTitle}*\n\n"
         "${movie.movieSynopsis}\n\n"
-        "${(movie.trailerURL != null) ? "Trailer: ${movie.trailerURL}\n\n" : ""}"
-        "${(movie.trailerURL != null) ? "Director: ${movie.movieDirector}\n\n" : ""}"
+        "$trailer"
+        "$genres"
+        "$director"
         "*Shared by MovieHub, download the app now!*";
     Share.share(message);
   }
