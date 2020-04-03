@@ -24,12 +24,13 @@ class ListCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        List<MovieCardModel> listDetails = await NetworkUtils.fetchList(list.id)
-            .then((listDetailModel) => listDetailModel.items);
+        ListDetailsModel listDetails = await NetworkUtils.fetchList(list.id);
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ListDetails(listDetails, list.name),
+            builder: (context) => Scaffold(
+              body: ListDetails(listDetails.items, listDetails),
+            ),
           ),
         );
       },

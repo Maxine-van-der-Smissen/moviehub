@@ -174,12 +174,12 @@ class NetworkUtils {
     await DotEnv().load(".env");
     String apiKey = DotEnv().env["apiKey"];
 
-    return http
+    return await http
         .post(
             "${baseUrl}list/$listId/remove_item?api_key=$apiKey&session_id=$sessionId",
             headers: {"Content-type": "application/json"},
             body: json.encode({"media_id": movieId}))
-        .then((response) => response.statusCode == 201);
+        .then((response) => response.statusCode == 200);
   }
 
   static Future<ListDetailsModel> fetchList(int listId) async {
@@ -315,21 +315,22 @@ class NetworkUtils {
 
     List<MapEntry<int, int>> genreMapEntries =
         genreCount.entries.toList(growable: false);
-    genreMapEntries.sort((one, other) => one.value.compareTo(other.value));
+    genreMapEntries.sort((one, other) => other.value.compareTo(one.value));
     List<Genre> topGenres = genreMapEntries
         .map((mapEntry) => Genre(mapEntry.key, Data.genres[mapEntry.key]))
         .toList();
 
     List<MapEntry<ListDetailsModel, double>> listRatingMapEntries =
         listRating.entries.toList(growable: false);
-    listRatingMapEntries.sort((one, other) => one.value.compareTo(other.value));
+    listRatingMapEntries.sort((one, other) => other.value.compareTo(one.value));
 
     List<double> movieRatingsList =
         movieRatingsMap.values.toList(growable: false);
 
     double averageMovieRating = movieRatingsList.isNotEmpty
-        ? num.parse((movieRatingsList.reduce((one, other) => one + other) /
-                movieRatingsList.length)
+        ? num.parse(((movieRatingsList.reduce((one, other) => one + other) /
+                    movieRatingsList.length) /
+                2)
             .toStringAsFixed(1))
         : 0;
 
@@ -338,7 +339,10 @@ class NetworkUtils {
         listRatingMapEntries.isNotEmpty
             ? listRatingMapEntries.first.key.name
             : "",
-        listRatingMapEntries.isNotEmpty ? listRatingMapEntries.first.value : 0,
+        listRatingMapEntries.isNotEmpty
+            ? num.parse(
+                (listRatingMapEntries.first.value / 2).toStringAsFixed(1))
+            : 0,
         averageMovieRating);
   }
 }
