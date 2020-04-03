@@ -1,6 +1,7 @@
 import 'package:moviehub/models/cast_member.dart';
 import 'package:moviehub/models/genres.dart';
 import 'package:moviehub/models/review.dart';
+import 'package:share/share.dart';
 
 class MovieCardModel {
   final int movieId;
@@ -50,6 +51,16 @@ class MovieDetailsModel {
       this.movieRating,
       this.movieRatingCount,
       this.trailerURL);
+
+  static void shareMovie(MovieDetailsModel movie) {
+    String message = ""
+        "*${movie.movieTitle}*\n\n"
+        "${movie.movieSynopsis}\n\n"
+        "${(movie.trailerURL != null) ? "Trailer: ${movie.trailerURL}\n\n" : ""}"
+        "${(movie.trailerURL != null) ? "Director: ${movie.movieDirector}\n\n" : ""}"
+        "*Shared by MovieHub, download the app now!*";
+    Share.share(message);
+  }
 }
 
 class MovieDetailsHeaderModel {
