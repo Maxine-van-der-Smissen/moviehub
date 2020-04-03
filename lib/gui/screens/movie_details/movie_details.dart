@@ -41,6 +41,7 @@ class MovieDetails extends StatelessWidget {
 
   void watchTrailer() async {
     String url = movieDetails.trailerURL;
+    print(url);
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -105,7 +106,7 @@ class MovieDetails extends StatelessWidget {
                                     alignment: Alignment.topRight,
                                     child: Container(
                                       width: 35,
-                                      child: MovieSettings(
+                                      child: MovieSettings(trailerExists: movieDetails.trailerURL != null,
                                         selectionCallback: handleAdd,
                                       ),
                                     ),

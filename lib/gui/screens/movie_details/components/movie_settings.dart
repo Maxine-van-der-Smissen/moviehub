@@ -6,8 +6,9 @@ enum Options { addToList, watchTrailer }
 // ignore: must_be_immutable
 class MovieSettings extends StatefulWidget {
   Function(BuildContext context, String selection) selectionCallback;
+  bool trailerExists;
 
-  MovieSettings({this.selectionCallback});
+  MovieSettings({this.trailerExists, this.selectionCallback});
 
   @override
   _MovieSettingsState createState() => _MovieSettingsState();
@@ -46,7 +47,7 @@ class _MovieSettingsState extends State<MovieSettings> {
                 title: Text("Add move to a list"),
               ),
             ),
-            const PopupMenuItem<Options>(
+            (widget.trailerExists) ? const PopupMenuItem<Options>(
               value: Options.watchTrailer,
               child: ListTile(
                 leading: IconButton(
@@ -59,7 +60,7 @@ class _MovieSettingsState extends State<MovieSettings> {
                 ),
                 title: Text("Watch the trailer"),
               ),
-            ),
+            ) : null
           ],
         ),
       ),
