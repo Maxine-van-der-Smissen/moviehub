@@ -11,6 +11,7 @@ import 'package:moviehub/gui/screens/movie_details/components/movie_synopsis.dar
 import 'package:moviehub/models/list.dart';
 import 'package:moviehub/models/movie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'components/movie_backdrop.dart';
 import 'components/movie_genre.dart';
@@ -35,10 +36,16 @@ class MovieDetails extends StatelessWidget {
 
   void handleAdd(BuildContext context, String selected) async {
     if (selected == "Options.addToList") openListDialog(context);
-    if (selected == "Options.watchTrailer") watchTrailer(selected);
+    if (selected == "Options.watchTrailer") watchTrailer();
   }
 
-  void watchTrailer(String selected) {
+  void watchTrailer() async {
+    String url = movieDetails.trailerURL;
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   void openListDialog(BuildContext context) async {
@@ -97,10 +104,11 @@ class MovieDetails extends StatelessWidget {
                                   child: Align(
                                     alignment: Alignment.topRight,
                                     child: Container(
-                                        width: 35,
-                                        child: MovieSettings(
-                                          selectionCallback: handleAdd,
-                                        )),
+                                      width: 35,
+                                      child: MovieSettings(
+                                        selectionCallback: handleAdd,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],

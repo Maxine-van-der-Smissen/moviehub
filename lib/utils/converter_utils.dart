@@ -43,7 +43,7 @@ class Converter {
 
     if (videoJson != null) {
       Map<String, dynamic> youtubeTrailer =
-          (videoJson["results"] as List<dynamic>).singleWhere(
+          (videoJson["results"] as List<dynamic>).firstWhere(
               (video) =>
                   video["type"] == "Trailer" && video["site"] == "YouTube",
               orElse: () => {"key": null});
