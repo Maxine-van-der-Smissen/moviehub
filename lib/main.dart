@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:moviehub/gui/components/drawer/account/account_tab.dart';
 import 'package:moviehub/gui/screens/discover/discover_screen.dart';
+import 'package:moviehub/utils/localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'gui/colors/custom_material_color.dart';
@@ -57,6 +59,24 @@ class _MyHomePageState extends State<MyHomePage> {
         primarySwatch: CustomMaterialColor().white,
         brightness: brightness,
       ),
+      supportedLocales: [
+        Locale("en", "US"),
+        Locale("en", "GB"),
+        Locale("nl", "NL"),
+      ],
+      localizationsDelegates: [
+        MovieHubLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      localeListResolutionCallback:  (locales, supportedLocales) {
+        for (var locale in locales) {
+          for (var supportedLocale in supportedLocales) {
+            if (supportedLocale.languageCode == locale.languageCode && supportedLocale.countryCode == locale.countryCode) return supportedLocale;
+          }
+        }
+        return supportedLocales.first;
+      },
       home: BaseScreen(
         changeTheme: () => switchTheme(),
         child: DiscoverScreen(),
