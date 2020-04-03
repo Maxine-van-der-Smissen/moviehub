@@ -311,14 +311,14 @@ class NetworkUtils {
 
     List<MapEntry<int, int>> genreMapEntries =
         genreCount.entries.toList(growable: false);
-    genreMapEntries.sort((one, other) => one.value.compareTo(other.value));
+    genreMapEntries.sort((one, other) => other.value.compareTo(one.value));
     List<Genre> topGenres = genreMapEntries
         .map((mapEntry) => Genre(mapEntry.key, Data.genres[mapEntry.key]))
         .toList();
 
     List<MapEntry<ListDetailsModel, double>> listRatingMapEntries =
         listRating.entries.toList(growable: false);
-    listRatingMapEntries.sort((one, other) => one.value.compareTo(other.value));
+    listRatingMapEntries.sort((one, other) => other.value.compareTo(one.value));
 
     List<double> movieRatingsList =
         movieRatingsMap.values.toList(growable: false);
