@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-enum Options { addToList, watchTrailer }
+enum Options {addToList, watchTrailer, shareMovie}
 
 // ignore: must_be_immutable
 class MovieSettings extends StatefulWidget {
-  Function(BuildContext context, String selection) selectionCallback;
+  Function(BuildContext context, Options selection) selectionCallback;
   bool trailerExists;
 
   MovieSettings({this.trailerExists, this.selectionCallback});
@@ -31,10 +31,10 @@ class _MovieSettingsState extends State<MovieSettings> {
             color: Color(0xFF3e3e3e).withOpacity(0.5),
           ),
           onSelected: (Options result) {
-            widget.selectionCallback(context, result.toString());
+            widget.selectionCallback(context, result);
           },
           itemBuilder: (BuildContext context) => <PopupMenuEntry<Options>>[
-            const PopupMenuItem<Options>(
+            PopupMenuItem<Options>(
               value: Options.addToList,
               child: ListTile(
                 leading: IconButton(
@@ -47,7 +47,7 @@ class _MovieSettingsState extends State<MovieSettings> {
                 title: Text("Add move to a list"),
               ),
             ),
-            (widget.trailerExists) ? const PopupMenuItem<Options>(
+            (widget.trailerExists) ? PopupMenuItem<Options>(
               value: Options.watchTrailer,
               child: ListTile(
                 leading: IconButton(
@@ -60,7 +60,20 @@ class _MovieSettingsState extends State<MovieSettings> {
                 ),
                 title: Text("Watch the trailer"),
               ),
-            ) : null
+            ) : null,
+            const PopupMenuItem<Options>(
+              value: Options.shareMovie,
+              child: ListTile(
+                leading: IconButton(
+                  icon: Icon(
+                    Icons.share,
+                    color: Color(0xFF3e3e3e),
+                    size: 20,
+                  ),
+                ),
+                title: Text("Share movie"),
+              ),
+            ),
           ],
         ),
       ),

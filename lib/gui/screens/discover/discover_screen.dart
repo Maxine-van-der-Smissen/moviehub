@@ -5,11 +5,13 @@ import 'package:moviehub/gui/components/movie_card/movie_card.dart';
 import 'package:moviehub/gui/components/text/page_title.dart';
 import 'package:moviehub/gui/screens/discover/components/filter_dialog.dart';
 import 'package:moviehub/gui/screens/discover/components/sort_dialog.dart';
+import 'package:moviehub/models/account.dart';
 import 'package:moviehub/models/list.dart';
 import 'package:moviehub/models/movie.dart';
 import 'package:moviehub/utils/data.dart';
 import 'package:moviehub/utils/localizations.dart';
 import 'package:moviehub/utils/network_utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DiscoverScreen extends StatefulWidget {
   @override
@@ -29,6 +31,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
   }
 
   void loadLists() async {
+    if (await Account.fromJson() == null) return;
     NetworkUtils.fetchLists().then((fetchedLists) => {
       lists.addAll(fetchedLists)
     });
