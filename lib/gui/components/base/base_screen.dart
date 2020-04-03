@@ -64,49 +64,48 @@ class _BaseScreenState extends State<BaseScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       key: _drawerKey,
       drawer: SafeArea(
         child: Container(
           width: 300,
           child: Drawer(
-            child: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  widget.accountTab,
-                  ListItem(
-                    content: ListItemContent.DISCOVER,
-                    onTap: () =>
-                        changeScreen(ListItemContent.DISCOVER, context),
-                    title: "",
-                  ),
-                  ListItem(
-                    content: ListItemContent.SEARCH,
-                    onTap: () => changeScreen(ListItemContent.SEARCH, context),
-                    title: "",
-                  ),
-                  ListItem(
-                    onTap: () => changeScreen(ListItemContent.LIST, context),
-                    content: ListItemContent.LIST,
-                    title: "",
-                  ),
-                  ListItem(
-                    content: ListItemContent.STATISTICS,
-                    onTap: () => changeScreen(ListItemContent.STATISTICS, context),
-                    title: "",
-                  ),
-                  ListItem(
-                    onTap: () => widget.changeTheme(),
-                    content: ListItemContent.NIGHT_MODE,
-                    title: "",
-                  ),
-                  AuthButton(
-                      login: () => login(),
-                      logout: () => logout(),
-                      onChange: () {
-                        updateScreen();
-                      })
-                ],
-              ),
+            child: Column(
+              children: <Widget>[
+                widget.accountTab,
+                ListItem(
+                  content: ListItemContent.DISCOVER,
+                  onTap: () =>
+                      changeScreen(ListItemContent.DISCOVER, context),
+                  title: "",
+                ),
+                ListItem(
+                  content: ListItemContent.SEARCH,
+                  onTap: () => changeScreen(ListItemContent.SEARCH, context),
+                  title: "",
+                ),
+                ListItem(
+                  onTap: () => changeScreen(ListItemContent.LIST, context),
+                  content: ListItemContent.LIST,
+                  title: "",
+                ),
+                ListItem(
+                  content: ListItemContent.STATISTICS,
+                  onTap: () => changeScreen(ListItemContent.STATISTICS, context),
+                  title: "",
+                ),
+                ListItem(
+                  onTap: () => widget.changeTheme(),
+                  content: ListItemContent.NIGHT_MODE,
+                  title: "",
+                ),
+                AuthButton(
+                    login: () => login(),
+                    logout: () => logout(),
+                    onChange: () {
+                      updateScreen();
+                    })
+              ],
             ),
           ),
         ),

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:moviehub/models/account.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-enum ListItemContent{
+enum ListItemContent {
   DISCOVER,
   SEARCH,
   LIST,
@@ -26,11 +26,9 @@ class ListItem extends StatefulWidget {
 }
 
 class _ListItemState extends State<ListItem> {
-
   String title = "";
   Icon icon;
   bool hasSlider;
-
 
   @override
   void didUpdateWidget(ListItem oldWidget) {
@@ -51,7 +49,14 @@ class _ListItemState extends State<ListItem> {
             children: <Widget>[
               icon,
               SizedBox(width: 30),
-              Text(title),
+              Text(
+                title,
+                style: TextStyle(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.black,
+                ),
+              ),
               Spacer(),
               buildSlider()
             ],
@@ -79,13 +84,41 @@ class _ListItemState extends State<ListItem> {
   }
 
   void handleIcon() {
-    if (widget.content == ListItemContent.DISCOVER) icon = Icon(Icons.explore, size: 20,);
-    if (widget.content == ListItemContent.SEARCH) icon = Icon(Icons.search, size: 20,);
-    if (widget.content == ListItemContent.LIST) icon = Icon(Icons.list, size: 20,);
-    if (widget.content == ListItemContent.STATISTICS) icon = Icon(Icons.insert_chart, size: 20,);
-    if (widget.content == ListItemContent.NIGHT_MODE) icon = Icon(Icons.brightness_2, size: 20,);
-    if (widget.content == ListItemContent.LOGOUT) icon = Icon(Icons.chevron_left, size: 20,);
-    if (widget.content == ListItemContent.LOGIN) icon = Icon(Icons.account_circle, size: 20,);
+    if (widget.content == ListItemContent.DISCOVER)
+      icon = Icon(
+        Icons.explore,
+        size: 20,
+      );
+    if (widget.content == ListItemContent.SEARCH)
+      icon = Icon(
+        Icons.search,
+        size: 20,
+      );
+    if (widget.content == ListItemContent.LIST)
+      icon = Icon(
+        Icons.list,
+        size: 20,
+      );
+    if (widget.content == ListItemContent.STATISTICS)
+      icon = Icon(
+        Icons.insert_chart,
+        size: 20,
+      );
+    if (widget.content == ListItemContent.NIGHT_MODE)
+      icon = Icon(
+        Icons.brightness_2,
+        size: 20,
+      );
+    if (widget.content == ListItemContent.LOGOUT)
+      icon = Icon(
+        Icons.chevron_left,
+        size: 20,
+      );
+    if (widget.content == ListItemContent.LOGIN)
+      icon = Icon(
+        Icons.account_circle,
+        size: 20,
+      );
   }
 
   Widget buildSlider() {
