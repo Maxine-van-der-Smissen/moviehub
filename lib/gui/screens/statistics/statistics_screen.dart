@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:moviehub/gui/screens/statistics/components/average_movie_rating.dart';
+import 'package:moviehub/models/account.dart';
 import 'package:moviehub/utils/network_utils.dart';
 import 'components/highest_rated_list.dart';
 import 'components/top_genres_in_lists.dart';
@@ -18,6 +20,31 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   }
 
   void loadStatistics() async {
+    if (await Account.fromJson() == null) {
+      setState(() {
+        statisticsWidget = Container(
+          width: double.infinity,
+          height: MediaQuery.of(context).size.height - 250,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  width: 200,
+                  height: 200,
+                  child: Image.asset("images/no_auth.png"),
+                ),
+                Text("To view statistics, you need to be authenticated", style: TextStyle(
+                  color: Theme.of(context).brightness == Brightness.light ? Color(0xFF3E3E3E).withOpacity(0.45) : Colors.white,
+                ),),
+              ],
+            ),
+          ),
+        );
+      });
+      return;
+    }
+
     // TODO put loading of statistics somewhere else
     NetworkUtils.fetchStatistics().then(
       (statistics) => {

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:moviehub/gui/components/list_card/list_card.dart';
 import 'package:moviehub/gui/components/text/page_title.dart';
 import 'package:moviehub/gui/screens/created_lists/components/list_creation_dialog.dart';
+import 'package:moviehub/models/account.dart';
 import 'package:moviehub/models/list.dart';
 import 'package:moviehub/utils/network_utils.dart';
 
@@ -28,7 +29,8 @@ class _ListScreenState extends State<ListScreen> {
     displayLists();
   }
 
-  void displayLists() {
+  void displayLists() async{
+
     setState(() {
       listWidget = Container(
         width: 1000,
@@ -46,7 +48,53 @@ class _ListScreenState extends State<ListScreen> {
     });
   }
 
+  Widget button = Container();
+
   void loadLists() async {
+    if (await Account.fromJson() == null) {
+      setState(() {
+        listWidget = Container(
+          width: double.infinity,
+          height: MediaQuery.of(context).size.height - 250,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  width: 200,
+                  height: 200,
+                  child: Image.asset("images/no_auth.png"),
+                ),
+                Text("To view and create lists, you need to be authenticated", style: TextStyle(
+                  color: Theme.of(context).brightness == Brightness.light ? Color(0xFF3E3E3E).withOpacity(0.45) : Colors.white,
+                ),),
+              ],
+            ),
+          ),
+        );
+      });
+      return;
+    }
+    setState(() {
+      button = Container(
+        margin: EdgeInsets.only(bottom: 25, left: 25),
+        child: FloatingActionButton(
+          child: Icon(
+            Icons.add,
+            color: Color(0xFFFFFFFF),
+          ),
+          backgroundColor: Color(0xFFFF6F31),
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => ListCreationDialog(
+                callback: addList,
+              ),
+            );
+          },
+        ),
+      );
+    });
     lists = await NetworkUtils.fetchLists();
     displayLists(); 
   }
@@ -82,24 +130,7 @@ class _ListScreenState extends State<ListScreen> {
             ],
           ),
         ),
-        floatingActionButton: Container(
-          margin: EdgeInsets.only(bottom: 25, left: 25),
-          child: FloatingActionButton(
-            child: Icon(
-              Icons.add,
-              color: Color(0xFFFFFFFF),
-            ),
-            backgroundColor: Color(0xFFFF6F31),
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) => ListCreationDialog(
-                  callback: addList,
-                ),
-              );
-            },
-          ),
-        ),
+        floatingActionButton: button,
       ),
     );
   }
