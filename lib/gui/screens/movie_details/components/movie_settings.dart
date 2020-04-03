@@ -34,7 +34,7 @@ class _MovieSettingsState extends State<MovieSettings> {
             widget.selectionCallback(context, result.toString());
           },
           itemBuilder: (BuildContext context) => <PopupMenuEntry<Options>>[
-            const PopupMenuItem<Options>(
+            PopupMenuItem<Options>(
               value: Options.addToList,
               child: ListTile(
                 leading: IconButton(
@@ -47,7 +47,7 @@ class _MovieSettingsState extends State<MovieSettings> {
                 title: Text("Add move to a list"),
               ),
             ),
-            (widget.trailerExists) ? const PopupMenuItem<Options>(
+            (widget.trailerExists) ? PopupMenuItem<Options>(
               value: Options.watchTrailer,
               child: ListTile(
                 leading: IconButton(
