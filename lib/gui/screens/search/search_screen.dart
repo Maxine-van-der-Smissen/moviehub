@@ -30,11 +30,11 @@ class _SearchScreenState extends State<SearchScreen> {
         .then((fetchedLists) => {lists.addAll(fetchedLists)});
   }
 
-  void updateSearchTerm(String searchTerm) {
+  void updateSearchTerm(String searchTerm, bool results) {
     setState(() {
       resultsForSearchTerm = RichText(
         text: TextSpan(
-          text: 'Search results for ',
+          text: (results) ? 'Search results for ' : 'There are no results for ',
           style: TextStyle(
             color: Color(0xFF3e3e3e),
             fontSize: 16,
@@ -55,10 +55,10 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   void loadMovies(String query) async {
-    updateSearchTerm(query);
     String url =
         await NetworkUtils.urlBuilder(URLBuilderType.SEARCH, query: query);
     movies = await NetworkUtils.fetchMovies(url, URLBuilderType.SEARCH);
+    (movies.length != 0) ? updateSearchTerm(query, true) : updateSearchTerm(query, false);
     setState(() {
       movieWidget = Container(
         width: 1000,

@@ -34,7 +34,7 @@ class MovieCardTextColumn extends StatelessWidget {
         ), // Movie Title
         SizedBox(height: 0,),
         Text(
-          movieReleaseDate,
+          (movieReleaseDate != null) ? movieReleaseDate : "",
           style: TextStyle(
               color: Color(0xFFAFAFAF),),
         ),
@@ -47,7 +47,8 @@ class MovieCardTextColumn extends StatelessWidget {
         Container(
           // Text row container
           child: Container(
-              child: Text(movieGenres,
+              child: Text(
+                  movieGenres,
                   maxLines: 1,
                   style: TextStyle(color: Color(0xFFAFAFAF)))),
         ),
