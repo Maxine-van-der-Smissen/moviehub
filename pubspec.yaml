@@ -32,6 +32,7 @@ dependencies:
   flutter_dotenv: ^2.1.0
   webview_flutter: 0.3.19+9
   url_launcher: ^5.4.2
+  connectivity: 0.4.8+2
 
 dev_dependencies:
   flutter_launcher_icons: ^0.7.3
@@ -60,6 +61,8 @@ flutter:
     - images/default/
     - images/profile_placeholder.png
     - images/film_placeholder.png
+    - images/no_auth.png
+    - images/no_wifi.png
     - .env
     - lang/en.json
     - lang/nl.json

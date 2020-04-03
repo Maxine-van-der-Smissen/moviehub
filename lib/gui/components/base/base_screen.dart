@@ -1,4 +1,6 @@
+import 'dart:math';
 
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:moviehub/gui/components/app_bar/main_app_bar.dart';
@@ -7,6 +9,7 @@ import 'package:moviehub/gui/components/drawer/account/auth_button.dart';
 import 'package:moviehub/gui/components/drawer/list_item.dart';
 import 'package:moviehub/gui/screens/created_lists/list_screen.dart';
 import 'package:moviehub/gui/screens/discover/discover_screen.dart';
+import 'package:moviehub/gui/screens/no_wifi/no_wifi_screen.dart';
 import 'package:moviehub/gui/screens/search/search_screen.dart';
 import 'package:moviehub/gui/screens/statistics/statistics_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,18 +31,42 @@ class BaseScreen extends StatefulWidget {
 class _BaseScreenState extends State<BaseScreen> {
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    updateWifi();
+  }
+
+  void updateWifi() async {
+    ConnectivityResult result = await Connectivity().checkConnectivity();
+    setState(() {
+      if (result == ConnectivityResult.none) widget.child = NoWifiScreen();
+      else widget.child = DiscoverScreen();
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      updateWifi();
+    });
+  }
+
   void openDrawer() {
     _drawerKey.currentState.openDrawer();
   }
 
   void changeScreen(ListItemContent content, BuildContext context) {
+    if (content == ListItemContent.NIGHT_MODE) return;
     Navigator.pop(context);
     setState(() {
       if (content == ListItemContent.DISCOVER) widget.child = DiscoverScreen();
       if (content == ListItemContent.SEARCH) widget.child = SearchScreen();
       if (content == ListItemContent.LIST) widget.child = ListScreen();
-      if (content == ListItemContent.STATISTICS) widget.child = StatisticsScreen();
-      if (content == ListItemContent.NIGHT_MODE) return;
+      if (content == ListItemContent.STATISTICS)
+        widget.child = StatisticsScreen();
     });
   }
 
@@ -51,14 +78,14 @@ class _BaseScreenState extends State<BaseScreen> {
     );
   }
 
-  void logout() async{
+  void logout() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString("account", null);
     updateScreen();
   }
 
   void updateScreen() {
-    Navigator.of(context).pop();
+    changeScreen(ListItemContent.DISCOVER, context);
   }
 
   @override
@@ -75,8 +102,7 @@ class _BaseScreenState extends State<BaseScreen> {
                 widget.accountTab,
                 ListItem(
                   content: ListItemContent.DISCOVER,
-                  onTap: () =>
-                      changeScreen(ListItemContent.DISCOVER, context),
+                  onTap: () => changeScreen(ListItemContent.DISCOVER, context),
                   title: "",
                 ),
                 ListItem(
@@ -91,7 +117,8 @@ class _BaseScreenState extends State<BaseScreen> {
                 ),
                 ListItem(
                   content: ListItemContent.STATISTICS,
-                  onTap: () => changeScreen(ListItemContent.STATISTICS, context),
+                  onTap: () =>
+                      changeScreen(ListItemContent.STATISTICS, context),
                   title: "",
                 ),
                 ListItem(
