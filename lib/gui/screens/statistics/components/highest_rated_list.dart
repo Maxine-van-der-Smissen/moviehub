@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:moviehub/gui/components/text/card_title.dart';
 import 'package:moviehub/gui/components/text/text_title.dart';
+import 'package:moviehub/utils/localizations.dart';
 
 // ignore: must_be_immutable
 class HighestRatedLists extends StatelessWidget {
@@ -31,7 +32,7 @@ class HighestRatedLists extends StatelessWidget {
           children: <Widget>[
             Align(
               alignment: Alignment.topLeft,
-              child: CardTitle("Highest rated list"),
+              child: CardTitle(MovieHubLocalizations.of(context).translate("statistics_screen_highest_rated_list")),
             ),
             SizedBox(
               height: 15,

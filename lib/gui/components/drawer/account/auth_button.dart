@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:moviehub/gui/components/drawer/list_item.dart';
 import 'package:moviehub/models/account.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:moviehub/utils/localizations.dart';
 
 class AuthButton extends StatefulWidget {
   VoidCallback onChange;
@@ -28,13 +28,13 @@ class _AuthButtonState extends State<AuthButton> {
     setState(() {
       if (account == null) {
         buttonWidget = ListItem(
-          title: "login",
+          title: MovieHubLocalizations.of(context).translate("login"),
           content: ListItemContent.LOGIN,
           onTap: () => widget.login(),
         );
       } else {
         buttonWidget = ListItem(
-          title: "logout",
+          title: MovieHubLocalizations.of(context).translate("logout"),
           content: ListItemContent.LOGOUT,
           onTap: () => widget.logout(),
         );

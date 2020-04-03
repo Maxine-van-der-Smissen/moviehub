@@ -3,7 +3,6 @@ import 'package:moviehub/gui/components/movie_card/movie_card_cover.dart';
 import 'package:moviehub/gui/screens/list_details/list_details.dart';
 import 'package:moviehub/models/account.dart';
 import 'package:moviehub/models/list.dart';
-import 'package:moviehub/models/movie.dart';
 import 'package:moviehub/utils/network_utils.dart';
 import 'list_card_text_column.dart';
 

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:moviehub/gui/components/rating/movie_rating.dart';
 import 'package:moviehub/gui/components/text/text_title.dart';
+import 'package:moviehub/utils/localizations.dart';
 
 class MovieRatings extends StatelessWidget {
   int votes;
@@ -14,7 +15,8 @@ class MovieRatings extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          TextTitle("Rating votes"),
+          TextTitle(MovieHubLocalizations.of(context)
+              .translate("movie_details_rating_header")),
           SizedBox(
             height: 10,
           ),
@@ -31,9 +33,11 @@ class MovieRatings extends StatelessWidget {
                   children: <Widget>[
                     MovieRating(rating),
                     Text(
-                      "Votes: ${votes}",
+                      "${MovieHubLocalizations.of(context).translate("movie_details_rating_header")}: ${votes}",
                       style: TextStyle(
-                          height: 1.65, color: Color(0xFF000000).withOpacity(0.45), fontSize: 12),
+                          height: 1.65,
+                          color: Color(0xFF000000).withOpacity(0.45),
+                          fontSize: 12),
                     ),
                   ],
                 ),

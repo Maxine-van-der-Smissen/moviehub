@@ -8,6 +8,7 @@ import 'package:moviehub/gui/screens/discover/components/sort_dialog.dart';
 import 'package:moviehub/models/list.dart';
 import 'package:moviehub/models/movie.dart';
 import 'package:moviehub/utils/data.dart';
+import 'package:moviehub/utils/localizations.dart';
 import 'package:moviehub/utils/network_utils.dart';
 
 class DiscoverScreen extends StatefulWidget {
@@ -62,7 +63,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
               margin: EdgeInsets.only(left: 15, right: 15),
               child: Row(
                 children: <Widget>[
-                  PageTitle("Discover"),
+                  PageTitle(MovieHubLocalizations.of(context).translate("discover_screen_page_title")),
                   Spacer(),
                   Row(
                     children: <Widget>[

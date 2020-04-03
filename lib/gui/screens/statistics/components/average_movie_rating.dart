@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:moviehub/gui/components/text/card_title.dart';
+import 'package:moviehub/utils/localizations.dart';
 
 // ignore: must_be_immutable
 class AverageMovieRating extends StatelessWidget {
@@ -29,7 +30,7 @@ class AverageMovieRating extends StatelessWidget {
           children: <Widget>[
             Align(
               alignment: Alignment.topLeft,
-              child: CardTitle("Average movie rating in lists"),
+              child: CardTitle(MovieHubLocalizations.of(context).translate("statistics_screen_average_rating")),
             ),
             SizedBox(
               height: 15,
