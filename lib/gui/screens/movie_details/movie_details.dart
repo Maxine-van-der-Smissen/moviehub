@@ -14,6 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'components/movie_backdrop.dart';
 import 'components/movie_genre.dart';
+import 'components/movie_settings.dart';
 
 // ignore: must_be_immutable
 class MovieDetails extends StatelessWidget {
@@ -21,7 +22,7 @@ class MovieDetails extends StatelessWidget {
   MovieDetailsHeaderModel movieDetailsHeader;
   List<ListCardModel> lists;
 
-  MovieDetails(details,lists) {
+  MovieDetails(details, lists) {
     this.lists = lists;
     this.movieDetails = details;
     this.movieDetailsHeader = MovieDetailsHeaderModel(
@@ -32,16 +33,22 @@ class MovieDetails extends StatelessWidget {
         movieDetails.movieRating);
   }
 
-  void handleAdd(BuildContext context) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    bool loggedIn = preferences.getString("account") != null;
-    showDialog(
-      context: context,
-      builder: (BuildContext context) => loggedIn ? AddMovieToListDialog(
-          onListAdd: () => print("Callback"),
-          movieId: movieDetails.movieId,
-          lists: lists) : LoginDialog(updateLogin: () => null,),
-    );
+  void handleAdd(BuildContext context, String selected) async {
+    if (selected == "Options.addToList") {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      bool loggedIn = preferences.getString("account") != null;
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => loggedIn
+            ? AddMovieToListDialog(
+                onListAdd: () => print("Callback"),
+                movieId: movieDetails.movieId,
+                lists: lists)
+            : LoginDialog(
+                updateLogin: () => null,
+              ),
+      );
+    }
   }
 
   @override
@@ -83,19 +90,10 @@ class MovieDetails extends StatelessWidget {
                                   child: Align(
                                     alignment: Alignment.topRight,
                                     child: Container(
-                                      width: 35,
-                                      child: FlatButton(
-                                        padding: EdgeInsets.all(0.0),
-                                        child: Icon(
-                                          Icons.playlist_add,
-                                          size: 20,
-                                          color: Color(0xFF3e3e3e).withOpacity(0.5),
-                                        ),
-                                        onPressed: () {
-                                          handleAdd(context);
-                                        },
-                                      ),
-                                    ),
+                                        width: 35,
+                                        child: MovieSettings(
+                                          selectionCallback: handleAdd,
+                                        )),
                                   ),
                                 ),
                               ],
@@ -112,7 +110,9 @@ class MovieDetails extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    (movieDetails.movieGenres.isNotEmpty) ? MovieGenres(movieDetails.movieGenres) : Text(""),
+                    (movieDetails.movieGenres.isNotEmpty)
+                        ? MovieGenres(movieDetails.movieGenres)
+                        : Text(""),
                     SizedBox(
                       height: 10,
                     ),
