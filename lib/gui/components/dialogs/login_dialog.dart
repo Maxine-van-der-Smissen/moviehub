@@ -58,7 +58,6 @@ class _LoginDialogState extends State<LoginDialog> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        Navigator.of(context).pop();
         login();
         widget.updateLogin();
         return true;
