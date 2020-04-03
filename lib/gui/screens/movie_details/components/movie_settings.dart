@@ -25,6 +25,10 @@ class _MovieSettingsState extends State<MovieSettings> {
       child: Align(
         alignment: Alignment.topRight,
         child: PopupMenuButton<Options>(
+          icon: Icon(
+            Icons.more_vert,
+            color: Color(0xFF3e3e3e).withOpacity(0.5),
+          ),
           onSelected: (Options result) {
             widget.selectionCallback(context, result.toString());
           },
