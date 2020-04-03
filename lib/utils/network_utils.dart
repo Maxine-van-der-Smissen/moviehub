@@ -170,12 +170,12 @@ class NetworkUtils {
     await DotEnv().load(".env");
     String apiKey = DotEnv().env["apiKey"];
 
-    return http
+    return await http
         .post(
             "${baseUrl}list/$listId/remove_item?api_key=$apiKey&session_id=$sessionId",
             headers: {"Content-type": "application/json"},
             body: json.encode({"media_id": movieId}))
-        .then((response) => response.statusCode == 201);
+        .then((response) => response.statusCode == 200);
   }
 
   static Future<ListDetailsModel> fetchList(int listId) async {
@@ -336,7 +336,8 @@ class NetworkUtils {
             ? listRatingMapEntries.first.key.name
             : "",
         listRatingMapEntries.isNotEmpty
-            ? num.parse((listRatingMapEntries.first.value / 2).toStringAsFixed(1))
+            ? num.parse(
+                (listRatingMapEntries.first.value / 2).toStringAsFixed(1))
             : 0,
         averageMovieRating);
   }
