@@ -3,8 +3,10 @@ import 'dart:convert';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:moviehub/models/account.dart';
+import 'package:moviehub/models/genres.dart';
 import 'package:moviehub/models/list.dart';
 import 'package:moviehub/models/movie.dart';
+import 'package:moviehub/models/statistics.dart';
 import 'package:moviehub/utils/converter_utils.dart';
 import 'package:moviehub/utils/data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -76,17 +78,21 @@ class NetworkUtils {
         await http.get("${baseUrl}movie/$movieId?api_key=$apiKey");
     final creditsResponse =
         await http.get("${baseUrl}movie/$movieId/credits?api_key=$apiKey");
+    final videoResponse =
+        await http.get("${baseUrl}movie/$movieId/videos?api_key=$apiKey");
 
     Map<String, dynamic> movieJson = json.decode(detailsResponse.body);
     Map<String, dynamic> creditsJson = json.decode(creditsResponse.body);
+    Map<String, dynamic> videoJson = jsonDecode(videoResponse.body);
 
-    if (detailsResponse.statusCode == 200 &&
-        creditsResponse.statusCode == 200 &&
-        movieJson != null &&
-        creditsJson != null) {
-      return Converter.convertMovieDetails(movieJson, creditsJson);
-    } else
-      throw Exception('Failed to load movie');
+    if (detailsResponse.statusCode != 200 ||
+        creditsResponse.statusCode != 200 ||
+        videoResponse.statusCode != 200 ||
+        movieJson == null ||
+        creditsJson == null ||
+        videoJson == null) throw Exception('Failed to load movie');
+
+    return Converter.convertMovieDetails(movieJson, creditsJson, videoJson);
   }
 
   static Future<bool> postRating(
@@ -112,17 +118,23 @@ class NetworkUtils {
         .then((response) => response.statusCode == 200);
   }
 
-  static Future<bool> createList(
+  static Future<ListCardModel> createList(
       String name, String description, String sessionId) async {
     await DotEnv().load(".env");
     String apiKey = DotEnv().env["apiKey"];
 
-    return http
-        .post("${baseUrl}list?api_key=$apiKey&session_id=$sessionId",
-            headers: {"Content-type": "application/json"},
-            body: json.encode(
-                {"name": name, "description": description, "language": "en"}))
-        .then((response) => response.statusCode == 201);
+    final response = await http.post(
+        "${baseUrl}list?api_key=$apiKey&session_id=$sessionId",
+        headers: {"Content-type": "application/json"},
+        body: jsonEncode(
+            {"name": name, "description": description, "language": "en"}));
+
+    Map<String, dynamic> json = jsonDecode(response.body);
+
+    if (response.statusCode == 201 && json != null) {
+      return ListCardModel(json["list_id"], 0, name, description);
+    } else
+      throw Exception("Failed to create the list");
   }
 
   static Future<bool> deleteList(int listId, String sessionId) async {
@@ -162,15 +174,15 @@ class NetworkUtils {
     await DotEnv().load(".env");
     String apiKey = DotEnv().env["apiKey"];
 
-    return http
+    return await http
         .post(
             "${baseUrl}list/$listId/remove_item?api_key=$apiKey&session_id=$sessionId",
             headers: {"Content-type": "application/json"},
             body: json.encode({"media_id": movieId}))
-        .then((response) => response.statusCode == 201);
+        .then((response) => response.statusCode == 200);
   }
 
-  static Future<List<MovieCardModel>> fetchList(int listId) async {
+  static Future<ListDetailsModel> fetchList(int listId) async {
     List<MovieCardModel> movies = List();
 
     await DotEnv().load(".env");
@@ -184,9 +196,11 @@ class NetworkUtils {
       for (Map<String, dynamic> movieJson in listJson["items"]) {
         movies.add(Converter.convertMovieCard(movieJson));
       }
-    }
 
-    return movies;
+      return ListDetailsModel(num.parse(listJson["id"]), listJson["name"],
+          listJson["description"], movies);
+    } else
+      throw Exception("Couldn't get the details of this list");
   }
 
   static Future<String> fetchRequestURL() async {
@@ -213,7 +227,6 @@ class NetworkUtils {
 
     String requestToken = await SharedPreferences.getInstance()
         .then((preferences) => preferences.getString("request_token"));
-
 
     final sessionResponse = await http.post(
         "${baseUrl}authentication/session/new?api_key=$apiKey",
@@ -255,6 +268,8 @@ class NetworkUtils {
 
     Account account = await Account.fromJson();
 
+    if (account == null) throw Exception("You must first log in");
+
     final response = await http.get(
         "${baseUrl}account/${account.accountId}/lists?api_key=$apiKey&session_id=${account.sessionId}");
 
@@ -267,5 +282,84 @@ class NetworkUtils {
     }
 
     return lists;
+  }
+
+  static Future<String> fetchIMDBURL(int movieId) async {
+    await DotEnv().load(".env");
+    String apiKey = DotEnv().env["apiKey"];
+
+    final response =
+        await http.get("${baseUrl}movie/$movieId/external_ids?api_key=$apiKey");
+
+    Map<String, dynamic> json = jsonDecode(response.body);
+
+    if (response.statusCode == 200 && json != null) {
+      return json["imdb_id"] != null
+          ? "https://www.imdb.com/title/${json["imdb_id"]}/?ref_=hm_hp_cap_pri_1"
+          : null;
+    } else
+      throw Exception('Failed to get external IMDB id');
+  }
+
+  static Future<StatisticsModel> fetchStatistics() async {
+    Map<int, int> genreCount = Map();
+    Map<ListDetailsModel, double> listRating = Map();
+    Map<int, double> movieRatingsMap = Map();
+
+    List<Future<ListDetailsModel>> futuresList = List();
+
+    await fetchLists().then((lists) => {
+          lists.forEach(
+              (listModel) => {futuresList.add(fetchList(listModel.id))})
+        });
+
+    await Future.wait(futuresList, eagerError: true).then(
+        (listDetailsModelList) => listDetailsModelList.forEach(
+            (listDetailsModel) =>
+                listDetailsModel.items.forEach((movieCard) => {
+                      movieCard.movieGenres.forEach((genre) => genreCount
+                          .update(genre.id, (currentValue) => ++currentValue,
+                              ifAbsent: () => 1)),
+                      listRating.update(
+                          listDetailsModel,
+                          (currentRating) =>
+                              currentRating + movieCard.movieRating,
+                          ifAbsent: () => movieCard.movieRating),
+                      movieRatingsMap.update(
+                          movieCard.movieId, (currentValue) => currentValue,
+                          ifAbsent: () => movieCard.movieRating)
+                    })));
+
+    List<MapEntry<int, int>> genreMapEntries =
+        genreCount.entries.toList(growable: false);
+    genreMapEntries.sort((one, other) => other.value.compareTo(one.value));
+    List<Genre> topGenres = genreMapEntries
+        .map((mapEntry) => Genre(mapEntry.key, Data.genres[mapEntry.key]))
+        .toList();
+
+    List<MapEntry<ListDetailsModel, double>> listRatingMapEntries =
+        listRating.entries.toList(growable: false);
+    listRatingMapEntries.sort((one, other) => other.value.compareTo(one.value));
+
+    List<double> movieRatingsList =
+        movieRatingsMap.values.toList(growable: false);
+
+    double averageMovieRating = movieRatingsList.isNotEmpty
+        ? num.parse(((movieRatingsList.reduce((one, other) => one + other) /
+                    movieRatingsList.length) /
+                2)
+            .toStringAsFixed(1))
+        : 0;
+
+    return StatisticsModel(
+        topGenres,
+        listRatingMapEntries.isNotEmpty
+            ? listRatingMapEntries.first.key.name
+            : "",
+        listRatingMapEntries.isNotEmpty
+            ? num.parse(
+                (listRatingMapEntries.first.value / 2).toStringAsFixed(1))
+            : 0,
+        averageMovieRating);
   }
 }

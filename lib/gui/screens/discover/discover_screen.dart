@@ -2,10 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:moviehub/gui/components/buttons/option_button.dart';
 import 'package:moviehub/gui/components/movie_card/movie_card.dart';
+import 'package:moviehub/gui/components/text/page_title.dart';
 import 'package:moviehub/gui/screens/discover/components/filter_dialog.dart';
 import 'package:moviehub/gui/screens/discover/components/sort_dialog.dart';
+import 'package:moviehub/models/account.dart';
+import 'package:moviehub/models/list.dart';
 import 'package:moviehub/models/movie.dart';
 import 'package:moviehub/utils/data.dart';
+import 'package:moviehub/utils/localizations.dart';
 import 'package:moviehub/utils/network_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,18 +21,26 @@ class DiscoverScreen extends StatefulWidget {
 class _DiscoverScreenState extends State<DiscoverScreen> {
   Widget movieWidget = Container();
   List<MovieCardModel> movies;
+  List<ListCardModel> lists = List();
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    if(lists.isEmpty) loadLists();
     loadMovies();
   }
 
-  void loadMovies() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
+  void loadLists() async {
+    if (await Account.fromJson() == null) return;
+    NetworkUtils.fetchLists().then((fetchedLists) => {
+      lists.addAll(fetchedLists)
+    });
+  }
 
+  void loadMovies() async {
     String url = await NetworkUtils.urlBuilder(URLBuilderType.DISCOVER);
     movies = await NetworkUtils.fetchMovies(url, URLBuilderType.DISCOVER);
+
     setState(() {
       movieWidget = Container(
         width: 1000,
@@ -36,7 +48,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
         child: ListView.builder(
             itemCount: movies.length,
             itemBuilder: (context, i) {
-              return MovieCard(movie: movies[i]);
+              return MovieCardAddToList(movies[i], lists);
             }),
       );
     });
@@ -54,13 +66,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
               margin: EdgeInsets.only(left: 15, right: 15),
               child: Row(
                 children: <Widget>[
-                  Text(
-                    "Discover",
-                    style: TextStyle(
-                        color: Color(0xFF3e3e3e),
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700),
-                  ),
+                  PageTitle(MovieHubLocalizations.of(context).translate("discover_screen_page_title")),
                   Spacer(),
                   Row(
                     children: <Widget>[

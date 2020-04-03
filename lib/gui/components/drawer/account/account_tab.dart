@@ -12,6 +12,7 @@ class _AccountTabState extends State<AccountTab> {
 
   String name = "...";
   String id = "...";
+  String profileImage;
 
   @override
   void didChangeDependencies() {
@@ -25,6 +26,7 @@ class _AccountTabState extends State<AccountTab> {
     setState(() {
       name = account.username;
       id = account.accountId.toString();
+      profileImage = account.profileURL;
     });
   }
 
@@ -39,7 +41,7 @@ class _AccountTabState extends State<AccountTab> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            ProfileImage(url: "https://i.imgur.com/MYmm7E1.jpg"),
+            ProfileImage(url: profileImage),
             Container(
               margin: EdgeInsets.only(top: 14, bottom: 5),
               child: Text(

@@ -2,6 +2,8 @@ import 'package:moviehub/models/genres.dart';
 
 class Data {
   static final Map<int, String> genres = Map.fromIterable([
+    Genre(-2, "Invalid genre"),
+    Genre(-1, "No genres"),
     Genre(28, "Action"),
     Genre(12, "Adventure"),
     Genre(16, "Animation"),

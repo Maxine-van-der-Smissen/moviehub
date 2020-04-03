@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
+// ignore: must_be_immutable
 class MovieRating extends StatelessWidget {
   double movieRating;
 
@@ -22,9 +23,6 @@ class MovieRating extends StatelessWidget {
         Icons.star,
         color: Color(0xFFF4B127),
       ),
-      onRatingUpdate: (rating) {
-        print(rating);
-      },
     );
   }
 }

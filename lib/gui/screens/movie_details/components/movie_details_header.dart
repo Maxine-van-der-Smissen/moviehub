@@ -3,17 +3,21 @@ import 'package:moviehub/gui/components/rating/movie_rating.dart';
 import 'package:moviehub/gui/components/text/text_title.dart';
 import 'package:moviehub/models/movie.dart';
 
+// ignore: must_be_immutable
 class MovieDetailsHeader extends StatelessWidget {
   MovieDetailsHeaderModel movieDetails;
 
-  MovieDetailsHeader(details) : this.movieDetails = details;
+  MovieDetailsHeader(this.movieDetails);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        TextTitle(movieDetails.movieTitle),
+        Container(
+          width: 185,
+          child: TextTitle(movieDetails.movieTitle),
+        ),
         SizedBox(
           height: 5,
         ),

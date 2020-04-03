@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:moviehub/utils/localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SortDialog extends StatefulWidget {
@@ -10,15 +11,20 @@ class SortDialog extends StatefulWidget {
   VoidCallback onSortChange;
 
   SortDialog({this.onSortChange});
-
 }
 
 class _SortDialogState extends State<SortDialog> {
-
   String sortName;
   String sortPosition;
 
-  List<String> sorts = ['popularity', 'release_date', 'revenue', 'primary_release_date', 'vote_average', 'vote_count'].toList();
+  List<String> sorts = [
+    'popularity',
+    'release_date',
+    'revenue',
+    'primary_release_date',
+    'vote_average',
+    'vote_count'
+  ].toList();
   List<String> ways = ['ascending', 'descending'].toList();
 
   @override
@@ -27,9 +33,10 @@ class _SortDialogState extends State<SortDialog> {
     loadSort();
   }
 
-  void loadSort() async{
+  void loadSort() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    if (preferences.getString("sort") == null) preferences.setString("sort", "original_title.desc");
+    if (preferences.getString("sort") == null)
+      preferences.setString("sort", "popularity.desc");
     String currentSort = preferences.getString("sort");
     List<String> split = currentSort.split(".");
     setState(() {
@@ -45,7 +52,6 @@ class _SortDialogState extends State<SortDialog> {
     preferences.setString("sort", sortString);
     widget.onSortChange();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +85,8 @@ class _SortDialogState extends State<SortDialog> {
             Align(
               alignment: Alignment.topLeft,
               child: Text(
-                "Sort",
+                MovieHubLocalizations.of(context)
+                    .translate("sort_dialog_title"),
                 style: TextStyle(
                     fontSize: 22.0,
                     fontWeight: FontWeight.w600,
@@ -97,8 +104,7 @@ class _SortDialogState extends State<SortDialog> {
                       sortName = newValue;
                     });
                   },
-                  items: sorts
-                      .map<DropdownMenuItem<String>>((String value) {
+                  items: sorts.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(value),
@@ -114,8 +120,7 @@ class _SortDialogState extends State<SortDialog> {
                       sortPosition = newValue;
                     });
                   },
-                  items: ways
-                      .map<DropdownMenuItem<String>>((String value) {
+                  items: ways.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(value),
@@ -131,7 +136,8 @@ class _SortDialogState extends State<SortDialog> {
                   saveSort();
                   Navigator.of(context).pop();
                 },
-                child: Text("Done"),
+                child:
+                    Text(MovieHubLocalizations.of(context).translate("done")),
               ),
             ),
           ],

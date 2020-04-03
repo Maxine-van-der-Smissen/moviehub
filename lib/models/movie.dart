@@ -1,11 +1,13 @@
 import 'package:moviehub/models/cast_member.dart';
 import 'package:moviehub/models/genres.dart';
 import 'package:moviehub/models/review.dart';
+import 'package:moviehub/utils/network_utils.dart';
+import 'package:share/share.dart';
 
 class MovieCardModel {
   final int movieId;
   final String movieTitle;
-  final String movieGenres;
+  final List<Genre> movieGenres;
   final String movieReleaseDate;
   final String movieCoverURL;
   final double movieRating;
@@ -31,6 +33,7 @@ class MovieDetailsModel {
   final String movieDuration;
   final String movieCoverURL;
   final String movieBackdropURL;
+  final String trailerURL;
   final double movieRating;
   final int movieRatingCount;
 
@@ -47,7 +50,26 @@ class MovieDetailsModel {
       this.movieCoverURL,
       this.movieBackdropURL,
       this.movieRating,
-      this.movieRatingCount);
+      this.movieRatingCount,
+      this.trailerURL);
+
+  static void shareMovie(MovieDetailsModel movie) async {
+    String movieURL = await NetworkUtils.fetchIMDBURL(movie.movieId);
+
+    String trailer = (movie.trailerURL != null) ? "Trailer: ${movie.trailerURL}\n\n" : "";
+    String genres = (movie.movieGenres != null) ? "Genres: ${movie.movieGenres.map((movieGenre) => movieGenre.name).toString().replaceAll("(", "").replaceAll(")", "")}" : "";
+    String director = (movie.movieDirector != null) ? "Director: ${movie.movieDirector}\n\n" : "";
+
+    String message = ""
+        "*${movie.movieTitle}*\n\n"
+        "${movie.movieSynopsis}\n\n"
+        "$trailer"
+        "$genres"
+        "$director"
+        "Read more about this movie: $movieURL\n\n"
+        "*Shared by MovieHub, download the app now!*";
+    Share.share(message);
+  }
 }
 
 class MovieDetailsHeaderModel {
@@ -57,10 +79,6 @@ class MovieDetailsHeaderModel {
   final String movieDuration;
   final double movieRating;
 
-  MovieDetailsHeaderModel(
-      this.movieTitle,
-      this.movieDirector,
-      this.movieReleaseDate,
-      this.movieDuration,
-      this.movieRating);
+  MovieDetailsHeaderModel(this.movieTitle, this.movieDirector,
+      this.movieReleaseDate, this.movieDuration, this.movieRating);
 }

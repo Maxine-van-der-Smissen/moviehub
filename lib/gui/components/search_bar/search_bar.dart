@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:moviehub/utils/localizations.dart';
 
 // ignore: must_be_immutable
 class SearchBar extends StatefulWidget {
@@ -24,7 +25,6 @@ class _SearchBarState extends State<SearchBar> {
     if (text.isEmpty || text.trim().length == 0) return;
     widget.callback(text);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +58,8 @@ class _SearchBarState extends State<SearchBar> {
                   color: Theme.of(context).backgroundColor, width: 5.0),
               borderRadius: BorderRadius.all(Radius.circular(5)),
             ),
-            labelText: "Search for movies",
+            labelText: MovieHubLocalizations.of(context)
+                .translate("search_bar_label_text"),
             labelStyle: TextStyle(color: Color(0xFFCCCCCC))),
       ),
     );

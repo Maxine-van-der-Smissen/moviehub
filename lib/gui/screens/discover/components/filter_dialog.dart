@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:moviehub/utils/localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FilterDialog extends StatefulWidget {
@@ -29,14 +30,14 @@ class _FilterDialogState extends State<FilterDialog> {
     print(appliedFilters);
     setState(() {
       appliedFilters.forEach((filter) {
-        if (filter.startsWith("vote_average")) rating = double.parse(filter.split("=")[1]);
+        if (filter.startsWith("vote_average")) rating = double.parse(filter.split("=")[1]).round() * 0.5;
       });
     });
   }
 
   void saveFilter() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setStringList("filters", ["vote_average.gte=" + rating.toString()]);
+    preferences.setStringList("filters", ["vote_average.gte=${rating * 2}"]);
     widget.onSortChange();
   }
 
@@ -72,7 +73,7 @@ class _FilterDialogState extends State<FilterDialog> {
             Align(
               alignment: Alignment.topLeft,
               child: Text(
-                "Filter",
+                MovieHubLocalizations.of(context).translate("filter_dialog_title"),
                 style: TextStyle(
                     fontSize: 22.0,
                     fontWeight: FontWeight.w600,
@@ -80,7 +81,7 @@ class _FilterDialogState extends State<FilterDialog> {
               ),
             ),
             SizedBox(height: 16.0),
-            Text("Minimum rating " + rating.toString()),
+            Text("${MovieHubLocalizations.of(context).translate("filter_dialog_min_rating_header")}: ${rating.toString()}"),
             Slider(
               value: rating,
               min: 0,
@@ -101,7 +102,7 @@ class _FilterDialogState extends State<FilterDialog> {
                   saveFilter();
                   Navigator.of(context).pop();
                 },
-                child: Text("Done"),
+                child: Text(MovieHubLocalizations.of(context).translate("done")),
               ),
             ),
           ],

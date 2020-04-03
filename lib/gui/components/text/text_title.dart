@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
+// ignore: must_be_immutable
 class TextTitle extends StatelessWidget {
   String text;
   TextTitle(string) : this.text = string;
