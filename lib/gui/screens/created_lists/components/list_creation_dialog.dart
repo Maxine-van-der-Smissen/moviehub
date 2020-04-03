@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:moviehub/models/account.dart';
 import 'package:moviehub/models/list.dart';
+import 'package:moviehub/utils/localizations.dart';
 import 'package:moviehub/utils/network_utils.dart';
 
 // ignore: must_be_immutable
@@ -70,7 +71,7 @@ class _ListCreationDialogState extends State<ListCreationDialog> {
               Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  "Create new list",
+                  MovieHubLocalizations.of(context).translate("list_creation_dialog_create_list"),
                   style: TextStyle(
                     fontSize: 22.0,
                     fontWeight: FontWeight.w600,
@@ -81,12 +82,12 @@ class _ListCreationDialogState extends State<ListCreationDialog> {
               SizedBox(height: 16.0),
               TextFormField(
                 validator: (value) {
-                  if (value.isEmpty) return 'Please enter a list name';
+                  if (value.isEmpty) return MovieHubLocalizations.of(context).translate('list_creation_dialog_list_name_validator');
                   return null;
                 },
                 controller: listNameController,
                 decoration: InputDecoration(
-                  labelText: 'Enter new list name',
+                  labelText: MovieHubLocalizations.of(context).translate('list_creation_dialog_list_name_label'),
                   labelStyle: TextStyle(
                     color: Color(0xFFCCCCCC),
                   ),
@@ -95,12 +96,12 @@ class _ListCreationDialogState extends State<ListCreationDialog> {
               SizedBox(height: 10.0),
               TextFormField(
                 validator: (value) {
-                  if (value.isEmpty) return 'Please enter a list description';
+                  if (value.isEmpty) return MovieHubLocalizations.of(context).translate('list_creation_dialog_list_description_validator');
                   return null;
                 },
                 controller: listDescriptionController,
                 decoration: InputDecoration(
-                  labelText: 'Enter list description',
+                  labelText: MovieHubLocalizations.of(context).translate('list_creation_dialog_list_description_label'),
                   labelStyle: TextStyle(
                     color: Color(0xFFCCCCCC),
                   ),
@@ -121,7 +122,7 @@ class _ListCreationDialogState extends State<ListCreationDialog> {
                       },
                       color: Color(0xFFFF6F31),
                       child: Text(
-                        "Save",
+                        MovieHubLocalizations.of(context).translate("save"),
                         style: TextStyle(color: Color(0xFFFFFFFF)),
                       ),
                     ),
@@ -132,7 +133,7 @@ class _ListCreationDialogState extends State<ListCreationDialog> {
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      child: Text("Cancel"),
+                      child: Text(MovieHubLocalizations.of(context).translate("cancel")),
                     ),
                   ],
                 ),

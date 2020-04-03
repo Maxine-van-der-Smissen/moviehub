@@ -5,6 +5,7 @@ import 'package:moviehub/gui/components/search_bar/search_bar.dart';
 import 'package:moviehub/models/list.dart';
 import 'package:moviehub/models/movie.dart';
 import 'package:moviehub/utils/data.dart';
+import 'package:moviehub/utils/localizations.dart';
 import 'package:moviehub/utils/network_utils.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -34,7 +35,11 @@ class _SearchScreenState extends State<SearchScreen> {
     setState(() {
       resultsForSearchTerm = RichText(
         text: TextSpan(
-          text: (results) ? 'Search results for ' : 'There are no results for ',
+          text: (results)
+              ? MovieHubLocalizations.of(context)
+                  .translate("search_screen_results")
+              : MovieHubLocalizations.of(context)
+                  .translate("search_screen_no_results"),
           style: TextStyle(
             color: Color(0xFF3e3e3e),
             fontSize: 16,
@@ -58,7 +63,9 @@ class _SearchScreenState extends State<SearchScreen> {
     String url =
         await NetworkUtils.urlBuilder(URLBuilderType.SEARCH, query: query);
     movies = await NetworkUtils.fetchMovies(url, URLBuilderType.SEARCH);
-    (movies.length != 0) ? updateSearchTerm(query, true) : updateSearchTerm(query, false);
+    (movies.length != 0)
+        ? updateSearchTerm(query, true)
+        : updateSearchTerm(query, false);
     setState(() {
       movieWidget = Container(
         width: 1000,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moviehub/utils/localizations.dart';
 import '../rating/movie_rating.dart';
 
 class ListCardTextColumn extends StatelessWidget {
@@ -40,7 +41,7 @@ class ListCardTextColumn extends StatelessWidget {
           height: 30,
         ),
         Text(
-          "Movies: $movieCount",
+          "${MovieHubLocalizations.of(context).translate("list_card_text_column_movies")}: $movieCount",
           style: TextStyle(
             color: Color(0xFFAFAFAF),
           ),

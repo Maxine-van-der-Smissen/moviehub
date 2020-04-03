@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:moviehub/models/account.dart';
+import 'package:moviehub/utils/localizations.dart';
 import 'package:moviehub/utils/network_utils.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -36,7 +37,7 @@ class _LoginDialogState extends State<LoginDialog> {
       baseWidget = Container(
         width: double.infinity,
         height: 500,
-        child: WebView (
+        child: WebView(
           initialUrl: url,
           javascriptMode: JavascriptMode.unrestricted,
           onWebViewCreated: (WebViewController webViewController) {
@@ -108,7 +109,8 @@ class _LoginDialogState extends State<LoginDialog> {
                       login();
                       widget.updateLogin();
                     },
-                    child: Text("Done"),
+                    child: Text(
+                        MovieHubLocalizations.of(context).translate("done")),
                   ),
                 ),
               ],

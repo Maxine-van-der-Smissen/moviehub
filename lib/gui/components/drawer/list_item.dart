@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:moviehub/models/account.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:moviehub/utils/localizations.dart';
 
 enum ListItemContent {
   DISCOVER,
@@ -74,13 +73,13 @@ class _ListItemState extends State<ListItem> {
   }
 
   void handleTitle() async {
-    if (widget.content == ListItemContent.DISCOVER) title = "Discover";
-    if (widget.content == ListItemContent.SEARCH) title = "Search";
-    if (widget.content == ListItemContent.LIST) title = "List";
-    if (widget.content == ListItemContent.STATISTICS) title = "Statistics";
-    if (widget.content == ListItemContent.NIGHT_MODE) title = "Night Mode";
-    if (widget.content == ListItemContent.LOGOUT) title = "Logout";
-    if (widget.content == ListItemContent.LOGIN) title = "Login";
+    if (widget.content == ListItemContent.DISCOVER) title = MovieHubLocalizations.of(context).translate("drawer_discover");
+    if (widget.content == ListItemContent.SEARCH) title = MovieHubLocalizations.of(context).translate("drawer_search");
+    if (widget.content == ListItemContent.LIST) title = MovieHubLocalizations.of(context).translate("drawer_list");
+    if (widget.content == ListItemContent.STATISTICS) title = MovieHubLocalizations.of(context).translate("drawer_statistics");
+    if (widget.content == ListItemContent.NIGHT_MODE) title = MovieHubLocalizations.of(context).translate("drawer_night_mode");
+    if (widget.content == ListItemContent.LOGOUT) title = MovieHubLocalizations.of(context).translate("logout");
+    if (widget.content == ListItemContent.LOGIN) title = MovieHubLocalizations.of(context).translate("login");
   }
 
   void handleIcon() {

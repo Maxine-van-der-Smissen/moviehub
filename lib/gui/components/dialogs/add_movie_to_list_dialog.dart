@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:moviehub/models/account.dart';
 import 'package:moviehub/models/list.dart';
+import 'package:moviehub/utils/localizations.dart';
 import 'package:moviehub/utils/network_utils.dart';
 
 // ignore: must_be_immutable
@@ -79,7 +80,7 @@ class _AddMovieToListDialogState extends State<AddMovieToListDialog> {
             Align(
               alignment: Alignment.topLeft,
               child: Text(
-                "Add movie to a list",
+                MovieHubLocalizations.of(context).translate("add_movie_to_list_dialog_title"),
                 style: TextStyle(
                     fontSize: 22.0,
                     fontWeight: FontWeight.w600,
@@ -95,7 +96,7 @@ class _AddMovieToListDialogState extends State<AddMovieToListDialog> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text("Done"),
+                child: Text(MovieHubLocalizations.of(context).translate("cancel"),),
               ),
             ),
           ],

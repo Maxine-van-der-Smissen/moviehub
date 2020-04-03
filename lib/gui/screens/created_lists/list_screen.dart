@@ -5,6 +5,7 @@ import 'package:moviehub/gui/components/text/page_title.dart';
 import 'package:moviehub/gui/screens/created_lists/components/list_creation_dialog.dart';
 import 'package:moviehub/models/account.dart';
 import 'package:moviehub/models/list.dart';
+import 'package:moviehub/utils/localizations.dart';
 import 'package:moviehub/utils/network_utils.dart';
 
 // ignore: must_be_immutable
@@ -104,7 +105,7 @@ class _ListScreenState extends State<ListScreen> {
     displayLists();
     Scaffold.of(context).showSnackBar(
       SnackBar(
-        content: Text('Deleted list: "$listName"'),
+        content: Text('${MovieHubLocalizations.of(context).translate("list_screen_deleted")}: "$listName"'),
       ),
     );
   }
@@ -122,7 +123,7 @@ class _ListScreenState extends State<ListScreen> {
                   margin: EdgeInsets.only(top: 15,left: 15, right: 15),
                   child: Align(
                       alignment: Alignment.topLeft,
-                      child: PageTitle("Created lists"),
+                      child: PageTitle(MovieHubLocalizations.of(context).translate("list_screen_page_title")),
                   ),
                 ),
               ),

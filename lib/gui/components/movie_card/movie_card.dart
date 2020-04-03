@@ -23,10 +23,7 @@ class MovieCardAddToList extends StatelessWidget {
     showDialog(
       context: context,
       builder: (BuildContext context) => loggedIn
-          ? AddMovieToListDialog(
-              onListAdd: () => print("Callback"),
-              movieId: movie.movieId,
-              lists: lists)
+          ? AddMovieToListDialog(movieId: movie.movieId, lists: lists)
           : LoginDialog(
               updateLogin: () => null,
             ),

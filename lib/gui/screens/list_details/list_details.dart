@@ -6,6 +6,7 @@ import 'package:moviehub/gui/components/text/page_title.dart';
 import 'package:moviehub/models/account.dart';
 import 'package:moviehub/models/list.dart';
 import 'package:moviehub/models/movie.dart';
+import 'package:moviehub/utils/localizations.dart';
 import 'package:moviehub/utils/network_utils.dart';
 
 // ignore: must_be_immutable
@@ -64,14 +65,14 @@ class _ListDetailsState extends State<ListDetails> {
                   loadMovies(),
                   Scaffold.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Deleted movie from list'),
+                      content: Text(MovieHubLocalizations.of(context).translate('list_details_delete_movie_from_list_snackbar')),
                     ),
                   )
                 }
               else
                 Scaffold.of(context).showSnackBar(
                   SnackBar(
-                    content: Text("Couldn't remove movie from list"),
+                    content: Text(MovieHubLocalizations.of(context).translate("list_details_delete_movie_from_list_snackbar_fail")),
                   ),
                 )
             });

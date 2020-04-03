@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:moviehub/gui/components/drawer/account/profile_image.dart';
 import 'package:moviehub/gui/components/text/text_title.dart';
 import 'package:moviehub/models/cast_member.dart';
+import 'package:moviehub/utils/localizations.dart';
 
 // ignore: must_be_immutable
 class MovieCast extends StatelessWidget {
@@ -14,7 +15,8 @@ class MovieCast extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        TextTitle("Cast"),
+        TextTitle(
+            MovieHubLocalizations.of(context).translate("movie_details_cast")),
         SizedBox(
           height: 12,
         ),
