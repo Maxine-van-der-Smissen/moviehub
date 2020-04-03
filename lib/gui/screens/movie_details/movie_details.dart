@@ -34,9 +34,10 @@ class MovieDetails extends StatelessWidget {
         movieDetails.movieRating);
   }
 
-  void handleAdd(BuildContext context, String selected) async {
-    if (selected == "Options.addToList") openListDialog(context);
-    if (selected == "Options.watchTrailer") watchTrailer();
+  void handleAdd(BuildContext context, Options selected) async {
+    if (selected == Options.addToList) openListDialog(context);
+    if (selected == Options.watchTrailer) watchTrailer();
+    if (selected == Options.shareMovie) MovieDetailsModel.shareMovie(movieDetails);
   }
 
   void watchTrailer() async {

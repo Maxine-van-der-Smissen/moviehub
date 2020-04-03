@@ -284,6 +284,23 @@ class NetworkUtils {
     return lists;
   }
 
+  static Future<String> fetchIMDBURL(int movieId) async {
+    await DotEnv().load(".env");
+    String apiKey = DotEnv().env["apiKey"];
+
+    final response =
+        await http.get("${baseUrl}movie/$movieId/external_ids?api_key=$apiKey");
+
+    Map<String, dynamic> json = jsonDecode(response.body);
+
+    if (response.statusCode == 200 && json != null) {
+      return json["imdb_id"] != null
+          ? "https://www.imdb.com/title/${json["imdb_id"]}/?ref_=hm_hp_cap_pri_1"
+          : null;
+    } else
+      throw Exception('Failed to get external IMDB id');
+  }
+
   static Future<StatisticsModel> fetchStatistics() async {
     Map<int, int> genreCount = Map();
     Map<ListDetailsModel, double> listRating = Map();
