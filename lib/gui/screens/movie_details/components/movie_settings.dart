@@ -37,7 +37,6 @@ class _MovieSettingsState extends State<MovieSettings> {
               value: Options.addToList,
               child: ListTile(
                 leading: IconButton(
-                  padding: EdgeInsets.all(0.0),
                   icon: Icon(
                     Icons.playlist_add,
                     color: Color(0xFF3e3e3e),

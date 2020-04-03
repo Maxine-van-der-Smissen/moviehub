@@ -34,21 +34,28 @@ class MovieDetails extends StatelessWidget {
   }
 
   void handleAdd(BuildContext context, String selected) async {
-    if (selected == "Options.addToList") {
-      SharedPreferences preferences = await SharedPreferences.getInstance();
-      bool loggedIn = preferences.getString("account") != null;
-      showDialog(
-        context: context,
-        builder: (BuildContext context) => loggedIn
-            ? AddMovieToListDialog(
-                onListAdd: () => print("Callback"),
-                movieId: movieDetails.movieId,
-                lists: lists)
-            : LoginDialog(
-                updateLogin: () => null,
-              ),
-      );
-    }
+    if (selected == "Options.addToList") openListDialog(context);
+    if (selected == "Options.watchTrailer") watchTrailer(selected);
+  }
+
+  void watchTrailer(String selected) {
+  }
+
+  void openListDialog(BuildContext context) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    bool loggedIn = preferences.getString("account") != null;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => loggedIn
+          ? AddMovieToListDialog(
+              onListAdd: () => print("Callback"),
+              movieId: movieDetails.movieId,
+              lists: lists,
+            )
+          : LoginDialog(
+              updateLogin: () => null,
+            ),
+    );
   }
 
   @override
